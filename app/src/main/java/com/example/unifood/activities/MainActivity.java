@@ -13,11 +13,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.unifood.R;
+import com.example.unifood.User;
 import com.example.unifood.database.DbHelper;
-import com.example.unifood.database.TestUtil;
-import com.example.unifood.database.UserContract;
-
-import static android.R.attr.button;
+import com.example.unifood.database.test.TestUtil;
+import com.example.unifood.database.contracts.UserContract;
 
 public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase mDb;
@@ -46,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         DbHelper dbHelper = new DbHelper(this);
         mDb = dbHelper.getWritableDatabase();
         TestUtil.insertFakeData(mDb);
+        User.remove(mDb,2);
         Cursor cursor = getAllGuests();
 
         int count = cursor.getCount();

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.unifood.R;
-import com.example.unifood.database.UserContract;
+import com.example.unifood.database.contracts.UserContract;
 
 /**
  * Created by André  on 20/01/17.
@@ -38,7 +38,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
         if (!mCursor.moveToPosition(position))
             return; // bail if returned null
         String name = mCursor.getString(mCursor.getColumnIndex(UserContract.UserEntry.COLUMN_FIRST_NAME));
-        int partySize = mCursor.getInt(mCursor.getColumnIndex(UserContract.UserEntry.COLUMN_UNIVERSITY));
+        int partySize = mCursor.getInt(mCursor.getColumnIndex(UserContract.UserEntry._ID));
 
         holder.nameTextView.setText(name);
         holder.partySizeTextView.setText(String.valueOf(partySize));

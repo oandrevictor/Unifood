@@ -1,8 +1,10 @@
-package com.example.unifood.database;
+package com.example.unifood.database.test;
 
 import android.content.ContentValues;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.example.unifood.database.contracts.UserContract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class TestUtil {
         cv.put(UserContract.UserEntry.COLUMN_FIRST_NAME, "Johny");
         cv.put(UserContract.UserEntry.COLUMN_LAST_NAME, "ta Ouvindo");
         cv.put(UserContract.UserEntry.COLUMN_PASSWORD, "drinkee");
+        cv.put(UserContract.UserEntry.COLUMN_EMAIL, "drinkee@hotmail.com");
         cv.put(UserContract.UserEntry.COLUMN_UNIVERSITY, 1);
         list.add(cv);
 
@@ -31,6 +34,15 @@ public class TestUtil {
         cv.put(UserContract.UserEntry.COLUMN_FIRST_NAME, "Sofia");
         cv.put(UserContract.UserEntry.COLUMN_LAST_NAME, "ta ligando");
         cv.put(UserContract.UserEntry.COLUMN_PASSWORD, "matadora");
+        cv.put(UserContract.UserEntry.COLUMN_EMAIL, "drinkee@hotmail.com");
+        cv.put(UserContract.UserEntry.COLUMN_UNIVERSITY, 1);
+        list.add(cv);
+
+        cv = new ContentValues();
+        cv.put(UserContract.UserEntry.COLUMN_FIRST_NAME, "Sophie");
+        cv.put(UserContract.UserEntry.COLUMN_LAST_NAME, "ta ligando");
+        cv.put(UserContract.UserEntry.COLUMN_PASSWORD, "matadora");
+        cv.put(UserContract.UserEntry.COLUMN_EMAIL, "drinkee@hotmail.com");
         cv.put(UserContract.UserEntry.COLUMN_UNIVERSITY, 1);
         list.add(cv);
         //insert all guests in one transaction
@@ -38,7 +50,7 @@ public class TestUtil {
         {
             db.beginTransaction();
             //clear the table first
-            db.delete (UserContract.UserEntry.TABLE_NAME,null,null);
+            //db.delete (UserContract.UserEntry.TABLE_NAME,null,null);
             //go through the list and add one by one
             for(ContentValues c:list){
                 db.insert(UserContract.UserEntry.TABLE_NAME, null, c);

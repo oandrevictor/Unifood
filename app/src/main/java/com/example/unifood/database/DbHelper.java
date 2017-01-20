@@ -3,7 +3,7 @@ package com.example.unifood.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.example.unifood.database.UserContract.UserEntry;
+import com.example.unifood.database.contracts.UserContract.UserEntry;
 
 /**
  * Created by root on 19/01/17.
@@ -24,6 +24,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 UserEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 UserEntry.COLUMN_FIRST_NAME + " TEXT NOT NULL, " +
                 UserEntry.COLUMN_LAST_NAME + " TEXT NOT NULL, " +
+                UserEntry.COLUMN_EMAIL + " TEXT NOT NULL, " +
                 UserEntry.COLUMN_PASSWORD + " TEXT NOT NULL, "+
                 UserEntry.COLUMN_UNIVERSITY + " INTEGER NOT NULL, "+
                 UserEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
