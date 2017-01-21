@@ -25,7 +25,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="1a1470f49124ac5b16fcfb2916ea6285ea10f570">
+        sha1="a6ac8b2903c8e7c77284dcc2c7488fbc7307d6c3">
         <dex dex="/home/oandrevictor/es/esfood/app/build/intermediates/pre-dexed/debug/instant-run-bootstrap_8651fe3630469695c142784b0c360cc79ae3a7eb.jar" />
     </item>
     <item
@@ -115,7 +115,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="e36aa97450ba3d5223d863983882332bd101465a">
+        sha1="b9c91fd5c8dd4a4944045d894807b4dbc85b3048">
         <dex dex="/home/oandrevictor/es/esfood/app/build/intermediates/pre-dexed/debug/instant-run_7ed6a8f207d032f4ebcdb711373ea85713d862ea.jar" />
     </item>
     <item

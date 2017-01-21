@@ -1,6 +1,7 @@
 package com.example.unifood.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.example.unifood.database.contracts.UserContract.UserEntry;
@@ -38,4 +39,15 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + UserEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
+
+    public long deleteFrom(SQLiteDatabase db, String TABLE_NAME, long id){
+        String where = UserEntry._ID + "=" + id;
+        long result = db.delete(TABLE_NAME,where,null);
+        db.close();
+        return result;
+
+    }
+
+
+
 }

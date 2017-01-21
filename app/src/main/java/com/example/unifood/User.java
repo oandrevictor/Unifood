@@ -1,61 +1,42 @@
 package com.example.unifood;
 
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
+import android.database.Cursor;
 
-import com.example.unifood.database.DbHelper;
-import com.example.unifood.database.contracts.UserContract;
+import com.example.unifood.database.UserDbController;
 
+
+import com.example.unifood.database.contracts.UserContract.UserEntry;
 /**
  * Created by oandrevictor on 20/01/17.
  */
 
 public class User {
+    private long id;
+    private UserDbController userDbController;
 
-
-    public User create(String firstName, String lastName, String email, String password, int university){
-
-        return null;
+    public User(Context context){
+        userDbController = new UserDbController(context);
     }
 
-    private boolean checkfirstName(String firstName){
-        // TODO Add Logic for Checking user name
-
-        return false;
-    }
-
-
-    private boolean checkLastName(String latName){
-        // TODO Add Logic for Checking last name
-        return false;
+    public long create(Context context, String firstName, String lastName, String email, String password, int university){
+        return userDbController.addUser(firstName,lastName,email,password,university);
     }
 
 
-    private boolean checkEmail(String email){
-        if (email!=null && email.contains("@")){
-            return true;
-        }
-        // TODO Add Logic for Checking email
-        return false;
+    public String getName(){
+        Cursor cursor = userDbController.getById(id);
+        return cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_FIRST_NAME));
     }
 
-
-    private boolean checkPassword(String password){
-        if (password != null && password.length()>=6 ){
-            return true;
-        }
-        return false;
+    public String getLastName(){
+        Cursor cursor = userDbController.getById(id);
+        return cursor.getString(cursor.getColumnIndex(UserEntry.COLUMN_FIRST_NAME));
     }
 
-    private boolean university(int university){
-        // TODO Add Logic for checking university existence
-        return false;
+    public long destroy(){
+        return userDbController.delete(id);
     }
 
-    public static int remove(SQLiteDatabase db, int id){
-        String selection = UserContract.UserEntry._ID + " LIKE ?";
-    // Specify arguments in placeholder order.
-    // Issue SQL statement.
-            return db.delete(UserContract.UserEntry.TABLE_NAME, selection, new String[]{Integer.toString(id)});
-    }
 
 }

@@ -15,12 +15,13 @@ import android.widget.TextView;
 import com.example.unifood.R;
 import com.example.unifood.User;
 import com.example.unifood.database.DbHelper;
+import com.example.unifood.database.UserDbController;
 import com.example.unifood.database.test.TestUtil;
-import com.example.unifood.database.contracts.UserContract;
 
 public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase mDb;
     private UserListAdapter mAdapter;
+    private UserDbController userDbController;
 
 
     @Override
@@ -45,8 +46,10 @@ public class MainActivity extends AppCompatActivity {
         DbHelper dbHelper = new DbHelper(this);
         mDb = dbHelper.getWritableDatabase();
         TestUtil.insertFakeData(mDb);
-        User.remove(mDb,2);
-        Cursor cursor = getAllGuests();
+
+        UserDbController userDbController = new UserDbController(this);
+        userDbController.delete(2);
+        Cursor cursor = userDbController.getAll();
 
         int count = cursor.getCount();
 
@@ -67,16 +70,5 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private Cursor getAllGuests() {
-        // COMPLETED (6) Inside, call query on mDb passing in the table name and projection String [] order by COLUMN_TIMESTAMP
-        return mDb.query(
-                UserContract.UserEntry.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                UserContract.UserEntry.COLUMN_TIMESTAMP
-        );
-    }
+
 }
