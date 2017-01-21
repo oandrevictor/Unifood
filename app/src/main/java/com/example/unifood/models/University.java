@@ -1,8 +1,19 @@
 package com.example.unifood.models;
 
-/**
- * Created by oandrevictor on 21/01/17.
- */
+import java.util.ArrayList;
+import java.util.List;
 
 public class University {
+
+    private String name;
+    private List<Restaurant> restaurants;
+
+    public University() {
+
+    }
+
+    public University(String name) {
+        this.name = name;
+        this.restaurants = new ArrayList<>();
+    }
 }
