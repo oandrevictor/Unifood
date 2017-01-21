@@ -17,17 +17,31 @@ import com.example.unifood.User;
 import com.example.unifood.database.DbHelper;
 import com.example.unifood.database.UserDbController;
 import com.example.unifood.database.test.TestUtil;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase mDb;
     private UserListAdapter mAdapter;
     private UserDbController userDbController;
 
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        if (firebaseUser == null) {
+            // Not logged in, launch the Log In activity
+            login();
+        }
+
 
         Button loginButton = (Button) this.findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -63,9 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void login(){
-        Context context = MainActivity.this;
         Class loginActivity = LoginActivity.class;
-        Intent goToLogin = new Intent(context,loginActivity);
+        Intent goToLogin = new Intent(this,loginActivity);
         startActivity(goToLogin);
 
     }

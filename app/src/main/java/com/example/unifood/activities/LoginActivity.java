@@ -1,7 +1,10 @@
 package com.example.unifood.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,14 +12,28 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.unifood.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
 public class LoginActivity extends AppCompatActivity {
+
+    protected EditText emailEditText;
+    protected EditText passwordEditText;
+    protected Button logInButton;
+    protected TextView signUpTextView;
+    private FirebaseAuth mFirebaseAuth;
+
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -113,7 +130,53 @@ public class LoginActivity extends AppCompatActivity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.enter_button).setOnTouchListener(mDelayHideTouchListener);
+        findViewById(R.id.login_button).setOnTouchListener(mDelayHideTouchListener);
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
+        emailEditText = (EditText) findViewById(R.id.email_field);
+        passwordEditText = (EditText) findViewById(R.id.password_field);
+        logInButton = (Button) findViewById(R.id.login_button);
+
+        logInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = emailEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+
+                email = email.trim();
+                password = password.trim();
+
+                if (email.isEmpty() || password.isEmpty()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setMessage(R.string.login_error_message)
+                            .setTitle(R.string.login_error_title)
+                            .setPositiveButton(android.R.string.ok, null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                } else {
+                    mFirebaseAuth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                    } else {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                        builder.setMessage(task.getException().getMessage())
+                                                .setTitle(R.string.login_error_title)
+                                                .setPositiveButton(android.R.string.ok, null);
+                                        AlertDialog dialog = builder.create();
+                                        dialog.show();
+                                    }
+                                }
+                            });
+                }
+            }
+        });
     }
 
     @Override
