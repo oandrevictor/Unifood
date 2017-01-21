@@ -5,4 +5,6 @@ package com.example.unifood.models;
  */
 
 public class Product {
+
+
 }
