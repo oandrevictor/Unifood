@@ -1,9 +1,8 @@
 package com.example.unifood.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,20 +12,32 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.unifood.R;
-import com.example.unifood.User;
-import com.example.unifood.database.DbHelper;
-import com.example.unifood.database.UserDbController;
-import com.example.unifood.database.test.TestUtil;
+import com.example.unifood.activities.helpers.UserListAdapter;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private SQLiteDatabase mDb;
     private UserListAdapter mAdapter;
-    private UserDbController userDbController;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private DatabaseReference mDatabase;
+    private ArrayList<String> dataSet = new ArrayList<>();
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
+
 
 
     @Override
@@ -36,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         if (firebaseUser == null) {
             // Not logged in, launch the Log In activity
@@ -64,31 +76,63 @@ public class MainActivity extends AppCompatActivity {
         userlistRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        DbHelper dbHelper = new DbHelper(this);
-        mDb = dbHelper.getWritableDatabase();
-        TestUtil.insertFakeData(mDb);
 
-        UserDbController userDbController = new UserDbController(this);
-        userDbController.delete(2);
-        Cursor cursor = userDbController.getAll();
-
-        int count = cursor.getCount();
-
-        TextView myAwesomeTextView = (TextView)findViewById(R.id.result_counter);
-        myAwesomeTextView.setText(Integer.toString(count));
+        TextView myAwesomeTextView = (TextView) findViewById(R.id.result_counter);
+        DatabaseReference ref = mDatabase.child("users");
+        dataSet = new ArrayList<String>();
+        dataSet.add("x");
+        mAdapter = new UserListAdapter(this, dataSet);
 
 
-        mAdapter = new UserListAdapter(this, cursor);
         // Link the adapter to the RecyclerView
         userlistRecyclerView.setAdapter(mAdapter);
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
-    private void login(){
+
+    private void login() {
         Class loginActivity = LoginActivity.class;
-        Intent goToLogin = new Intent(this,loginActivity);
+        Intent goToLogin = new Intent(this, loginActivity);
         startActivity(goToLogin);
 
     }
 
 
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
+    }
 }
