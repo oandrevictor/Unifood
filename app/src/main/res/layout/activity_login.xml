@@ -70,7 +70,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/entrar_button" />
-
+            <TextView
+                android:id="@+id/sign_up_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ainda não tenho uma conta."/>
             <TextView
                 android:id="@+id/error_message"
                 android:layout_width="wrap_content"

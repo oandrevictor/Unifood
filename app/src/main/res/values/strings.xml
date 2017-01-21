@@ -7,7 +7,6 @@
     <string name="entrar_button">Entrar</string>
 
 
-
     <string name="password_hint">Password</string>
     <string name="email_hint">Email</string>
     <string name="sign_up_button_label">Sign Up</string>
@@ -20,4 +19,14 @@
     <string name="sign_up_text">Sign Up!</string>
     <string name="add_item">Add New Item</string>
     <string name="action_logout">Logout</string>
+
+    <!-- Register Layout -->
+    <string name="first_name">Primeiro Nome</string>
+    <string name="last_name">Sobrenome</string>
+    <string name="email">Email</string>
+    <string name="password">Senha</string>
+    <string name="sign_up">CRIAR CONTA</string>
+    <string name="has_account">Já possui uma conta? Faça login</string>
+    <string name="university">Universidade</string>
+    <string name="hasnot_account">Não pussui uma conta? Registre-se!</string>
 </resources>

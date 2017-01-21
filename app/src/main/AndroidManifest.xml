@@ -25,6 +25,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.unifood.activities.MainActivity" />
         </activity>
+        <activity android:name=".activities.SignUpActivity"></activity>
     </application>
 
 </manifest>

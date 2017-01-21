@@ -43,13 +43,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        Button loginButton = (Button) this.findViewById(R.id.login_button);
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        Button signOutButton = (Button) this.findViewById(R.id.sign_out_button);
+
+        RecyclerView userlistRecyclerView;
+
+
+        signOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-                    login();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                firebaseAuth.signOut();
+                startActivity(intent);
             }
         });
-        RecyclerView userlistRecyclerView;
+
 
         // Set local attributes to corresponding views
         userlistRecyclerView = (RecyclerView) this.findViewById(R.id.all_users_list_view);

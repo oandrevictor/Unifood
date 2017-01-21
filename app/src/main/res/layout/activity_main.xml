@@ -22,24 +22,26 @@
 
 
     <Button
-        android:text="Login"
+        android:text="Sign Out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
         android:layout_centerHorizontal="true"
         android:layout_marginRight="27dp"
         android:layout_marginEnd="27dp"
-        android:id="@+id/login_button"
+        android:id="@+id/sign_out_button"
         />
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Quantidade de usuários registrados:" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/all_users_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/login_button"/>
+        android:layout_below="@id/title"/>
 </RelativeLayout>
