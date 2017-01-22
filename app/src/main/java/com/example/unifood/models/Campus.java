@@ -2,6 +2,7 @@ package com.example.unifood.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by oandrevictor on 22/01/17.
@@ -16,10 +17,10 @@ public class Campus {
         this.restaurants = new ArrayList<Restaurant>();
     }
 
-    public Campus(String id, String name){
+    public Campus(String name){
         this();
         this.name = name;
-        this.id = id;
+        this.id = UUID.randomUUID().toString();;
     }
     public String getId(){ return id;}
     public void setId(String id1){this.id = id1;}

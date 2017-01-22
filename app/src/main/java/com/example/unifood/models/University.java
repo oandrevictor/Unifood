@@ -2,6 +2,7 @@ package com.example.unifood.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class University {
     private String id;
@@ -9,14 +10,13 @@ public class University {
     private List<Campus> allCampus;
 
     public University() {
-        this.name = "NO_NAME";
         allCampus = new ArrayList<Campus>();
     }
 
-    public University(String id,String name) {
+    public University(String name) {
         this();
         this.name = name;
-        this.id = id;
+        this.id = UUID.randomUUID().toString();;
     }
 
     public boolean addCampus(Campus campus){

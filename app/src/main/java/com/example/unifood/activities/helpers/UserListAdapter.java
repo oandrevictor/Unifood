@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.unifood.R;
+import com.example.unifood.models.University;
 
 import java.util.ArrayList;
 
@@ -18,9 +19,9 @@ import java.util.ArrayList;
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserViewHolder>{
     private Context mContext;
-    private ArrayList<String> unis;
+    private ArrayList<University> unis;
 
-    public UserListAdapter(Context context, ArrayList<String> unis) {
+    public UserListAdapter(Context context, ArrayList<University> unis) {
         this.mContext = context;
         this.unis =unis;
     }
@@ -36,9 +37,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
     public void onBindViewHolder(UserViewHolder holder, int i) {
         // Move the mCursor to the position of the item to be displayed
         if (i<unis.size()) {
-            String u = unis.get(i);
-            holder.nameTextView.setText(u);
-            holder.partySizeTextView.setText(String.valueOf("X"));
+            University u = unis.get(i);
+            holder.nameTextView.setText(u.getName());
+            holder.partySizeTextView.setText(u.getId());
         }
 
 
@@ -47,7 +48,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
 
     @Override
     public int getItemCount() {
-        return 5;
+        return unis.size();
     }
 
     /**

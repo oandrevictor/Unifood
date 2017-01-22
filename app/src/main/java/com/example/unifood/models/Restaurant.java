@@ -3,6 +3,7 @@ package com.example.unifood.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Restaurant {
     private String id;
@@ -16,11 +17,11 @@ public class Restaurant {
     private final String EMPTY = new String();
 
     public Restaurant() {
-
+        id = UUID.randomUUID().toString();
     }
 
-    public Restaurant(String id,String name,  University university) {
-        this.id = id;
+    public Restaurant(String name,  University university) {
+        this();
         this.name = name;
         this.university = university;
 
@@ -31,7 +32,7 @@ public class Restaurant {
     }
     public String getId(){return id;}
     public void setId(String id1){this.id= id1;}
-    
+
     public void addRate(Review review) {
         this.reviewList.add(review);
     }

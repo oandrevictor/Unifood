@@ -7,20 +7,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.unifood.R;
 import com.example.unifood.activities.helpers.UserListAdapter;
+import com.example.unifood.models.University;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -29,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
-    private ArrayList<String> dataSet = new ArrayList<>();
+    private ArrayList<University> dataSet = new ArrayList<>();
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -75,9 +80,25 @@ public class MainActivity extends AppCompatActivity {
         userlistRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         TextView counterTextView = (TextView) findViewById(R.id.result_counter);
-        DatabaseReference ref = mDatabase.child(getString(R.string.users));
-        dataSet = new ArrayList<String>();
-        dataSet.add("x");
+        DatabaseReference ref = mDatabase.child("universities");
+
+        dataSet = new ArrayList<University>();
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.e("Count " ,""+snapshot.getChildrenCount());
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    University uni = postSnapshot.getValue(University.class);
+                     dataSet.add(uni);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Log.e("The read failed: " ,firebaseError.getMessage());
+            }
+        });
+
         mAdapter = new UserListAdapter(this, dataSet);
 
 
