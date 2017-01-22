@@ -2,6 +2,7 @@ package com.example.unifood.models;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 public class Review {
 
@@ -11,11 +12,12 @@ public class Review {
     private String date;
     private int likes;
     private int dislikes;
+    private String id;
 
     private final String EMPTY_COMMENT = "";
 
     public Review () {
-
+        this.id = UUID.randomUUID().toString();;
     }
 
     public Review(String userId, int rate, String comment, String date) {
@@ -25,6 +27,7 @@ public class Review {
         this.comment = comment;
         this.dislikes = 0;
         this.likes = 0;
+        this.id = UUID.randomUUID().toString();;
     }
 
     public Review(String userId, int rate, String date) {
@@ -34,6 +37,7 @@ public class Review {
         this.comment = EMPTY_COMMENT;
         this.dislikes = 0;
         this.likes = 0;
+        this.id = UUID.randomUUID().toString();;
     }
 
     // Getters and Setters
@@ -78,4 +82,11 @@ public class Review {
         this.dislikes = dislikes;
     }
 
+    public String getId(){
+        return this.id;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
 }

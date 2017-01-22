@@ -1,6 +1,8 @@
 package com.example.unifood.models;
 
 
+import java.util.UUID;
+
 public class Product {
 
     private String id;
@@ -12,7 +14,7 @@ public class Product {
     private final String EMPTY = new String();
 
     public Product() {
-
+        this.id = UUID.randomUUID().toString();;
     }
 
     public Product(String id, String name, float cost, boolean availability) {

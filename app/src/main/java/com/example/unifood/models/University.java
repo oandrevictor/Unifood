@@ -7,19 +7,20 @@ import java.util.UUID;
 public class University {
     private String id;
     private String name;
-    private List<Campus> allCampus;
+    private List<String> allCampus;
 
     public University() {
-        allCampus = new ArrayList<Campus>();
+        allCampus = new ArrayList<String>();
+        this.id = UUID.randomUUID().toString();;
     }
 
     public University(String name) {
-        this();
+        this.allCampus = new ArrayList<String>();
         this.name = name;
         this.id = UUID.randomUUID().toString();;
     }
 
-    public boolean addCampus(Campus campus){
+    public boolean addCampus(String campus){
         if (campus!= null) {
             return allCampus.add(campus);
         }
@@ -28,5 +29,5 @@ public class University {
     public String getId(){return id;}
     public void setId(String id1){this.id =id1;}
     public String getName(){return name;}
-    public List<Campus> getAllCampus(){return allCampus;}
+    public List<String> getAllCampus(){return allCampus;}
 }

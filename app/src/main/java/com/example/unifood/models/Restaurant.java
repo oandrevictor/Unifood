@@ -10,20 +10,22 @@ public class Restaurant {
     private String name;
     private String localization;
     private String shortDescription;
-    private University university;
-    private List<Review> reviewList;
-    private List<Product> productList;
+    private String universityId;
+    private List<String> reviewList;
+    private List<String> productList;
 
     private final String EMPTY = new String();
 
     public Restaurant() {
-        id = UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString();;
+        this.reviewList = new ArrayList<String>();
+        this.productList = new ArrayList<String >();
     }
 
-    public Restaurant(String name,  University university) {
+    public Restaurant(String name,  String universityId) {
         this();
         this.name = name;
-        this.university = university;
+        this.universityId = universityId;
 
         this.localization = EMPTY;
         this.shortDescription = EMPTY;
@@ -31,19 +33,18 @@ public class Restaurant {
         this.productList = new ArrayList<>();
     }
     public String getId(){return id;}
-    public void setId(String id1){this.id= id1;}
+    public void setId(String newId){this.id= newId;}
 
-    public void addRate(Review review) {
-        this.reviewList.add(review);
+    public void addRate(String reviewId) {
+        this.reviewList.add(reviewId);
     }
 
-    private void addProduct(Product product) {
-        this.productList.add(product);
+    private void addProduct(String productId) {
+        this.productList.add(productId);
     }
 
-    private void removeProduct(String id) {
-        Product removedProduct = getProduct(id);
-        this.productList.remove(removedProduct);
+    private void removeProduct(String productId) {
+        this.productList.remove(productId);
     }
 
     private Product getProduct(String id) {
@@ -52,9 +53,9 @@ public class Restaurant {
 
         Product tempProduct = null;
 
-        for (Product product:productList) {
-            if (product.getId().equals(id)) {
-                return product;
+        for (String product:productList) {
+            if (product.equals(id)) {
+                //return product;
             }
         }
 
@@ -93,27 +94,27 @@ public class Restaurant {
         this.shortDescription = shortDescription;
     }
 
-    public University getUniversity() {
-        return university;
+    public String getUniversity() {
+        return universityId;
     }
 
-    public void setUniversity(University university) {
-        this.university = university;
+    public void setUniversity(String universityId) {
+        this.universityId = universityId;
     }
 
-    public List<Review> getReviewList() {
+    public List<String> getReviewList() {
         return reviewList;
     }
 
-    public void setReviewList(List<Review> reviewList) {
+    public void setReviewList(List<String> reviewList) {
         this.reviewList = reviewList;
     }
 
-    public List<Product> getProductList() {
+    public List<String> getProductList() {
         return productList;
     }
 
-    public void setProductList(List<Product> productList) {
+    public void setProductList(List<String> productList) {
         this.productList = productList;
     }
 

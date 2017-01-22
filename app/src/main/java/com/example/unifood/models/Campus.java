@@ -11,16 +11,18 @@ import java.util.UUID;
 public class Campus {
     private String id;
     private String name;
-    private List<Restaurant> restaurants;
+    private List<String> restaurants;
 
     public Campus(){
-        this.restaurants = new ArrayList<Restaurant>();
+        this.id = UUID.randomUUID().toString();;
+        this.restaurants = new ArrayList<String>();
     }
 
     public Campus(String name){
         this();
         this.name = name;
         this.id = UUID.randomUUID().toString();;
+        this.restaurants = new ArrayList<String>();
     }
     public String getId(){ return id;}
     public void setId(String id1){this.id = id1;}
@@ -31,15 +33,15 @@ public class Campus {
     public void setName(String name1){
         this.name = name1;
     }
-    public boolean addRestaurant(Restaurant restaurant){
-        return restaurants.add(restaurant);
+    public boolean addRestaurant(String restaurantId){
+        return restaurants.add(restaurantId);
     }
-    public List<Restaurant> getRestaurants(){return restaurants;}
-    public void setRestaurants(List<Restaurant> restaurants1){
+    public List<String> getRestaurants(){return restaurants;}
+    public void setRestaurants(List<String> restaurants1){
         this.restaurants= restaurants1;
     }
-    public boolean removeRestaurant(Restaurant restaurant){
-        return restaurants.remove(restaurant);
+    public boolean removeRestaurant(String restaurantId){
+        return restaurants.remove(restaurantId);
     }
 
 
