@@ -59,6 +59,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        Button admButton = (Button) this.findViewById(R.id.admin_button);
+        admButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startAdmActivity();
+            }
+        });
+
         RecyclerView userlistRecyclerView;
         // Set local attributes to corresponding views
         userlistRecyclerView = (RecyclerView) this.findViewById(R.id.all_users_list_view);
@@ -98,6 +107,13 @@ public class MainActivity extends AppCompatActivity {
         Class loginActivity = LoginActivity.class;
         Intent goToLogin = new Intent(this, loginActivity);
         startActivity(goToLogin);
+    }
+
+
+    private void startAdmActivity() {
+        Class admActivity = AdminUniversityActivity.class;
+        Intent goToAdm = new Intent(this, admActivity);
+        startActivity(goToAdm);
     }
 
 

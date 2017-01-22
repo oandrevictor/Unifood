@@ -25,12 +25,12 @@
         android:text="Sign Out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_centerHorizontal="true"
         android:layout_marginRight="27dp"
         android:layout_marginEnd="27dp"
         android:id="@+id/sign_out_button"
+        android:layout_alignParentBottom="true"
         />
     <TextView
         android:id="@+id/title"
@@ -44,4 +44,12 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_below="@id/title"/>
+
+    <Button
+        android:text="Admin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/admin_button" />
 </RelativeLayout>

@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant {
-
+    private String id;
     private String name;
-    private String email;
-    private String password;
     private String localization;
     private String shortDescription;
     private University university;
@@ -21,11 +19,9 @@ public class Restaurant {
 
     }
 
-    public Restaurant(String name, String email, String password, University university) {
-
+    public Restaurant(String id,String name,  University university) {
+        this.id = id;
         this.name = name;
-        this.email = email;
-        this.password = password;
         this.university = university;
 
         this.localization = EMPTY;
@@ -33,7 +29,9 @@ public class Restaurant {
         this.reviewList = new ArrayList<>();
         this.productList = new ArrayList<>();
     }
-
+    public String getId(){return id;}
+    public void setId(String id1){this.id= id1;}
+    
     public void addRate(Review review) {
         this.reviewList.add(review);
     }
@@ -68,13 +66,6 @@ public class Restaurant {
 
     // Getter and setter
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getName() {
         return name;
@@ -84,13 +75,6 @@ public class Restaurant {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getLocalization() {
         return localization;

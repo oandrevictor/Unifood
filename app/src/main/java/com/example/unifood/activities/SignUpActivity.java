@@ -105,7 +105,8 @@ public class SignUpActivity extends AppCompatActivity {
                             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
                             String mUserId  = mFirebaseUser.getUid();
 
-                            mDatabase.child(getString(R.string.users)).child(mUserId).child(getString(R.string.lowercase_university)).setValue(universityText.getText().toString());
+
+                            mDatabase.child("users").child(mUserId).child("university").setValue(universityText.getText().toString());
 
                             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
