@@ -34,7 +34,10 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".activities.AdminUniversityActivity"></activity>
+        <activity android:name=".activities.AdminUniversityActivity" />
+        <activity android:name=".activities.CampusActivity" />
+        <activity android:name=".activities.RestaurantActivity" />
+        <activity android:name=".activities.UserHomeActivity"></activity>
     </application>
 
 </manifest>

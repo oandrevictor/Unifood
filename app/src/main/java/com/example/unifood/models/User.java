@@ -3,11 +3,9 @@ package com.example.unifood.models;
 import android.content.Context;
 import android.database.Cursor;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+import java.util.UUID;
 
 public class User {
 
@@ -22,17 +20,17 @@ public class User {
     private  Util util;
 
     public User() {
-
+        this.id = UUID.randomUUID().toString();
+        this.favRestaurants = new ArrayList<Restaurant>();
+        this.favProducts = new ArrayList<Product>();
     }
 
-    public User(String id, String firstName, String lastName, String email, String password) {
-        this.id = id;
+    public User(String firstName, String lastName, String email, String password) {
+        this();
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.favRestaurants = new ArrayList<Restaurant>();
-        this.favProducts = new ArrayList<Product>();
     }
 
     public void addRestaurantToFavorites(Restaurant restaurant) {
@@ -43,19 +41,21 @@ public class User {
         favProducts.add(product);
     }
 
-    public void delRestaurantFromFavorites(Restaurant restaurant) {
+    public boolean delRestaurantFromFavorites(Restaurant restaurant) {
         if (favRestaurants.contains(restaurant)){
             favProducts.remove(restaurant);
+            return true;
         } else {
-            // TODO
+            return false;
         }
     }
 
-    public void delProductFromFavorites(Product product) {
+    public boolean delProductFromFavorites(Product product) {
         if (favProducts.contains(product)){
             favProducts.remove(product);
+            return true;
         } else {
-            // TODO
+            return false;
         }
     }
 

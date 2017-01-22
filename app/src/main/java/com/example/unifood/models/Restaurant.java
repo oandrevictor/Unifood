@@ -14,24 +14,29 @@ public class Restaurant {
     private List<Review> reviewList;
     private List<Product> productList;
 
-    private final String EMPTY = new String();
+    private final String EMPTY = "";
 
     public Restaurant() {
         id = UUID.randomUUID().toString();
+        this.localization = EMPTY;
+        this.shortDescription = EMPTY;
+        this.reviewList = new ArrayList<>();
+        this.productList = new ArrayList<>();
     }
 
     public Restaurant(String name,  University university) {
         this();
         this.name = name;
         this.university = university;
-
-        this.localization = EMPTY;
-        this.shortDescription = EMPTY;
-        this.reviewList = new ArrayList<>();
-        this.productList = new ArrayList<>();
     }
-    public String getId(){return id;}
-    public void setId(String id1){this.id= id1;}
+
+    public String getId(){
+        return id;
+    }
+
+    public void setId(String id1) {
+        this.id= id1;
+    }
 
     public void addRate(Review review) {
         this.reviewList.add(review);
@@ -65,8 +70,8 @@ public class Restaurant {
         // TODO
     }
 
-    // Getter and setter
 
+    // Getter and setter
 
     public String getName() {
         return name;
@@ -75,7 +80,6 @@ public class Restaurant {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public String getLocalization() {
         return localization;

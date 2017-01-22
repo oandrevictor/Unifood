@@ -18,15 +18,6 @@ public class Review {
 
     }
 
-    public Review(String userId, int rate, String comment, String date) {
-        this.userId = userId;
-        this.rate = rate;
-        this.date = date;
-        this.comment = comment;
-        this.dislikes = 0;
-        this.likes = 0;
-    }
-
     public Review(String userId, int rate, String date) {
         this.userId = userId;
         this.rate = rate;
@@ -34,6 +25,11 @@ public class Review {
         this.comment = EMPTY_COMMENT;
         this.dislikes = 0;
         this.likes = 0;
+    }
+
+    public Review(String userId, int rate, String comment, String date) {
+        this(userId, rate, date);
+        this.comment = comment;
     }
 
     // Getters and Setters
