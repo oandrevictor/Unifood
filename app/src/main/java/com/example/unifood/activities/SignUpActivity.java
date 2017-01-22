@@ -68,7 +68,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void signup() {
-        Log.d(TAG, "Registrar");
+        Log.d(TAG, getString(R.string.register));
 
         if (!validate()) {
             onSignupFailed();
@@ -80,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
+        progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();
 
         String firstName = first_nameText.getText().toString();
@@ -105,7 +105,7 @@ public class SignUpActivity extends AppCompatActivity {
                             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
                             String mUserId  = mFirebaseUser.getUid();
 
-                            mDatabase.child("users").child(mUserId).child("university").setValue(universityText.getText().toString());
+                            mDatabase.child(getString(R.string.users)).child(mUserId).child(getString(R.string.lowercase_university)).setValue(universityText.getText().toString());
 
                             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -114,7 +114,7 @@ public class SignUpActivity extends AppCompatActivity {
                         } else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
                             builder.setMessage(task.getException().getMessage())
-                                    .setTitle(R.string.login_error_title)
+                                    .setTitle(R.string.error_title)
                                     .setPositiveButton(android.R.string.ok, null);
                             AlertDialog dialog = builder.create();
                             dialog.show();
@@ -145,7 +145,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Registro falhou", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), R.string.register_fail, Toast.LENGTH_LONG).show();
 
         signupButton.setEnabled(true);
     }
@@ -160,27 +160,27 @@ public class SignUpActivity extends AppCompatActivity {
         String password = passwordText.getText().toString();
 
         if ((firstName.isEmpty() || firstName.length() < 3) || (lastName.isEmpty() || lastName.length() < 3)) {
-            first_nameText.setError("pelo menos 4 caracteres");
+            first_nameText.setError(getText(R.string.four_characters));
             valid = false;
         } else {
             first_nameText.setError(null);
         }
 
         if (university.isEmpty() || university.length() < 1) {
-            universityText.setError("pelo menos 2 caracteres");
+            universityText.setError(getText(R.string.two_characters));
         } else {
             universityText.setError(null);
         }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailText.setError("digite um email válido");
+            emailText.setError(getText(R.string.valid_email));
             valid = false;
         } else {
             emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            passwordText.setError("entre 4 e 10 caracteres alfanuméricos");
+            passwordText.setError(getText(R.string.between_four_ten_characters));
             valid = false;
         } else {
             passwordText.setError(null);

@@ -174,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
         if (email.isEmpty() || password.isEmpty()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
             builder.setMessage(R.string.login_error_message)
-                    .setTitle(R.string.login_error_title)
+                    .setTitle(R.string.error_title)
                     .setPositiveButton(android.R.string.ok, null);
             AlertDialog dialog = builder.create();
             dialog.show();
@@ -191,7 +191,7 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                 builder.setMessage(task.getException().getMessage())
-                                        .setTitle(R.string.login_error_title)
+                                        .setTitle(R.string.error_title)
                                         .setPositiveButton(android.R.string.ok, null);
                                 AlertDialog dialog = builder.create();
                                 dialog.show();

@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         userlistRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         TextView counterTextView = (TextView) findViewById(R.id.result_counter);
-        DatabaseReference ref = mDatabase.child("users");
+        DatabaseReference ref = mDatabase.child(getString(R.string.users));
         dataSet = new ArrayList<String>();
         dataSet.add("x");
         mAdapter = new UserListAdapter(this, dataSet);
@@ -107,9 +107,9 @@ public class MainActivity extends AppCompatActivity {
      */
     public Action getIndexApiAction() {
         Thing object = new Thing.Builder()
-                .setName("Main Page") // TODO: Define a title for the content shown.
+                .setName(getString(R.string.main_page)) // TODO: Define a title for the content shown.
                 // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .setUrl(Uri.parse(getString(R.string.enter_your_url)))
                 .build();
         return new Action.Builder(Action.TYPE_VIEW)
                 .setObject(object)
