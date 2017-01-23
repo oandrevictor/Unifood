@@ -120,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     /**
      * Starts the LogInActivity
      */
@@ -130,13 +129,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(goToLogin);
     }
 
-
     private void startAdmActivity() {
         Class admActivity = AdminUniversityActivity.class;
         Intent goToAdm = new Intent(this, admActivity);
         startActivity(goToAdm);
     }
-
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -173,4 +170,5 @@ public class MainActivity extends AppCompatActivity {
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
+
 }
