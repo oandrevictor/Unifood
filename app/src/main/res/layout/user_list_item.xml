@@ -15,15 +15,25 @@
         android:textSize="16sp"
         android:text="X"/>
 
+
+
     <TextView
         android:id="@+id/name_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:fontFamily="sans-serif"
         android:textSize="16sp"
         android:text="Nominho"/>
+
+    <Button
+        android:text="Ver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:id="@+id/open_item_button" />
+
 
 
 </LinearLayout>

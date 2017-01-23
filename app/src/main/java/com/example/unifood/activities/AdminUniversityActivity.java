@@ -43,7 +43,7 @@ public class AdminUniversityActivity extends AppCompatActivity {
                 Campus campus = new Campus(campusName);
 
                 University university = new University(universityName);
-                university.addCampus(campus);
+                university.addCampus(campus.getId());
                 mDatabase.child("universities").push().setValue(university);
 
                 Class mainA = MainActivity.class;

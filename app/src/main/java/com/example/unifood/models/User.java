@@ -39,17 +39,17 @@ public class User {
         favProducts.add(productId);
     }
 
-    public void delRestaurantFromFavorites(String restaurantId) {
+    public boolean delRestaurantFromFavorites(String restaurantId) {
         if (favRestaurants.contains(restaurantId)){
-            favProducts.remove(restaurantId);
+            return favProducts.remove(restaurantId);
         } else {
             return false;
         }
     }
 
-    public void delProductFromFavorites(String productId) {
+    public boolean delProductFromFavorites(String productId) {
         if (favProducts.contains(productId)){
-            favProducts.remove(productId);
+            return favProducts.remove(productId);
 
         } else {
             return false;

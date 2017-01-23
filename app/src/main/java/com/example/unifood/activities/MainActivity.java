@@ -1,7 +1,6 @@
 package com.example.unifood.activities;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.unifood.R;
-import com.example.unifood.activities.helpers.UserListAdapter;
+import com.example.unifood.activities.helpers.UniversityListAdapter;
 import com.example.unifood.models.University;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -30,11 +29,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private UserListAdapter mAdapter;
+    private UniversityListAdapter mAdapter;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
     private ArrayList<University> dataSet = new ArrayList<>();
+    DatabaseReference ref;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         userlistRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         TextView counterTextView = (TextView) findViewById(R.id.result_counter);
-        DatabaseReference ref = mDatabase.child("universities");
+        ref = mDatabase.child("universities");
 
         dataSet = new ArrayList<University>();
 
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mAdapter = new UserListAdapter(this, dataSet);
+        mAdapter = new UniversityListAdapter(this, dataSet);
 
 
         // Link the adapter to the RecyclerView

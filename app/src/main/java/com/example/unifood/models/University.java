@@ -11,7 +11,7 @@ public class University {
 
     public University() {
         allCampus = new ArrayList<String>();
-        this.id = UUID.randomUUID().toString();;
+        this.id = UUID.randomUUID().toString();
     }
 
     public University(String name) {
@@ -34,6 +34,14 @@ public class University {
 
     public String getName(){return name;}
 
+    public void setName(String name1){
+        this.name = name1;
+    }
+
     public List<String> getAllCampus(){return allCampus;}
+
+    public  void setAllCampus(List<String> allCampus1){
+        allCampus=allCampus1;
+    }
 
 }

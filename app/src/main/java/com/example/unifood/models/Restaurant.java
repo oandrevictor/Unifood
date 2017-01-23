@@ -28,7 +28,7 @@ public class Restaurant {
     public Restaurant(String name,  String campusId, String localization) {
         this();
         this.name = name;
-        this.campusd = campusId;
+        this.campusId = campusId;
 	this.localization = localization;
 	}
 
