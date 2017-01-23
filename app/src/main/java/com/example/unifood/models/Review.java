@@ -2,6 +2,7 @@ package com.example.unifood.models;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 public class Review {
 
@@ -11,14 +12,18 @@ public class Review {
     private String date;
     private int likes;
     private int dislikes;
+    private String id;
 
     private final String EMPTY_COMMENT = "";
 
     public Review () {
-
+        this.id = UUID.randomUUID().toString();;
     }
 
+
+
     public Review(String userId, int rate, String date) {
+	this();
         this.userId = userId;
         this.rate = rate;
         this.date = date;
@@ -74,4 +79,11 @@ public class Review {
         this.dislikes = dislikes;
     }
 
+    public String getId(){
+        return this.id;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
 }

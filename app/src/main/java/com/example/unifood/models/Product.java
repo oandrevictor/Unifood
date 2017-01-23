@@ -14,6 +14,7 @@ public class Product {
     private final String EMPTY = new String();
 
     public Product() {
+
         this.id = UUID.randomUUID().toString();
         this.description = EMPTY;
     }
