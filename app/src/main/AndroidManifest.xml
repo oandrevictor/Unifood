@@ -36,10 +36,11 @@
 
         <activity android:name=".activities.AdminUniversityActivity" />
         <activity android:name=".activities.CampusActivity" />
-        <activity android:name=".activities.RestaurantActivity" />
+        <activity android:name=".activities.UniversityActivity" />
         <activity android:name=".activities.UserHomeActivity" />
         <activity android:name=".activities.helpers.CampusListAdapter" />
-        <activity android:name=".activities.helpers.CampusListAdapter"></activity>
+        <activity android:name=".activities.helpers.CampusListAdapter" />
+        <activity android:name=".activities.RestaurantActivity"></activity>
     </application>
 
 </manifest>

@@ -11,8 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.unifood.R;
-import com.example.unifood.activities.LoginActivity;
-import com.example.unifood.activities.RestaurantActivity;
+import com.example.unifood.activities.UniversityActivity;
 import com.example.unifood.models.University;
 
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAd
                 @Override
                 public void onClick(View v) {
                     //* we are actually open the restaurant view, but thats a detail;
-                    Class universityActivity = RestaurantActivity.class;
+                    Class universityActivity = UniversityActivity.class;
                     Intent intent = new Intent(mContext, universityActivity);
                     intent.putExtra("UNI_ID", u.getId());
                     mContext.startActivity(intent);
