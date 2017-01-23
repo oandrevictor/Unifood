@@ -2,6 +2,7 @@ package com.example.unifood.activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 startAdmActivity();
             }
         });
-
+/*
         RecyclerView userlistRecyclerView;
         // Set local attributes to corresponding views
         userlistRecyclerView = (RecyclerView) this.findViewById(R.id.all_users_list_view);
@@ -80,10 +81,11 @@ public class MainActivity extends AppCompatActivity {
         userlistRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         TextView counterTextView = (TextView) findViewById(R.id.result_counter);
-        ref = mDatabase.child("universities");
+*/
 
         dataSet = new ArrayList<University>();
-
+        new LongOperation().execute();
+/*
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -104,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Link the adapter to the RecyclerView
         userlistRecyclerView.setAdapter(mAdapter);
-
+*/
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -169,6 +171,47 @@ public class MainActivity extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+    protected class LongOperation extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            ref = mDatabase.child("universities");
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    Log.e("Count " ,""+snapshot.getChildrenCount());
+                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                        University uni = postSnapshot.getValue(University.class);
+                        dataSet.add(uni);
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError firebaseError) {
+                    Log.e("The read failed: " ,firebaseError.getMessage());
+                }
+            });
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            mAdapter = new UniversityListAdapter(MainActivity.this, dataSet);
+            // Link the adapter to the RecyclerView
+            RecyclerView userlistRecyclerView;
+            // Set local attributes to corresponding views
+            userlistRecyclerView = (RecyclerView) MainActivity.this.findViewById(R.id.all_users_list_view);
+            // Set layout for the RecyclerView, because it's a list we are using the linear layout
+            userlistRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+            userlistRecyclerView.setAdapter(mAdapter);
+        }
+
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected void onProgressUpdate(Void... values) {}
     }
 
 }
