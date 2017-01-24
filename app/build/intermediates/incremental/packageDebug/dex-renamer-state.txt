@@ -1,0 +1,7 @@
+#Mon Jan 23 20:36:27 BRT 2017
+base.0=/home/laybson/fooder/esfood/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_d3c66d36cd83f72f40cef5032a7ee6a62bc2bae7
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=/home/laybson/fooder/esfood/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_c2b4a4cea85e68f7cb21ac4a29ca594100163d55/classes.dex
+base.1=/home/laybson/fooder/esfood/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_c2b4a4cea85e68f7cb21ac4a29ca594100163d55
+file.0=/home/laybson/fooder/esfood/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_d3c66d36cd83f72f40cef5032a7ee6a62bc2bae7/classes.dex

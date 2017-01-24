@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instant-run
+    abi="x86_64,x86"
+    api-level="24"
+    density="420dpi"
+    format="8"
+    plugin-version="2.2.3"
+    timestamp="2447457639346"
+    token="7809460452127291161"
+    verifier="FULL_BUILD_REQUESTED" >
+
+    <task
+        name="javac"
+        duration="5542" />
+    <task
+        name="instant-run-dex"
+        duration="0" />
+    <task
+        name="instant-run-transform"
+        duration="543" />
+    <task
+        name="verifier"
+        duration="10" />
+
+    <artifact
+        location="/home/laybson/fooder/esfood/app/build/outputs/apk/app-debug.apk"
+        type="MAIN" />
+
+    <build
+        timestamp="2447457639346"
+        verifier="FULL_BUILD_REQUESTED" >
+        <artifact
+            location="/home/laybson/fooder/esfood/app/build/outputs/apk/app-debug.apk"
+            type="MAIN" />
+    </build>
+
+</instant-run>
