@@ -40,7 +40,8 @@
         <activity android:name=".activities.UserHomeActivity" />
         <activity android:name=".activities.helpers.CampusListAdapter" />
         <activity android:name=".activities.helpers.CampusListAdapter" />
-        <activity android:name=".activities.RestaurantActivity"></activity>
+        <activity android:name=".activities.RestaurantActivity" />
+        <activity android:name=".restaurant_profile"></activity>
     </application>
 
 </manifest>
