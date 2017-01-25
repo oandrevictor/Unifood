@@ -42,19 +42,9 @@ public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAd
         // Move the mCursor to the position of the item to be displayed
         if (i<unis.size()) {
             u = unis.get(i);
+            holder.setUniversity(u);
             holder.nameTextView.setText(u.getName());
             holder.partySizeTextView.setText(u.getId());
-            holder.openButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //* we are actually open the restaurant view, but thats a detail;
-                    Class universityActivity = UniversityActivity.class;
-                    Intent intent = new Intent(mContext, universityActivity);
-                    intent.putExtra("UNI_ID", u.getId());
-                    mContext.startActivity(intent);
-
-                }
-            });
         }
 
 
@@ -74,6 +64,7 @@ public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAd
         TextView nameTextView;
         TextView partySizeTextView;
         Button openButton;
+        University university;
 
         /**
          * Constructor for our ViewHolder. Within this constructor, we get a reference to our
@@ -87,7 +78,20 @@ public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAd
             nameTextView = (TextView) itemView.findViewById(R.id.name_text_view);
             partySizeTextView = (TextView) itemView.findViewById(R.id.university_text_view);
             openButton = (Button)itemView.findViewById(R.id.open_item_button);
+            openButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //* we are actually open the restaurant view, but thats a detail;
+                    Class universityActivity = UniversityActivity.class;
+                    Intent intent = new Intent(mContext, universityActivity);
+                    intent.putExtra("UNI_ID", university.getId());
+                    mContext.startActivity(intent);
+                }
+            });
 
+        }
+        public void setUniversity(University university1){
+            this.university = university1;
         }
 
     }
