@@ -14,6 +14,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+
 public class UniversityActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private DatabaseReference ref;
@@ -32,32 +34,32 @@ public class UniversityActivity extends AppCompatActivity {
         idListed += "    end   ";
         mDatabase = FirebaseDatabase.getInstance().getReference();
         ref = mDatabase.child("universities");
-        new LoadUniversities().execute();
+        ref.addListenerForSingleValueEvent (new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                new LoadUniversities(snapshot).execute();
+            }
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Log.e("The read failed: " ,firebaseError.getMessage());
+            }
+        });
     }
     protected class LoadUniversities extends AsyncTask<String, Void, String> {
-
+        DataSnapshot snapshot;
+        LoadUniversities(DataSnapshot snapshot){
+            this.snapshot =snapshot;
+        }
         @Override
         protected String doInBackground(String... params) {
-            ref.addListenerForSingleValueEvent (new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    Log.e("Count " ,""+snapshot.getChildrenCount());
-                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                        University unit = postSnapshot.getValue(University.class);
-                        idListed += (unit.getId() + "/n");
-                        if (unit.getId().equals(uniId)){
-                            uni = unit;
-                        }
-                    }
-
-
-                    Log.e("Entrou " ,""+snapshot.getChildrenCount());
+            Log.e("Entrou " ,""+snapshot.getChildrenCount());
+            for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                University unit = postSnapshot.getValue(University.class);
+                idListed += (unit.getId() + "/n");
+                if (unit.getId().equals(uniId)){
+                    uni = unit;
                 }
-                @Override
-                public void onCancelled(DatabaseError firebaseError) {
-                    Log.e("The read failed: " ,firebaseError.getMessage());
-                }
-            });
+            }
             return "Executed";
         }
 

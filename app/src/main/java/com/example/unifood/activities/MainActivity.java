@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         dataSet = new ArrayList<University>();
         ref = mDatabase.child("universities");
 
-        ref.addListenerForSingleValueEvent (new ValueEventListener() {
+        ref.addValueEventListener (new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 new LongOperation(snapshot).execute();
