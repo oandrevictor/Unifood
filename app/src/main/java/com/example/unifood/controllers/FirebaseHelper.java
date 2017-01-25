@@ -35,10 +35,15 @@ public class FirebaseHelper {
         ref.addListenerForSingleValueEvent (new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                University unit = snapshot.getValue(University.class);
-                if (unit != null && unit.getId() == uniId){
-                    uni = unit;
+
+                Log.e("Count " ,""+snapshot.getChildrenCount());
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                    University unit = postSnapshot.getValue(University.class);
+                    if (unit.getId() == uniId ){
+                        uni = unit;
+                    }
                 }
+
 
                 Log.e("Entrou " ,""+snapshot.getChildrenCount());
             }
