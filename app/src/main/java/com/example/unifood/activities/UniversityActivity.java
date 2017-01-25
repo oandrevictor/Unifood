@@ -29,17 +29,15 @@ public class UniversityActivity extends AppCompatActivity {
         name = "Not working yet!";
         idListed = "";
         idListed += uniId;
-        idListed += "    ";
+        idListed += "    end   ";
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        ref = mDatabase.child("universities");
         new LoadUniversities().execute();
-
-
     }
     protected class LoadUniversities extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
-            mDatabase = FirebaseDatabase.getInstance().getReference();
-            ref = mDatabase.child("universities");
             ref.addListenerForSingleValueEvent (new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {

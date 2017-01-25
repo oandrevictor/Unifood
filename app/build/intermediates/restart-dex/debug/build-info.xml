@@ -5,30 +5,30 @@
     density="hdpi"
     format="8"
     plugin-version="2.2.3"
-    timestamp="1248099608366"
+    timestamp="17666368502831"
     token="-9073649336853253299"
-    verifier="FULL_BUILD_REQUESTED" >
+    verifier="METHOD_DELETED" >
 
     <task
         name="javac"
-        duration="8986" />
+        duration="4602" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="259" />
+        duration="779" />
     <task
         name="verifier"
-        duration="35" />
+        duration="356" />
 
     <artifact
         location="/home/oandrevictor/es/esfood/app/build/outputs/apk/app-debug.apk"
         type="MAIN" />
 
     <build
-        timestamp="9136392291345"
-        verifier="FULL_BUILD_REQUESTED" >
+        timestamp="17666368502831"
+        verifier="METHOD_DELETED" >
         <artifact
             location="/home/oandrevictor/es/esfood/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />

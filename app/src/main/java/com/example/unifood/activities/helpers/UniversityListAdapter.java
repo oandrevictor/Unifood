@@ -44,7 +44,6 @@ public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAd
             u = unis.get(i);
             holder.setUniversity(u);
             holder.nameTextView.setText(u.getName());
-            holder.partySizeTextView.setText(u.getId());
         }
 
     }
@@ -73,8 +72,7 @@ public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAd
          */
         public UniversityViewHolder(View itemView) {
             super(itemView);
-            nameTextView = (TextView) itemView.findViewById(R.id.name_text_view);
-            partySizeTextView = (TextView) itemView.findViewById(R.id.university_text_view);
+            nameTextView = (TextView) itemView.findViewById(R.id.university_title_text);
             openButton = (Button)itemView.findViewById(R.id.open_item_button);
             openButton.setOnClickListener(new View.OnClickListener() {
                 @Override

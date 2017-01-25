@@ -60,7 +60,7 @@
         <activity android:name="com.example.unifood.activities.helpers.CampusListAdapter" />
         <activity android:name="com.example.unifood.activities.helpers.CampusListAdapter" />
         <activity android:name="com.example.unifood.activities.RestaurantActivity" />
-        <activity android:name="com.example.unifood.restaurant_profile" />
+        <activity android:name="com.example.unifood.activities.RestaurantProfileActivity" />
         <activity
             android:name="com.google.android.gms.common.api.GoogleApiActivity"
             android:exported="false"

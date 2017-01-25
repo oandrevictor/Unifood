@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.unifood.R;
 import com.example.unifood.activities.helpers.UniversityListAdapter;
@@ -47,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         setUpFirebase();
 
         if (mFirebaseUser == null) {
@@ -55,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             startLogInActivity();
         }
 
+        // Click SignOut Button
         Button signOutButton = (Button) this.findViewById(R.id.sign_out_button);
         signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,17 +63,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        // Click Admin Button
         Button admButton = (Button) this.findViewById(R.id.admin_button);
         admButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startAdmActivity();
             }
         });
         dataSet = new ArrayList<University>();
-        new LongOperation().execute();
+        ref = mDatabase.child("universities");
+
+        ref.addListenerForSingleValueEvent (new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                new LongOperation(snapshot).execute();
+            }
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Log.e("The read failed: " ,firebaseError.getMessage());
+            }
+        });
+
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -143,10 +153,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected class LongOperation extends AsyncTask<String, Void, String> {
+        DataSnapshot snapshot;
+        public LongOperation(DataSnapshot snapshot){
+            this.snapshot = snapshot;
+
+        }
 
         @Override
         protected String doInBackground(String... params) {
-            ref = mDatabase.child("universities");
+            Log.e("Count " ,""+snapshot.getChildrenCount());
+            for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+                University uni = postSnapshot.getValue(University.class);
+                dataSet.add(uni);
+            }
+/*
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
@@ -160,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onCancelled(DatabaseError firebaseError) {
                     Log.e("The read failed: " ,firebaseError.getMessage());
                 }
-            });
+            });*/
             return "Executed";
         }
 
@@ -168,12 +188,12 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             mAdapter = new UniversityListAdapter(MainActivity.this, dataSet);
             // Link the adapter to the RecyclerView
-            RecyclerView userlistRecyclerView;
+            RecyclerView universityListRecyclerView;
             // Set local attributes to corresponding views
-            userlistRecyclerView = (RecyclerView) MainActivity.this.findViewById(R.id.all_users_list_view);
+            universityListRecyclerView = (RecyclerView) MainActivity.this.findViewById(R.id.all_universities_list);
             // Set layout for the RecyclerView, because it's a list we are using the linear layout
-            userlistRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-            userlistRecyclerView.setAdapter(mAdapter);
+            universityListRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+            universityListRecyclerView.setAdapter(mAdapter);
         }
 
         @Override

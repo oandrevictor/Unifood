@@ -3235,10 +3235,10 @@ containing a value of this type.
         public static final int add=0x7f0d001e;
         public static final int adjust_height=0x7f0d0047;
         public static final int adjust_width=0x7f0d0048;
-        public static final int admin_button=0x7f0d00a5;
+        public static final int admin_button=0x7f0d00a4;
         public static final int alertTitle=0x7f0d0076;
         public static final int all=0x7f0d0036;
-        public static final int all_users_list_view=0x7f0d00a4;
+        public static final int all_universities_list=0x7f0d00a2;
         public static final int always=0x7f0d0049;
         public static final int app_icon=0x7f0d009a;
         public static final int appbar=0x7f0d00a6;
@@ -3246,6 +3246,7 @@ containing a value of this type.
         public static final int beginning=0x7f0d0045;
         public static final int best_ratings=0x7f0d00c1;
         public static final int bottom=0x7f0d0026;
+        public static final int bottom_buttons=0x7f0d00a3;
         public static final int btn_signup=0x7f0d00b9;
         public static final int buttonPanel=0x7f0d0069;
         public static final int cancel_action=0x7f0d00d5;
@@ -3305,6 +3306,7 @@ containing a value of this type.
         public static final int ifRoom=0x7f0d004b;
         public static final int image=0x7f0d0064;
         public static final int imageView=0x7f0d00c2;
+        public static final int imageView2=0x7f0d00e7;
         public static final int index_entity_types=0x7f0d0054;
         public static final int info=0x7f0d00de;
         public static final int input_email=0x7f0d00b7;
@@ -3338,7 +3340,6 @@ containing a value of this type.
         public static final int mini=0x7f0d0037;
         public static final int multiply=0x7f0d001f;
         public static final int name_text_field=0x7f0d0093;
-        public static final int name_text_view=0x7f0d00e8;
         public static final int navigation_header_container=0x7f0d00cb;
         public static final int never=0x7f0d004c;
         public static final int new_campus_field=0x7f0d0095;
@@ -3364,8 +3365,6 @@ containing a value of this type.
         public static final int restaurant_name=0x7f0d00b3;
         public static final int restaurant_number=0x7f0d00b1;
         public static final int restaurant_pic=0x7f0d00ad;
-        public static final int university_title =0x7f0d00bc;
-        public static final int result_counter=0x7f0d00a2;
         public static final int rfc822=0x7f0d0050;
         public static final int right=0x7f0d002d;
         public static final int right_icon=0x7f0d00df;
@@ -3392,7 +3391,7 @@ containing a value of this type.
         public static final int showCustom=0x7f0d0015;
         public static final int showHome=0x7f0d0016;
         public static final int showTitle=0x7f0d0017;
-        public static final int sign_out_button=0x7f0d00a3;
+        public static final int sign_out_button=0x7f0d00a5;
         public static final int sign_up_text=0x7f0d009f;
         public static final int smallLabel=0x7f0d00c5;
         public static final int snackbar_action=0x7f0d00ca;
@@ -3432,7 +3431,8 @@ containing a value of this type.
         public static final int transition_current_scene=0x7f0d000b;
         public static final int transition_scene_layoutid_cache=0x7f0d000c;
         public static final int tv_item_restaurant=0x7f0d00c4;
-        public static final int university_text_view=0x7f0d00e7;
+        public static final int university_title=0x7f0d00bc;
+        public static final int university_title_text=0x7f0d00e8;
         public static final int up=0x7f0d000d;
         public static final int url=0x7f0d0051;
         public static final int useLogo=0x7f0d0018;
