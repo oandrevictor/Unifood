@@ -11,11 +11,12 @@
     tools:context="com.example.unifood.activities.UniversityActivity">
 
     <TextView
-        android:text="Nome do restaurante"
+        android:text="Nome da universidade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/restaurant_title"
+        android:id="@+id/university_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:layout_alignParentTop="true"
+        android:paddingTop="16dp"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

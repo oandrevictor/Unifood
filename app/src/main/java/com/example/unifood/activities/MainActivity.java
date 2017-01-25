@@ -73,40 +73,9 @@ public class MainActivity extends AppCompatActivity {
                 startAdmActivity();
             }
         });
-/*
-        RecyclerView userlistRecyclerView;
-        // Set local attributes to corresponding views
-        userlistRecyclerView = (RecyclerView) this.findViewById(R.id.all_users_list_view);
-        // Set layout for the RecyclerView, because it's a list we are using the linear layout
-        userlistRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        TextView counterTextView = (TextView) findViewById(R.id.result_counter);
-*/
-
         dataSet = new ArrayList<University>();
         new LongOperation().execute();
-/*
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                Log.e("Count " ,""+snapshot.getChildrenCount());
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    University uni = postSnapshot.getValue(University.class);
-                     dataSet.add(uni);
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-                Log.e("The read failed: " ,firebaseError.getMessage());
-            }
-        });
 
-        mAdapter = new UniversityListAdapter(this, dataSet);
-
-
-        // Link the adapter to the RecyclerView
-        userlistRecyclerView.setAdapter(mAdapter);
-*/
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();

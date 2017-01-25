@@ -3,22 +3,16 @@ package com.example.unifood.activities;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.example.unifood.R;
-import com.example.unifood.activities.helpers.UniversityListAdapter;
-import com.example.unifood.controllers.FirebaseHelper;
 import com.example.unifood.models.University;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import static android.R.attr.name;
 
 public class UniversityActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
@@ -72,7 +66,7 @@ public class UniversityActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             //String Uniname = uni.getName();
-            TextView restaurantName = (TextView) findViewById(R.id.restaurant_title);
+            TextView restaurantName = (TextView) findViewById(R.id.university_title);
             if (uni == null) {
                 restaurantName.setText(idListed);
             }else{restaurantName.setText(uni.getName());}

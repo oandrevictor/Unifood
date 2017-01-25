@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by André  on 20/01/17.
  */
 
-public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAdapter.UserViewHolder>{
+public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAdapter.UniversityViewHolder>{
     private Context mContext;
     private ArrayList<University> unis;
     private University u;
@@ -31,14 +31,14 @@ public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAd
     }
 
     @Override
-    public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UniversityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.user_list_item, parent, false);
-        return new UserViewHolder(view);
+        return new UniversityViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(UserViewHolder holder, int i) {
+    public void onBindViewHolder(UniversityViewHolder holder, int i) {
         // Move the mCursor to the position of the item to be displayed
         if (i<unis.size()) {
             u = unis.get(i);
@@ -46,8 +46,6 @@ public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAd
             holder.nameTextView.setText(u.getName());
             holder.partySizeTextView.setText(u.getId());
         }
-
-
 
     }
 
@@ -59,7 +57,7 @@ public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAd
     /**
      * Inner class to hold the views needed to display a single item in the recycler-view
      */
-    class UserViewHolder extends RecyclerView.ViewHolder {
+    class UniversityViewHolder extends RecyclerView.ViewHolder {
 
         TextView nameTextView;
         TextView partySizeTextView;
@@ -73,7 +71,7 @@ public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAd
          * @param itemView The View that you inflated in
          *                 {@link UniversityListAdapter#onCreateViewHolder(ViewGroup, int)}
          */
-        public UserViewHolder(View itemView) {
+        public UniversityViewHolder(View itemView) {
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name_text_view);
             partySizeTextView = (TextView) itemView.findViewById(R.id.university_text_view);

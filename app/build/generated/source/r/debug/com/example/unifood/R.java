@@ -3364,7 +3364,7 @@ containing a value of this type.
         public static final int restaurant_name=0x7f0d00b3;
         public static final int restaurant_number=0x7f0d00b1;
         public static final int restaurant_pic=0x7f0d00ad;
-        public static final int restaurant_title=0x7f0d00bc;
+        public static final int university_title =0x7f0d00bc;
         public static final int result_counter=0x7f0d00a2;
         public static final int rfc822=0x7f0d0050;
         public static final int right=0x7f0d002d;

@@ -1,9 +1,11 @@
-package com.example.unifood;
+package com.example.unifood.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class restaurant_profile extends AppCompatActivity {
+import com.example.unifood.R;
+
+public class RestaurantProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
