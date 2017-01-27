@@ -28,6 +28,8 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class LoginActivity extends AppCompatActivity {
 
+    // ATRIBUTES
+
     protected EditText emailEditText;
     protected EditText passwordEditText;
     protected Button logInButton;
@@ -88,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
             hide();
         }
     };
+
     /**
      * Touch listener to use for in-layout UI controls to delay hiding the
      * system UI. This is to prevent the jarring behavior of controls going away
@@ -103,6 +106,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
+
+    // METHODS
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,9 +120,9 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         mVisible = true;
-        mControlsView = findViewById(R.id.fullscreen_content_controls);
-        mContentView = findViewById(R.id.fullscreen_content);
 
+        // Set up all ids from layouts for this onCreate method
+        findViewsByIdOnCreate();
 
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
@@ -132,26 +138,20 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.login_button).setOnTouchListener(mDelayHideTouchListener);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
+
+    }
+
+    /**
+     * Find all id's used in onCreate method.
+     */
+    private void findViewsByIdOnCreate() {
+        mControlsView = findViewById(R.id.fullscreen_content_controls);
+        mContentView = findViewById(R.id.fullscreen_content);
+
         signUpTextView = (TextView) findViewById(R.id.sign_up_text);
         emailEditText = (EditText) findViewById(R.id.email_field);
         passwordEditText = (EditText) findViewById(R.id.password_field);
         logInButton = (Button) findViewById(R.id.login_button);
-
-        signUpTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-        logInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doLogin();
-            }
-        });
     }
 
     @Override
@@ -164,7 +164,32 @@ public class LoginActivity extends AppCompatActivity {
         delayedHide(100);
     }
 
-    private void doLogin(){
+    /**
+     * Create intent for conection with singUp view
+     */
+    private void singUp() {
+        signUpTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * Setting an OnClickListener to do initialize Restaurant or Student Home Acitivy when login button is clicked.
+     */
+    private void pressLoginButton() {
+        logInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doLogin();
+            }
+        });
+    }
+
+    private void doLogin() {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
@@ -199,6 +224,18 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    /**
+     * This is the state in which the app interacts with the user.
+     * The app stays in this state until something happens to take focus away from the app
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        singUp();
+        pressLoginButton();
     }
 
     @Override
@@ -254,4 +291,5 @@ public class LoginActivity extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
+
 }
