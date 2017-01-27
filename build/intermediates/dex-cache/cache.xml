@@ -7,7 +7,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="7f1f538c9dbc68a1afd33b4d4f0f7489f09c8138">
+        sha1="b2d6c7dfdd38180e6f9b7da843cff6ee378f074b">
         <dex dex="/home/oandrevictor/es/esfood/app/build/intermediates/pre-dexed/debug/instant-run-bootstrap_8651fe3630469695c142784b0c360cc79ae3a7eb.jar" />
     </item>
     <item
@@ -133,7 +133,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="ae230697060ad4b5e28b44ed5c97fe64544d22fa">
+        sha1="1f02e8e3bb956d0d465ad77e69bb36a2dae53d39">
         <dex dex="/home/oandrevictor/es/esfood/app/build/intermediates/pre-dexed/debug/instant-run_7ed6a8f207d032f4ebcdb711373ea85713d862ea.jar" />
     </item>
     <item
@@ -192,21 +192,21 @@
     </item>
     <item
         is-multidex="false"
-        jar="/home/oandrevictor/es/esfood/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics-impl/9.4.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="a440fb3fec30ff925e9f601cc458fb6671834cb2">
-        <dex dex="/home/oandrevictor/es/esfood/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-analytics-impl-9.4.0_76ce9541d5bf1c314fb215733e8974ad2934ad26.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/home/oandrevictor/es/esfood/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.1.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
         <dex dex="/home/oandrevictor/es/esfood/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-25.1.0_0c7a26819e5279173a6ea1e24c8e87377202b5a1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/oandrevictor/es/esfood/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics-impl/9.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a440fb3fec30ff925e9f601cc458fb6671834cb2">
+        <dex dex="/home/oandrevictor/es/esfood/app/build/intermediates/pre-dexed/debug/com.google.firebase-firebase-analytics-impl-9.4.0_76ce9541d5bf1c314fb215733e8974ad2934ad26.jar" />
     </item>
     <item
         is-multidex="false"

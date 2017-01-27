@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.unifood.R;
+import com.example.unifood.models.StudentInfo;
+import com.example.unifood.models.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,10 +31,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static com.example.unifood.R.string.university;
+
 
 public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
     private FirebaseAuth mFirebaseAuth;
+    UserInfo userInfo;
+    StudentInfo studentInfo;
 
 
     @InjectView(R.id.first_name) EditText first_nameText;
@@ -69,8 +75,13 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void signup() {
         Log.d(TAG, getString(R.string.register));
+        String firstName = first_nameText.getText().toString();
+        String lastName = last_nameText.getText().toString();
+        String university = universityText.getText().toString();
+        String email = emailText.getText().toString();
+        String password = passwordText.getText().toString();
 
-        if (!validate()) {
+        if (!validate(firstName,lastName,university,email,password)) {
             onSignupFailed();
             return;
         }
@@ -83,20 +94,14 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();
 
-        String firstName = first_nameText.getText().toString();
-        String lastName = last_nameText.getText().toString();
-        String university = universityText.getText().toString();
-        String email = emailText.getText().toString();
-        String password = passwordText.getText().toString();
-
-
+        
+        studentInfo = new StudentInfo(firstName,lastName,"student", university);
+        userInfo = new StudentInfo(firstName,lastName,"student", university);
 
         // Conectar tudo com o banco de dados. Depois fazer isso
 
         mFirebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
-
-
 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -104,10 +109,7 @@ public class SignUpActivity extends AppCompatActivity {
                             FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
                             String mUserId  = mFirebaseUser.getUid();
-
-
-                            mDatabase.child("users").child(mUserId).child("university").setValue(universityText.getText().toString());
-
+                            mDatabase.child("users").child(mUserId).child("uinfo").setValue(userInfo);
                             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -120,22 +122,13 @@ public class SignUpActivity extends AppCompatActivity {
                             AlertDialog dialog = builder.create();
                             dialog.show();
                         }
+                        progressDialog.dismiss();
+                        onSignupSuccess();
                     }
                 });
 
 
 
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
     }
 
 
@@ -151,14 +144,8 @@ public class SignUpActivity extends AppCompatActivity {
         signupButton.setEnabled(true);
     }
 
-    public boolean validate() {
+    public boolean validate(String firstName, String lastName, String university, String email, String password) {
         boolean valid = true;
-
-        String firstName = first_nameText.getText().toString();
-        String lastName = last_nameText.getText().toString();
-        String university = universityText.getText().toString();
-        String email = emailText.getText().toString();
-        String password = passwordText.getText().toString();
 
         if ((firstName.isEmpty() || firstName.length() < 3) || (lastName.isEmpty() || lastName.length() < 3)) {
             first_nameText.setError(getText(R.string.four_characters));

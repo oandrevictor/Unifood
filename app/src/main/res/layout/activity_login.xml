@@ -74,17 +74,27 @@
                 android:layout_marginBottom="8dp" />
 
             <TextView
-                android:id="@+id/sign_up_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Criar uma nova conta."
-                android:layout_gravity="center_horizontal"
-                android:textStyle="normal|bold" />
-            <TextView
                 android:id="@+id/error_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""/>
+
+            <TextView
+                android:id="@+id/sign_up_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Criar uma conta como estudante."
+                android:layout_gravity="center_horizontal"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/sign_up_restaurant_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Registrar um restaurante."
+                android:layout_gravity="center_horizontal"
+                android:textStyle="normal|bold" />
+
 
         </LinearLayout>
 

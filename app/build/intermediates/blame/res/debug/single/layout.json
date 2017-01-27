@@ -12,16 +12,16 @@
         "source": "/home/oandrevictor/es/esfood/app/build/intermediates/exploded-aar/com.android.support/design/25.1.0/res/layout/design_bottom_sheet_dialog.xml"
     },
     {
-        "merged": "/home/oandrevictor/es/esfood/app/build/intermediates/res/merged/debug/layout/design_navigation_item_subheader.xml",
-        "source": "/home/oandrevictor/es/esfood/app/build/intermediates/exploded-aar/com.android.support/design/25.1.0/res/layout/design_navigation_item_subheader.xml"
+        "merged": "/home/oandrevictor/es/esfood/app/build/intermediates/res/merged/debug/layout/user_list_item.xml",
+        "source": "/home/oandrevictor/es/esfood/app/src/main/res/layout/user_list_item.xml"
     },
     {
         "merged": "/home/oandrevictor/es/esfood/app/build/intermediates/res/merged/debug/layout/abc_action_bar_title_item.xml",
         "source": "/home/oandrevictor/es/esfood/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.0/res/layout/abc_action_bar_title_item.xml"
     },
     {
-        "merged": "/home/oandrevictor/es/esfood/app/build/intermediates/res/merged/debug/layout/user_list_item.xml",
-        "source": "/home/oandrevictor/es/esfood/app/src/main/res/layout/user_list_item.xml"
+        "merged": "/home/oandrevictor/es/esfood/app/build/intermediates/res/merged/debug/layout/design_navigation_item_subheader.xml",
+        "source": "/home/oandrevictor/es/esfood/app/build/intermediates/exploded-aar/com.android.support/design/25.1.0/res/layout/design_navigation_item_subheader.xml"
     },
     {
         "merged": "/home/oandrevictor/es/esfood/app/build/intermediates/res/merged/debug/layout/abc_activity_chooser_view_list_item.xml",
@@ -46,6 +46,10 @@
     {
         "merged": "/home/oandrevictor/es/esfood/app/build/intermediates/res/merged/debug/layout/abc_popup_menu_item_layout.xml",
         "source": "/home/oandrevictor/es/esfood/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.0/res/layout/abc_popup_menu_item_layout.xml"
+    },
+    {
+        "merged": "/home/oandrevictor/es/esfood/app/build/intermediates/res/merged/debug/layout/activity_restaurant_register.xml",
+        "source": "/home/oandrevictor/es/esfood/app/src/main/res/layout/activity_restaurant_register.xml"
     },
     {
         "merged": "/home/oandrevictor/es/esfood/app/build/intermediates/res/merged/debug/layout/notification_template_custom_big.xml",
@@ -122,6 +126,10 @@
     {
         "merged": "/home/oandrevictor/es/esfood/app/build/intermediates/res/merged/debug/layout/notification_template_part_chronometer.xml",
         "source": "/home/oandrevictor/es/esfood/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.0/res/layout/notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "/home/oandrevictor/es/esfood/app/build/intermediates/res/merged/debug/layout/activity_restaurant_home.xml",
+        "source": "/home/oandrevictor/es/esfood/app/src/main/res/layout/activity_restaurant_home.xml"
     },
     {
         "merged": "/home/oandrevictor/es/esfood/app/build/intermediates/res/merged/debug/layout/activity_restaurant_profile.xml",
