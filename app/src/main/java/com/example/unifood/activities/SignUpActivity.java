@@ -94,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();
 
-        
+
         studentInfo = new StudentInfo(firstName,lastName,"student", university);
         userInfo = new StudentInfo(firstName,lastName,"student", university);
 
