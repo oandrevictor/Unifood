@@ -31,6 +31,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import static com.example.unifood.R.string.university;
+
 
 public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -73,8 +75,13 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void signup() {
         Log.d(TAG, getString(R.string.register));
+        String firstName = first_nameText.getText().toString();
+        String lastName = last_nameText.getText().toString();
+        String university = universityText.getText().toString();
+        String email = emailText.getText().toString();
+        String password = passwordText.getText().toString();
 
-        if (!validate()) {
+        if (!validate(firstName,lastName,university,email,password)) {
             onSignupFailed();
             return;
         }
@@ -87,12 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();
 
-        String firstName = first_nameText.getText().toString();
-        String lastName = last_nameText.getText().toString();
-        String university = universityText.getText().toString();
-        String email = emailText.getText().toString();
-        String password = passwordText.getText().toString();
-
+        
         studentInfo = new StudentInfo(firstName,lastName,"student", university);
         userInfo = new StudentInfo(firstName,lastName,"student", university);
 
@@ -142,14 +144,8 @@ public class SignUpActivity extends AppCompatActivity {
         signupButton.setEnabled(true);
     }
 
-    public boolean validate() {
+    public boolean validate(String firstName, String lastName, String university, String email, String password) {
         boolean valid = true;
-
-        String firstName = first_nameText.getText().toString();
-        String lastName = last_nameText.getText().toString();
-        String university = universityText.getText().toString();
-        String email = emailText.getText().toString();
-        String password = passwordText.getText().toString();
 
         if ((firstName.isEmpty() || firstName.length() < 3) || (lastName.isEmpty() || lastName.length() < 3)) {
             first_nameText.setError(getText(R.string.four_characters));
