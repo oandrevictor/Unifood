@@ -43,7 +43,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.unifood.activities.MainActivity" />
         </activity>
-        <activity android:name="com.example.unifood.activities.RestaurantActivity" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -57,9 +56,10 @@
         <activity android:name="com.example.unifood.activities.UniversityActivity" />
         <activity android:name="com.example.unifood.activities.UserHomeActivity" />
         <activity android:name="com.example.unifood.activities.helpers.CampusListAdapter" />
-        <activity android:name="com.example.unifood.activities.helpers.CampusListAdapter" />
         <activity android:name="com.example.unifood.activities.RestaurantActivity" />
-        <activity android:name="com.example.unifood.activities.RestaurantProfileActivity" />
+        <activity android:name="com.example.unifood.activities.RestaurantProfileFragment" />
+        <activity android:name="com.example.unifood.activities.RestaurantHomeFragment" />
+        <activity android:name="com.example.unifood.activities.RestaurantRegisterActivity" />
         <activity
             android:name="com.google.android.gms.common.api.GoogleApiActivity"
             android:exported="false"

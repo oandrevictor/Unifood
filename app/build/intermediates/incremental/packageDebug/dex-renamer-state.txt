@@ -1,7 +1,4 @@
-#Thu Jan 26 23:54:30 BRST 2017
-base.0=C\:\\esfood\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_6fa58642a9a57836b76f9e2e75be6222bb50c387
-renamed.1=classes.dex
-renamed.0=classes2.dex
-file.1=C\:\\esfood\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_15c9ac3233941bae5260018eb85c23093cea82a7\\classes.dex
-base.1=C\:\\esfood\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_15c9ac3233941bae5260018eb85c23093cea82a7
-file.0=C\:\\esfood\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_6fa58642a9a57836b76f9e2e75be6222bb50c387\\classes.dex
+#Fri Jan 27 15:49:55 BRT 2017
+base.0=/home/oandrevictor/es/esfood/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+renamed.0=classes.dex
+file.0=/home/oandrevictor/es/esfood/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex

@@ -22,6 +22,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.w3c.dom.Text;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
@@ -32,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     protected EditText passwordEditText;
     protected Button logInButton;
     protected TextView signUpTextView;
+    protected TextView restaurantSignUpTextView;
+
     private FirebaseAuth mFirebaseAuth;
 
     /**
@@ -136,11 +140,20 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText = (EditText) findViewById(R.id.email_field);
         passwordEditText = (EditText) findViewById(R.id.password_field);
         logInButton = (Button) findViewById(R.id.login_button);
+        restaurantSignUpTextView = (TextView) findViewById(R.id.sign_up_restaurant_text) ;
 
         signUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        restaurantSignUpTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RestaurantRegisterActivity.class);
                 startActivity(intent);
             }
         });
