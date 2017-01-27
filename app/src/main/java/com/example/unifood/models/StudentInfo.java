@@ -1,35 +1,30 @@
 package com.example.unifood.models;
 
-import android.content.Context;
-import android.database.Cursor;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
 
-public class User {
+/**
+ * Created by oandrevictor on 27/01/17.
+ */
 
-    private String id;
-    private String firstName;
-    private String lastName;
+public class StudentInfo extends UserInfo {
+
+
+    private String campusId;
     private List<String> favRestaurants;
     private List<String> favProducts;
 
-    private  Util util;
-
-    public User() {
-        this.id = UUID.randomUUID().toString();;
+    public StudentInfo() {
+        super();
         this.favProducts = new ArrayList<String>();
         this.favRestaurants = new ArrayList<String>();
-
     }
 
-    public User(String firstName, String lastName) {
-        this();
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public StudentInfo(String firstName, String lastName, String type, String campusId) {
+        super(firstName,lastName,type);
+        this.campusId = campusId;
     }
+
 
     public void addRestaurantToFavorites(String restaurantId) {
         favRestaurants.add(restaurantId);
@@ -56,48 +51,6 @@ public class User {
         }
     }
 
-    public void rate(int rate, String comment, Restaurant restaurant) {
-
-        this.util = Util.getInstancia();
-        String currentDate = util.getCurrentDate();
-
-        Review myRate = new Review(id, rate, comment, currentDate);
-
-        restaurant.addRate(myRate.getId());
-    }
-
-    public void editReview(Restaurant restaurant) {
-        //TODO
-    }
-
-
-
-    // Getters and Setters
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public List<String> getFavRestaurants() {
         return favRestaurants;
     }
@@ -113,5 +66,15 @@ public class User {
     public void setFavProducts(List<String> favProducts) {
         this.favProducts = favProducts;
     }
+
+    public String getCampusId() {
+        return campusId;
+    }
+
+    public void setCampusId(String campusId) {
+        this.campusId = campusId;
+    }
+
+
 
 }
