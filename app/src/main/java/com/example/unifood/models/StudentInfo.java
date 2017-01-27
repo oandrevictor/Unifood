@@ -23,6 +23,8 @@ public class StudentInfo extends UserInfo {
     public StudentInfo(String firstName, String lastName, String type, String campusId) {
         super(firstName,lastName,type);
         this.campusId = campusId;
+        this.favProducts = new ArrayList<String>();
+        this.favRestaurants = new ArrayList<String>();
     }
 
 

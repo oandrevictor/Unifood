@@ -16,6 +16,7 @@ import java.util.List;
 public class CampusListAdapter extends RecyclerView.Adapter<CampusListAdapter.RestaurantViewHolder> {
 
     private List<Restaurant> restaurantList;
+    public CampusListAdapter(){}
 
     /**
      * Constructor for CampusListAdapter that accepts

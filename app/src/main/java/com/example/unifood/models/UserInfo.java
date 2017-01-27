@@ -4,18 +4,10 @@ import java.util.UUID;
 
 public class UserInfo {
 
-    private String id;
     private String firstName;
     private String lastName;
     private String type;
-
-    private  Util util;
-
-
     public UserInfo() {
-        this.id = UUID.randomUUID().toString();;
-
-
     }
 
     public UserInfo(String firstName, String lastName, String type) {
@@ -25,7 +17,7 @@ public class UserInfo {
         this.type = type;
     }
 
-
+/* The following method are not in this class. To-be removed.
     public void rate(int rate, String comment, Restaurant restaurant) {
 
         this.util = Util.getInstancia();
@@ -39,17 +31,16 @@ public class UserInfo {
     public void editReview(Restaurant restaurant) {
         //TODO
     }
-
+*/
 
 
     // Getters and Setters
-
-    public String getId() {
-        return id;
+    public String getType() {
+        return type;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getFirstName() {
