@@ -3441,6 +3441,7 @@ containing a value of this type.
         public static final int wide=0x7f0d005a;
         public static final int withText=0x7f0d004d;
         public static final int wrap_content=0x7f0d0024;
+        public static final int pager = 0x81727237;
     }
     public static final class integer {
         public static final int abc_config_activityDefaultDur=0x7f0b0001;
@@ -3527,6 +3528,7 @@ containing a value of this type.
         public static final int select_dialog_singlechoice_material=0x7f040045;
         public static final int support_simple_spinner_dropdown_item=0x7f040046;
         public static final int user_list_item=0x7f040047;
+        public static final int activity_restaurant_home=0x28372821;
     }
     public static final class mipmap {
         public static final int ic_launcher=0x7f030000;

@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
     abi="armeabi-v7a,armeabi"
-    api-level="19"
-    density="hdpi"
+    api-level="23"
+    density="xhdpi"
     format="8"
     plugin-version="2.2.3"
-    timestamp="18209753120685"
-    token="-9073649336853253299"
+    timestamp="28848638868193"
+    token="-9099133888864535574"
     verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="2689" />
+        duration="17036" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="110" />
+        duration="24935" />
     <task
         name="verifier"
-        duration="60" />
+        duration="2890" />
 
     <artifact
-        location="/home/oandrevictor/es/esfood/app/build/outputs/apk/app-debug.apk"
+        location="C:\esfood\app\build\outputs\apk\app-debug.apk"
         type="MAIN" />
 
     <build
-        timestamp="18209753120685"
+        timestamp="28848638868193"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
-            location="/home/oandrevictor/es/esfood/app/build/outputs/apk/app-debug.apk"
+            location="C:\esfood\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
     </build>
 

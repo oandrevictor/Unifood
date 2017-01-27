@@ -43,7 +43,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.unifood.activities.MainActivity" />
         </activity>
-        <activity android:name="com.example.unifood.activities.SignUpActivity" />
+        <activity android:name="com.example.unifood.activities.RestaurantActivity" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
