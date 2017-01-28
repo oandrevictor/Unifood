@@ -35,7 +35,7 @@ import static com.example.unifood.R.string.university;
 
 
 public class SignUpActivity extends AppCompatActivity {
-    private static final String TAG = "SignupActivity";
+    private static final String TAG = "User_Signup_Activity";
     private FirebaseAuth mFirebaseAuth;
     UserInfo userInfo;
     StudentInfo studentInfo;
