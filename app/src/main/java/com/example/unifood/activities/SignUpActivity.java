@@ -88,8 +88,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(this,
-                R.style.AppTheme_Dark_Dialog);
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();
@@ -98,7 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
         studentInfo = new StudentInfo(university);
         userInfo = new UserInfo(firstName,lastName,"student");
 
-        // Conectar tudo com o banco de dados. Depois fazer isso
+        // Conectar tudo com o banco de dados.
 
         mFirebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
@@ -148,15 +147,23 @@ public class SignUpActivity extends AppCompatActivity {
     public boolean validate(String firstName, String lastName, String university, String email, String password) {
         boolean valid = true;
 
-        if ((firstName.isEmpty() || firstName.length() < 3) || (lastName.isEmpty() || lastName.length() < 3)) {
+        if (firstName.isEmpty() || firstName.length() < 3) {
             first_nameText.setError(getText(R.string.four_characters));
             valid = false;
         } else {
             first_nameText.setError(null);
         }
 
+        if (lastName.isEmpty() || lastName.length() < 3) {
+            last_nameText.setError(getText(R.string.four_characters));
+            valid = false;
+        } else {
+            last_nameText.setError(null);
+        }
+
         if (university.isEmpty() || university.length() < 1) {
             universityText.setError(getText(R.string.two_characters));
+            valid = false;
         } else {
             universityText.setError(null);
         }
