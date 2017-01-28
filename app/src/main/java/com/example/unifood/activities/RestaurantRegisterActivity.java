@@ -1,6 +1,9 @@
 package com.example.unifood.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,18 +15,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.unifood.R;
+import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.StudentInfo;
 import com.example.unifood.models.UserInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class RestaurantRegisterActivity extends AppCompatActivity {
-    private static final String TAG = "Restaurant_SignupAct";
+    private static final String TAG = "Restaurant_Signup_Act";
     private FirebaseAuth mFirebaseAuth;
     UserInfo userInfo;
-    StudentInfo studentInfo;
+    Restaurant restaurant;
 
     @InjectView(R.id.user_first_name_field) EditText user_first_nameText;
     @InjectView(R.id.user_last_name_field) EditText user_last_nameText;
@@ -58,7 +68,7 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
         String user_lastName = user_last_nameText.getText().toString();
         String user_email = user_emailText.getText().toString();
         String user_password = user_passwordText.getText().toString();
-        String restaurant_name = restaurant_nameText.getText().toString();
+        final String restaurant_name = restaurant_nameText.getText().toString();
         String restaurant_description = restaurant_descriptionText.getText().toString();
         String restaurant_university = restaurant_university_campus.getText().toString();
         String restaurant_location = restaurant_locationText.getText().toString();
@@ -76,10 +86,40 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
         progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();
 
-        studentInfo = new StudentInfo(restaurant_university);
-        userInfo = new UserInfo(user_firstName,user_lastName,"student");
+        restaurant = new Restaurant(restaurant_name, restaurant_university, restaurant_location);
+        restaurant.setShortDescription(restaurant_description);
+        userInfo = new UserInfo(user_firstName,user_lastName,"owner");
 
         // Conectar tudo com o banco de dados.
+
+        mFirebaseAuth.createUserWithEmailAndPassword(user_email, user_password)
+                .addOnCompleteListener(RestaurantRegisterActivity.this, new OnCompleteListener<AuthResult>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+                            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                            String mUserId  = mFirebaseUser.getUid();
+                            mDatabase.child("users").child(mUserId).child("userInfo").setValue(userInfo);
+                            mDatabase.child("restaurants").push().setValue(restaurant);
+                            Intent intent = new Intent(RestaurantRegisterActivity.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(RestaurantRegisterActivity.this);
+                            builder.setMessage(task.getException().getMessage())
+                                    .setTitle(R.string.error_title)
+                                    .setPositiveButton(android.R.string.ok, null);
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+                        progressDialog.dismiss();
+                        onSignupSuccess();
+                    }
+                });
+
 
     }
 
