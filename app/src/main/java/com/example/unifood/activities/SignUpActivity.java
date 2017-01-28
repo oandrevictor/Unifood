@@ -95,8 +95,8 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.show();
 
 
-        studentInfo = new StudentInfo(firstName,lastName,"student", university);
-        userInfo = new StudentInfo(firstName,lastName,"student", university);
+        studentInfo = new StudentInfo(university);
+        userInfo = new UserInfo(firstName,lastName,"student");
 
         // Conectar tudo com o banco de dados. Depois fazer isso
 
@@ -109,7 +109,8 @@ public class SignUpActivity extends AppCompatActivity {
                             FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
                             String mUserId  = mFirebaseUser.getUid();
-                            mDatabase.child("users").child(mUserId).child("uinfo").setValue(userInfo);
+                            mDatabase.child("users").child(mUserId).child("userInfo").setValue(userInfo);
+                            mDatabase.child("users").child(mUserId).child("studentInfo").setValue(studentInfo);
                             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
