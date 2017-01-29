@@ -7,7 +7,7 @@ import java.util.List;
  * Created by oandrevictor on 27/01/17.
  */
 
-public class StudentInfo extends UserInfo {
+public class StudentInfo{
 
 
     private String campusId;
@@ -20,8 +20,7 @@ public class StudentInfo extends UserInfo {
         this.favRestaurants = new ArrayList<String>();
     }
 
-    public StudentInfo(String firstName, String lastName, String type, String campusId) {
-        super(firstName,lastName,type);
+    public StudentInfo(String campusId) {
         this.campusId = campusId;
         this.favProducts = new ArrayList<String>();
         this.favRestaurants = new ArrayList<String>();
