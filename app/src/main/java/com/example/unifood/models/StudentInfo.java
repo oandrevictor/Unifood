@@ -15,15 +15,13 @@ public class StudentInfo{
     private List<String> favProducts;
 
     public StudentInfo() {
-        super();
         this.favProducts = new ArrayList<String>();
         this.favRestaurants = new ArrayList<String>();
     }
 
     public StudentInfo(String campusId) {
+        this();
         this.campusId = campusId;
-        this.favProducts = new ArrayList<String>();
-        this.favRestaurants = new ArrayList<String>();
     }
 
 
