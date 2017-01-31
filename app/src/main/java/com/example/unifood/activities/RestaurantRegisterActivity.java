@@ -31,6 +31,7 @@ import butterknife.InjectView;
 
 public class RestaurantRegisterActivity extends AppCompatActivity {
     private static final String TAG = "Restaurant_Signup_Act";
+    private final String OWNER_TYPE = "owner";
     private FirebaseAuth mFirebaseAuth;
     UserInfo userInfo;
     Restaurant restaurant;
@@ -88,7 +89,7 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
 
         restaurant = new Restaurant(restaurant_name, restaurant_university, restaurant_location);
         restaurant.setShortDescription(restaurant_description);
-        userInfo = new UserInfo(user_firstName,user_lastName,"owner");
+        userInfo = new UserInfo(user_firstName,user_lastName, OWNER_TYPE);
 
         // Conectar tudo com o banco de dados.
 

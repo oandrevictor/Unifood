@@ -36,6 +36,7 @@ import static com.example.unifood.R.string.university;
 
 public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "User_Signup_Activity";
+    private final String STUDENT_TYPE = "student";
     private FirebaseAuth mFirebaseAuth;
     UserInfo userInfo;
     StudentInfo studentInfo;
@@ -95,7 +96,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         studentInfo = new StudentInfo(university);
-        userInfo = new UserInfo(firstName,lastName,"student");
+        userInfo = new UserInfo(firstName,lastName,STUDENT_TYPE);
 
         // Conectar tudo com o banco de dados.
 
@@ -130,7 +131,6 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     }
-
 
     public void onSignupSuccess() {
         signupButton.setEnabled(true);
@@ -184,4 +184,5 @@ public class SignUpActivity extends AppCompatActivity {
 
         return valid;
     }
+
 }
