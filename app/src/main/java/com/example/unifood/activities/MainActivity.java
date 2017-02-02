@@ -9,10 +9,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 
 import com.example.unifood.R;
-import com.example.unifood.activities.helpers.UniversityListAdapter;
+import com.example.unifood.adapters.UniversityListAdapter;
 import com.example.unifood.models.University;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_main);
         setUpFirebase();
 
@@ -155,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
         DataSnapshot snapshot;
         public LongOperation(DataSnapshot snapshot){
             this.snapshot = snapshot;
-
         }
 
         @Override
@@ -193,10 +194,14 @@ public class MainActivity extends AppCompatActivity {
             // Set layout for the RecyclerView, because it's a list we are using the linear layout
             universityListRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             universityListRecyclerView.setAdapter(mAdapter);
+            setProgressBarIndeterminateVisibility(false);
         }
 
         @Override
-        protected void onPreExecute() {}
+        protected void onPreExecute() {
+
+            setProgressBarIndeterminateVisibility(true);
+        }
 
         @Override
         protected void onProgressUpdate(Void... values) {}

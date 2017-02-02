@@ -1,4 +1,4 @@
-package com.example.unifood.activities.helpers;
+package com.example.unifood.adapters;
 
 
 import android.content.Context;

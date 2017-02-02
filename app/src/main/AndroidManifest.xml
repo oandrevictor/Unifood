@@ -37,8 +37,6 @@
         <activity android:name=".activities.UniversityActivity" />
         <activity android:name=".activities.UserHomeActivity" />
         <activity android:name=".activities.RestaurantActivity" />
-        <activity android:name=".activities.RestaurantProfileFragment" />
-        <activity android:name=".activities.RestaurantHomeFragment" />
         <activity android:name=".activities.RestaurantRegisterActivity"></activity>
     </application>
 
