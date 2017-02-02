@@ -9,7 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
+import android.widget.TabHost;
+import android.widget.TabHost.TabSpec;
 import com.example.unifood.R;
 import com.example.unifood.adapters.RestaurantListAdapter;
 import com.example.unifood.fragments.RestaurantListFragment;
@@ -57,6 +58,25 @@ public class AdminUniversityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_university);
         setUpFirebase();
         ButterKnife.inject(this);
+
+        TabHost tabHost=(TabHost)findViewById(R.id.host_bar);
+        tabHost.setup();
+
+        TabSpec spec1=tabHost.newTabSpec("Tab 1");
+        spec1.setContent(R.id.tab1);
+        spec1.setIndicator("Unis");
+
+        TabHost.TabSpec spec2=tabHost.newTabSpec("Tab 2");
+        spec2.setIndicator("Restaurantes");
+        spec2.setContent(R.id.tab2);
+
+        TabSpec spec3=tabHost.newTabSpec("Tab 3");
+        spec3.setIndicator("Tab 3");
+        spec3.setContent(R.id.tab3);
+
+        tabHost.addTab(spec1);
+        tabHost.addTab(spec2);
+        tabHost.addTab(spec3);
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
