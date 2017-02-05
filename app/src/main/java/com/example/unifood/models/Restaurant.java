@@ -13,6 +13,7 @@ public class Restaurant {
     private String campusId;
     private List<String> reviewList;
     private List<String> productList;
+    private OwnerInfo owner;
 
     private final String EMPTY = "";
 
@@ -22,14 +23,14 @@ public class Restaurant {
         this.shortDescription = EMPTY;
         this.reviewList = new ArrayList<String>();
         this.productList = new ArrayList<String >();
-
+        this.owner = new OwnerInfo(this.id);
     }
 
     public Restaurant(String name,  String campusId, String localization) {
         this();
         this.name = name;
         this.campusId = campusId;
-	this.localization = localization;
+	    this.localization = localization;
 	}
 
 
@@ -104,4 +105,11 @@ public class Restaurant {
         this.productList = productList;
     }
 
+    public OwnerInfo getOwnerInfo() {
+        return owner;
+    }
+
+    public void setOwnerInfo(OwnerInfo ownerInfo) {
+        this.owner = ownerInfo;
+    }
 }

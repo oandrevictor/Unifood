@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.unifood.R;
+import com.example.unifood.models.OwnerInfo;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.StudentInfo;
 import com.example.unifood.models.UserInfo;
@@ -103,6 +104,7 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
                             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
                             String mUserId  = mFirebaseUser.getUid();
                             mDatabase.child("users").child(mUserId).child("userInfo").setValue(userInfo);
+                            mDatabase.child("users").child(mUserId).child("userInfo").child("ownerInfo").setValue(restaurant.getOwnerInfo());
                             mDatabase.child("restaurants").push().setValue(restaurant);
                             Intent intent = new Intent(RestaurantRegisterActivity.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
