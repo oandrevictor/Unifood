@@ -35,6 +35,7 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
     private final String OWNER_TYPE = "owner";
     private FirebaseAuth mFirebaseAuth;
     UserInfo userInfo;
+    OwnerInfo ownerInfo;
     Restaurant restaurant;
 
     @InjectView(R.id.user_first_name_field) EditText user_first_nameText;
@@ -103,9 +104,14 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
                             FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
                             String mUserId  = mFirebaseUser.getUid();
+
                             mDatabase.child("users").child(mUserId).child("userInfo").setValue(userInfo);
-                            mDatabase.child("users").child(mUserId).child("userInfo").child("ownerInfo").setValue(restaurant.getOwnerInfo());
-                            mDatabase.child("restaurants").push().setValue(restaurant);
+                            restaurant.setUserId(mUserId);
+                            String restaurantKey = mDatabase.child("restaurants").push().getKey();
+                            mDatabase.child("restaurants").child(restaurantKey).setValue(restaurant);
+                            ownerInfo = new OwnerInfo(restaurantKey);
+                            mDatabase.child("users").child(mUserId).child("ownerInfo").setValue(ownerInfo);
+
                             Intent intent = new Intent(RestaurantRegisterActivity.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
