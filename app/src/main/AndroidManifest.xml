@@ -39,7 +39,7 @@
         <activity android:name=".activities.UniversityActivity" />
         <activity android:name=".activities.RestaurantActivity" />
         <activity android:name=".activities.RestaurantRegisterActivity" />
-        <activity android:name=".activities.HomeStudentActivity"></activity>
+        <activity android:name=".activities.StudentHomeActivity"></activity>
     </application>
 
 </manifest>

@@ -6,16 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TabHost;
 
 import com.example.unifood.R;
 
-public class HomeStudentActivity extends AppCompatActivity implements ActionBar.TabListener {
+public class StudentHomeActivity extends AppCompatActivity implements ActionBar.TabListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_student);
+        setContentView(R.layout.activity_student_home);
 
         ActionBar ab = getSupportActionBar();
         ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -40,7 +39,7 @@ public class HomeStudentActivity extends AppCompatActivity implements ActionBar.
                 setContentView(R.layout.fragment_restaurants_list);
                 break;
             case 2:
-                setContentView(R.layout.actionbar_tab_3);
+                setContentView(R.layout.activity_user_profile);
                 break;
         }
     }
