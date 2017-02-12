@@ -1,5 +1,7 @@
 package com.example.unifood.activities;
 
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,34 +10,50 @@ import android.widget.TabHost;
 
 import com.example.unifood.R;
 
-public class HomeStudentActivity extends AppCompatActivity {
+public class HomeStudentActivity extends AppCompatActivity implements ActionBar.TabListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_student);
 
-        TabHost host = (TabHost)findViewById(R.id.tabHost);
-        host.setup();
+        ActionBar ab = getSupportActionBar();
+        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        // Favorites Restaurants
-        TabHost.TabSpec spec = host.newTabSpec("Fav Restaurants");
-        spec.setContent(R.id.home_student_fav_rests);
-        spec.setIndicator("Fav Restaurants");
-        host.addTab(spec);
+        // Three tab to display in actionbar
+        ab.addTab(ab.newTab().setText("Fav Restaurants").setTabListener(this));
+        ab.addTab(ab.newTab().setText("All Restaurants").setTabListener(this));
+        ab.addTab(ab.newTab().setText("My Profile").setTabListener(this));
 
-        //All Restaurants
-        spec = host.newTabSpec("All Restaurants");
-        spec.setContent(R.id.home_student_all_rest);
-        spec.setIndicator("All Restaurants");
-        host.addTab(spec);
+    }
 
-        //My profile
-        spec = host.newTabSpec("My Profile");
-        spec.setContent(R.id.home_student_my_profile);
-        spec.setIndicator("My Profile");
-        host.addTab(spec);
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 
+        //Called when a tab is selected
+        int nTabSelected = tab.getPosition();
+        switch (nTabSelected) {
+            case 0:
+                setContentView(R.layout.fragment_restaurants_list);
+                break;
+            case 1:
+                setContentView(R.layout.fragment_restaurants_list);
+                break;
+            case 2:
+                setContentView(R.layout.actionbar_tab_3);
+                break;
+        }
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        // Called when a tab unselected.
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+        // Called when a tab is selected again.
     }
 
     @Override
