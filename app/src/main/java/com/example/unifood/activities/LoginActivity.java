@@ -190,11 +190,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
-
     /**
      * Setting an OnClickListener to do initialize Restaurant or Student Home Acitivy when login button is clicked.
      */
@@ -227,7 +222,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                Intent intent = new Intent(LoginActivity.this, HomeStudentActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);

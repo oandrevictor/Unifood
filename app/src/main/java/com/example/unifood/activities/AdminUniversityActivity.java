@@ -62,15 +62,15 @@ public class AdminUniversityActivity extends AppCompatActivity {
         TabHost tabHost=(TabHost)findViewById(R.id.host_bar);
         tabHost.setup();
 
-        TabSpec spec1=tabHost.newTabSpec("Tab 1");
+        TabSpec spec1 = tabHost.newTabSpec("Tab 1");
         spec1.setContent(R.id.tab1);
         spec1.setIndicator("Unis");
 
-        TabHost.TabSpec spec2=tabHost.newTabSpec("Tab 2");
+        TabHost.TabSpec spec2 = tabHost.newTabSpec("Tab 2");
         spec2.setIndicator("Restaurantes");
         spec2.setContent(R.id.tab2);
 
-        TabSpec spec3=tabHost.newTabSpec("Tab 3");
+        TabSpec spec3 = tabHost.newTabSpec("Tab 3");
         spec3.setIndicator("Tab 3");
         spec3.setContent(R.id.tab3);
 
@@ -123,8 +123,6 @@ public class AdminUniversityActivity extends AppCompatActivity {
                 Log.e("The read failed: " ,firebaseError.getMessage());
             }
         });
-
-
 
     }
 
