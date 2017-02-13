@@ -42,7 +42,8 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:id="@+id/fullscreen_content"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:weightSum="1">
 
             <EditText
                 android:layout_width="wrap_content"
@@ -85,7 +86,9 @@
                 android:layout_height="wrap_content"
                 android:text="Criar uma conta como estudante."
                 android:layout_gravity="center_horizontal"
-                android:textStyle="normal|bold" />
+                android:textStyle="normal|bold"
+                android:textSize="18sp"
+                android:layout_weight="0.07" />
 
             <TextView
                 android:id="@+id/sign_up_restaurant_text"
@@ -93,7 +96,10 @@
                 android:layout_height="wrap_content"
                 android:text="Registrar um restaurante."
                 android:layout_gravity="center_horizontal"
-                android:textStyle="normal|bold" />
+                android:textStyle="normal|bold"
+                android:textSize="18sp"
+                android:paddingTop="10dp"
+                android:layout_weight="0.06" />
 
 
         </LinearLayout>

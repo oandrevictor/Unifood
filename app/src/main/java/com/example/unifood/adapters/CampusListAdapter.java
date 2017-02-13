@@ -1,4 +1,4 @@
-package com.example.unifood.activities.helpers;
+package com.example.unifood.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

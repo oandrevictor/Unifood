@@ -27,11 +27,6 @@ public class UniversityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_university);
         uniId = getIntent().getStringExtra("UNI_ID"); //*Fix for restaurant
-        String name;
-        name = "Not working yet!";
-        idListed = "";
-        idListed += uniId;
-        idListed += "    end   ";
         mDatabase = FirebaseDatabase.getInstance().getReference();
         ref = mDatabase.child("universities");
         ref.addListenerForSingleValueEvent (new ValueEventListener() {

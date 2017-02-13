@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.unifood.R;
-import com.example.unifood.activities.helpers.CampusListAdapter;
+import com.example.unifood.adapters.CampusListAdapter;
 import com.example.unifood.models.Restaurant;
 
 import java.util.ArrayList;

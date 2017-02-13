@@ -6,40 +6,31 @@ import java.util.List;
 import java.util.UUID;
 
 public class Restaurant {
-    private String id;
     private String name;
     private String localization;
     private String shortDescription;
     private String campusId;
     private List<String> reviewList;
     private List<String> productList;
+    private String userId;
 
     private final String EMPTY = "";
 
     public Restaurant() {
-        id = UUID.randomUUID().toString();
         this.localization = EMPTY;
         this.shortDescription = EMPTY;
+        this.userId = EMPTY;
         this.reviewList = new ArrayList<String>();
         this.productList = new ArrayList<String >();
-
     }
 
     public Restaurant(String name,  String campusId, String localization) {
         this();
         this.name = name;
         this.campusId = campusId;
-	this.localization = localization;
+	    this.localization = localization;
 	}
 
-
-    public String getId(){
-        return id;
-    }
-
-    public void setId(String id1) {
-        this.id= id1;
-    }
 
     public void addRate(String reviewId) {
         this.reviewList.add(reviewId);
@@ -104,4 +95,11 @@ public class Restaurant {
         this.productList = productList;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }

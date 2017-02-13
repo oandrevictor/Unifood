@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    tools:context="com.example.unifood.activities.helpers.CampusListAdapter">
+    tools:context="com.example.unifood.adapters.CampusListAdapter">
 
     <TextView
         android:id="@+id/tv_item_restaurant"
