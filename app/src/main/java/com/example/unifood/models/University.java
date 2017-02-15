@@ -5,13 +5,11 @@ import java.util.List;
 import java.util.UUID;
 
 public class University {
-    private String id;
     private String name;
     private List<String> allCampus;
 
     public University() {
         allCampus = new ArrayList<String>();
-        this.id = UUID.randomUUID().toString();
     }
 
     public University(String name) {
@@ -28,9 +26,6 @@ public class University {
         return false;
     }
 
-    public String getId(){return id;}
-
-    public void setId(String id1){this.id =id1;}
 
     public String getName(){return name;}
 
