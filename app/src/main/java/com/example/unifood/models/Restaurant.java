@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Restaurant {
+    private String id;
     private String name;
     private String localization;
     private String shortDescription;
@@ -70,6 +71,20 @@ public class Restaurant {
     public void setShortDescription(String shortDescription) {
         this.shortDescription = shortDescription;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCampusId() {
+        return campusId;
+    }
+
+
 
     public String getCampus() {
         return campusId;
