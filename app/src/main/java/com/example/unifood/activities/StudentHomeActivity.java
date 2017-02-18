@@ -1,66 +1,73 @@
 package com.example.unifood.activities;
 
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TabHost;
+import android.widget.TabHost.TabSpec;
 
 import com.example.unifood.R;
+import com.example.unifood.firebase.utils.Utilities;
+import com.example.unifood.models.Restaurant;
+import com.example.unifood.models.University;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
-public class StudentHomeActivity extends AppCompatActivity implements ActionBar.TabListener {
+import java.util.ArrayList;
+
+import butterknife.ButterKnife;
+
+public class StudentHomeActivity extends AppCompatActivity  {
+
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+    private DatabaseReference mDatabase;
+    private ArrayList<University> dataSet = new ArrayList<>();
+    private ArrayList<Restaurant> restaurantSet = new ArrayList<>();
+    private Utilities util;
+
+    private TabHost tabHost;
+    private TabSpec spec1,spec2,spec3;
+
+    DatabaseReference ref;
+    DatabaseReference restRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_home);
+        ButterKnife.inject(this);
 
-        ActionBar ab = getSupportActionBar();
-        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        util = new Utilities();
+        util.setUpFirebase(mFirebaseAuth,mFirebaseUser,mDatabase);
 
-        // Three tab to display in actionbar
-        ab.addTab(ab.newTab().setText("Fav Restaurants").setTabListener(this));
-        ab.addTab(ab.newTab().setText("All Restaurants").setTabListener(this));
-        ab.addTab(ab.newTab().setText("My Profile").setTabListener(this));
+        setUpHostBar();
+
+
 
     }
 
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 
-        //Called when a tab is selected
-        int nTabSelected = tab.getPosition();
-        switch (nTabSelected) {
-            case 0:
-                setContentView(R.layout.fragment_restaurants_list);
-                break;
-            case 1:
-                setContentView(R.layout.fragment_restaurants_list);
-                break;
-            case 2:
-                setContentView(R.layout.activity_user_profile);
-                break;
-        }
+    private void setUpHostBar(){
+
+        tabHost=(TabHost)findViewById(R.id.host_bar);
+        tabHost.setup();
+
+        spec1 = tabHost.newTabSpec("Favoritas");
+        spec1.setContent(R.id.tab1);
+        spec1.setIndicator("Favoritas");
+
+        spec2 = tabHost.newTabSpec("Todas");
+        spec2.setIndicator("Todas");
+        spec2.setContent(R.id.tab2);
+
+        tabHost.addTab(spec1);
+        tabHost.addTab(spec2);
+
     }
 
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        // Called when a tab unselected.
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-        // Called when a tab is selected again.
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -6,25 +6,25 @@ import java.util.UUID;
 
 public class Review {
 
+    private String id;
     private String userId;
+    private String restaurantId;
     private int rate;
     private String comment;
     private String date;
     private int likes;
     private int dislikes;
-    private String id;
 
     private final String EMPTY_COMMENT = "";
 
     public Review () {
-        this.id = UUID.randomUUID().toString();;
     }
 
 
 
-    public Review(String userId, int rate, String date) {
-	this();
+    public Review(String userId, String restaurantId, int rate, String date) {
         this.userId = userId;
+        this.restaurantId = restaurantId;
         this.rate = rate;
         this.date = date;
         this.comment = EMPTY_COMMENT;
@@ -32,12 +32,40 @@ public class Review {
         this.likes = 0;
     }
 
-    public Review(String userId, int rate, String comment, String date) {
-        this(userId, rate, date);
+    public Review(String userId, String restaurantId,int rate, String comment, String date) {
+        this(userId, restaurantId, rate, date);
         this.comment = comment;
     }
 
     // Getters and Setters
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(String restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getComment() {
+        return comment;
+    }
 
     public int getRate() {
         return rate;
@@ -79,11 +107,4 @@ public class Review {
         this.dislikes = dislikes;
     }
 
-    public String getId(){
-        return this.id;
-    }
-
-    public void setId(String id){
-        this.id = id;
-    }
 }

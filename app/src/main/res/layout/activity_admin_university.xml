@@ -132,11 +132,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/create_button"
-        android:layout_alignParentBottom="true"
         android:backgroundTint="@android:color/holo_blue_light"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:layout_below="@+id/new_campus_text"
 
-
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp" />
 
 
 </RelativeLayout>

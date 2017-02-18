@@ -1,6 +1,5 @@
 package com.example.unifood.activities;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +11,7 @@ import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import com.example.unifood.R;
-import com.example.unifood.adapters.RestaurantListAdapter;
-import com.example.unifood.fragments.RestaurantListFragment;
+import com.example.unifood.firebase.utils.LoadRestaurants;
 import com.example.unifood.fragments.UniversitiesListFragment;
 import com.example.unifood.adapters.UniversityListAdapter;
 import com.example.unifood.models.Campus;
@@ -31,8 +29,6 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
-import static android.R.attr.fragment;
 
 public class AdminUniversityActivity extends AppCompatActivity {
     String universityName;
@@ -116,13 +112,14 @@ public class AdminUniversityActivity extends AppCompatActivity {
         restRef.addValueEventListener (new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                new AdminUniversityActivity.LoadRestaurants(snapshot).execute();
+                new LoadRestaurants(snapshot, restaurantSet, AdminUniversityActivity.this, R.id.fragment_place2).execute();
             }
             @Override
             public void onCancelled(DatabaseError firebaseError) {
                 Log.e("The read failed: " ,firebaseError.getMessage());
             }
         });
+
 
     }
 
@@ -168,35 +165,5 @@ public class AdminUniversityActivity extends AppCompatActivity {
 
 
 
-    public class LoadRestaurants extends AsyncTask<String, Void, String> {
-        DataSnapshot snapshot;
-        public LoadRestaurants(DataSnapshot snapshot){
-            this.snapshot = snapshot;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            Log.e("Count " ,""+snapshot.getChildrenCount());
-            for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                Restaurant rst = postSnapshot.getValue(Restaurant.class);
-                restaurantSet.add(rst);
-            }
-            return "Executed";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            RestaurantListAdapter restAdapter = new RestaurantListAdapter(AdminUniversityActivity.this, restaurantSet);
-            Fragment fragment1 = getFragmentManager().findFragmentById(R.id.fragment_place2);
-            RestaurantListFragment fragment = (RestaurantListFragment) getFragmentManager().findFragmentById(R.id.fragment_place2);
-            fragment.updateRecycler(restAdapter);
-        }
-
-        @Override
-        protected void onPreExecute() {}
-
-        @Override
-        protected void onProgressUpdate(Void... values) {}
-    }
 
 }

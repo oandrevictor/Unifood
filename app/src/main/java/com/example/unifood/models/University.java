@@ -11,7 +11,6 @@ public class University {
 
     public University() {
         allCampus = new ArrayList<String>();
-        this.id = UUID.randomUUID().toString();
     }
 
     public University(String name) {
