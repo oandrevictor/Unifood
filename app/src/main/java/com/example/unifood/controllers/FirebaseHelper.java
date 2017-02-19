@@ -35,20 +35,12 @@ public class FirebaseHelper {
 
     public University getUniversity(String uniId1){
         this.uniId = uniId1;
-        ref = mDatabase.child("universities");
+        ref = mDatabase.child("universities").child(uniId1);
 
         ref.addListenerForSingleValueEvent (new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-
-                Log.e("Count " ,""+snapshot.getChildrenCount());
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    University unit = postSnapshot.getValue(University.class);
-                    if (unit.getId() == uniId ){
-                        uni = unit;
-                    }
-                }
-
+                uni = snapshot.getValue(University.class);
 
                 Log.e("Entrou " ,""+snapshot.getChildrenCount());
             }

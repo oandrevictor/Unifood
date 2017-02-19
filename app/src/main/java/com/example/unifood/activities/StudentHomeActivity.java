@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
 
 import com.example.unifood.R;
+import com.example.unifood.controllers.FirebaseHelper;
 import com.example.unifood.firebase.utils.LoadRestaurants;
 import com.example.unifood.firebase.utils.Utilities;
 import com.example.unifood.models.Restaurant;
@@ -31,6 +33,8 @@ public class StudentHomeActivity extends AppCompatActivity  {
     private DatabaseReference mDatabase;
     private ArrayList<University> dataSet = new ArrayList<>();
     private ArrayList<Restaurant> restaurantSet = new ArrayList<>();
+    private ArrayList<Restaurant> faveRestaurantSet = new ArrayList<>();
+
     private Utilities util;
 
     private TabHost tabHost;
@@ -50,6 +54,16 @@ public class StudentHomeActivity extends AppCompatActivity  {
 
         setUpHostBar();
 
+        loadAllRestaurants();
+
+        loadSavedRestaurants();
+
+    }
+    @Override
+    public void onBackPressed() {
+    }
+
+    private void loadAllRestaurants(){
         restRef = mDatabase.child("restaurants");
         restRef.addValueEventListener (new ValueEventListener() {
             @Override
@@ -62,11 +76,21 @@ public class StudentHomeActivity extends AppCompatActivity  {
             }
         });
 
-
-
     }
-    @Override
-    public void onBackPressed() {
+
+    private void loadSavedRestaurants(){
+        ref = mDatabase.child("users").child(mFirebaseUser.getUid()).child("StudentInfo").child("favRestaurants");
+        ref.addValueEventListener (new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshotx) {
+                
+                new LoadRestaurants(snapshotx, faveRestaurantSet, StudentHomeActivity.this, R.id.saved_restaurants).execute();
+            }
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Log.e("The read failed: " ,firebaseError.getMessage());
+            }
+        });
     }
 
     private void setUpHostBar(){
