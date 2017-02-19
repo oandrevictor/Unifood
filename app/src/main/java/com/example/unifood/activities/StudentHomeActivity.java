@@ -1,5 +1,6 @@
 package com.example.unifood.activities;
 
+import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,9 +10,11 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 import com.example.unifood.R;
+import com.example.unifood.adapters.RestaurantListAdapter;
 import com.example.unifood.controllers.FirebaseHelper;
 import com.example.unifood.firebase.utils.LoadRestaurants;
 import com.example.unifood.firebase.utils.Utilities;
+import com.example.unifood.fragments.RestaurantListFragment;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.University;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +29,8 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 
+import static com.google.android.gms.common.stats.zzc.Ar;
+
 public class StudentHomeActivity extends AppCompatActivity  {
 
     private FirebaseAuth mFirebaseAuth;
@@ -34,6 +39,7 @@ public class StudentHomeActivity extends AppCompatActivity  {
     private ArrayList<University> dataSet = new ArrayList<>();
     private ArrayList<Restaurant> restaurantSet = new ArrayList<>();
     private ArrayList<Restaurant> faveRestaurantSet = new ArrayList<>();
+    private ArrayList<String> faveReferences = new ArrayList<>();
 
     private Utilities util;
 
@@ -41,7 +47,9 @@ public class StudentHomeActivity extends AppCompatActivity  {
     private TabSpec spec1,spec2,spec3;
 
     DatabaseReference ref;
+    DatabaseReference auxRef;
     DatabaseReference restRef;
+    ValueEventListener getFaveListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +87,37 @@ public class StudentHomeActivity extends AppCompatActivity  {
     }
 
     private void loadSavedRestaurants(){
-        ref = mDatabase.child("users").child(mFirebaseUser.getUid()).child("StudentInfo").child("favRestaurants");
-        ref.addValueEventListener (new ValueEventListener() {
+        ref = mDatabase.child("users").child(mFirebaseUser.getUid()).child("studentInfo").child("favRestaurants");
+
+
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshotx) {
-                
-                new LoadRestaurants(snapshotx, faveRestaurantSet, StudentHomeActivity.this, R.id.saved_restaurants).execute();
+                Log.e("Arrombaram ","");
+                for (DataSnapshot postSnapshotx: snapshotx.getChildren()) {
+                    String refr = postSnapshotx.getValue(String.class);
+                    auxRef = mDatabase.child("restaurants").child(refr);
+
+
+                    auxRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshoty) {
+                            Restaurant rest = snapshoty.getValue(Restaurant.class);
+                            faveRestaurantSet.add(rest);
+                        }
+
+
+                        @Override
+                        public void onCancelled(DatabaseError firebaseError) {
+                            Log.e("The read failed: " ,firebaseError.getMessage());
+                        }
+                    });
+
+
+                }
+
+                paintRestaurants();
+
             }
             @Override
             public void onCancelled(DatabaseError firebaseError) {
@@ -93,6 +126,13 @@ public class StudentHomeActivity extends AppCompatActivity  {
         });
     }
 
+
+    private void paintRestaurants(){
+        RestaurantListAdapter restAdapter = new RestaurantListAdapter(this, faveRestaurantSet);
+        RestaurantListFragment fragment = (RestaurantListFragment) getFragmentManager().findFragmentById(R.id.saved_restaurants);
+        fragment.updateRecycler(restAdapter);
+
+    }
     private void setUpHostBar(){
 
         tabHost =(TabHost)findViewById(R.id.host_bar);
