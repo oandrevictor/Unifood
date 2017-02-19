@@ -2,17 +2,23 @@ package com.example.unifood.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
 import com.example.unifood.R;
+import com.example.unifood.firebase.utils.LoadRestaurants;
 import com.example.unifood.firebase.utils.Utilities;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.University;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -40,10 +46,21 @@ public class StudentHomeActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_student_home);
         ButterKnife.inject(this);
 
-        util = new Utilities();
-        util.setUpFirebase(mFirebaseAuth,mFirebaseUser,mDatabase);
+        setUpFirebase();
 
         setUpHostBar();
+
+        restRef = mDatabase.child("restaurants");
+        restRef.addValueEventListener (new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                new LoadRestaurants(snapshot, restaurantSet, StudentHomeActivity.this, R.id.all_restaurants).execute();
+            }
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Log.e("The read failed: " ,firebaseError.getMessage());
+            }
+        });
 
 
 
@@ -52,7 +69,7 @@ public class StudentHomeActivity extends AppCompatActivity  {
 
     private void setUpHostBar(){
 
-        tabHost=(TabHost)findViewById(R.id.host_bar);
+        tabHost =(TabHost)findViewById(R.id.host_bar);
         tabHost.setup();
 
         spec1 = tabHost.newTabSpec("Favoritas");
@@ -68,6 +85,11 @@ public class StudentHomeActivity extends AppCompatActivity  {
 
     }
 
+    public void setUpFirebase(){
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
