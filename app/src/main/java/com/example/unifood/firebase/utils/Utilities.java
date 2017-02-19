@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 
 public class Utilities {
-
+    //doesnt work
     public void setUpFirebase(FirebaseAuth mFirebaseAuth, FirebaseUser mFirebaseUser, DatabaseReference mDatabase){
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();

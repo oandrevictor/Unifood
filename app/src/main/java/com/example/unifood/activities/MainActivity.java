@@ -29,6 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static android.R.attr.type;
+
 public class MainActivity extends AppCompatActivity {
     private UniversityListAdapter mAdapter;
     private FirebaseAuth mFirebaseAuth;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private ArrayList<University> dataSet = new ArrayList<>();
     DatabaseReference ref;
+    String userType;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -53,6 +56,26 @@ public class MainActivity extends AppCompatActivity {
         if (mFirebaseUser == null) {
             // Not logged in, launch the Log In activity
             startLogInActivity();
+        }
+        else{
+            String uid = mFirebaseUser.getUid();
+            ref= mDatabase.child("users").child(uid).child("userInfo").child("type");
+            userType = "";
+            ref.addValueEventListener (new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    Log.e("h", snapshot.getKey());
+                    userType = snapshot.getValue(String.class);
+                    if (userType.equals("student")){
+                        startStudentHome();
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError firebaseError) {
+                    Log.e("The read failed: " ,firebaseError.getMessage());
+                }
+            });
+
         }
 
         // Click SignOut Button
@@ -115,6 +138,12 @@ public class MainActivity extends AppCompatActivity {
         Class admActivity = AdminUniversityActivity.class;
         Intent goToAdm = new Intent(this, admActivity);
         startActivity(goToAdm);
+    }
+
+    private void startStudentHome(){
+        Class studentHome = StudentHomeActivity.class;
+        Intent goToSHome = new Intent(this, studentHome);
+        startActivity(goToSHome);
     }
 
     /**
