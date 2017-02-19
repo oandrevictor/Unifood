@@ -65,7 +65,9 @@ public class StudentHomeActivity extends AppCompatActivity  {
 
 
     }
-
+    @Override
+    public void onBackPressed() {
+    }
 
     private void setUpHostBar(){
 
