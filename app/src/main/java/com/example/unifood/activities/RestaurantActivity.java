@@ -53,7 +53,6 @@ public class RestaurantActivity extends AppCompatActivity {
 
     private void loadReviews() {
         reviewsRef = mDatabase.child("reviews");
-
     }
 
     private void loadProducts() {

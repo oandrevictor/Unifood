@@ -60,9 +60,7 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <android.support.v7.widget.RecyclerView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -71,28 +69,6 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="phone"
-                            android:ems="10"
-                            android:id="@+id/restaurant_number" />
-
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:text="Name"
-                            android:ems="10"
-                            android:id="@+id/restaurant_local" />
-
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:text="Name"
-                            android:ems="10"
-                            android:id="@+id/restaurant_name" />
                     </LinearLayout>
                 </FrameLayout>
             </LinearLayout>
