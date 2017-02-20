@@ -1,78 +1,110 @@
 package com.example.unifood.activities;
 
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
+import android.widget.TabHost;
+import android.widget.TabHost.TabSpec;
 
 import com.example.unifood.R;
-import com.example.unifood.activities.helpers.TabsPagerAdapter;
+import com.example.unifood.firebase.utils.Utilities;
+import com.example.unifood.models.Product;
+import com.example.unifood.models.Review;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-public class RestaurantActivity extends FragmentActivity implements
-        ActionBar.TabListener {
+import java.util.ArrayList;
 
-    private ViewPager viewPager;
-    private TabsPagerAdapter mAdapter;
-    private ActionBar actionBar;
-    // Tab titles
-    private String[] tabs = { "Início", "Perfil" };
+public class RestaurantActivity extends AppCompatActivity {
+
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+    private DatabaseReference mDatabase;
+    private ArrayList<Review> reviewSet = new ArrayList<>();
+    private ArrayList<Product> productSet = new ArrayList<>();
+
+    private Utilities util;
+
+    private TabHost tabHost;
+    private TabSpec spec1, spec2, spec3;
+
+    DatabaseReference profileRef;
+    DatabaseReference reviewsRef;
+    DatabaseReference productsRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_restaurant);
+        setUpFirebase();
+        setUpHostBar();
 
-        // Initilization
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        actionBar = getActionBar();
-        mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+        loadProfile();
+        loadReviews();
+        loadProducts();
 
-        viewPager.setAdapter(mAdapter);
-        actionBar.setHomeButtonEnabled(false);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+    }
 
-        // Adding Tabs
-        for (String tab_name : tabs) {
-            actionBar.addTab(actionBar.newTab().setText(tab_name)
-                    .setTabListener(this));
+    private void loadProfile() {
+        profileRef = mDatabase.child("restaurants");
+    }
+
+    private void loadReviews() {
+        reviewsRef = mDatabase.child("reviews");
+
+    }
+
+    private void loadProducts() {
+        productsRef = mDatabase.child("products");
+    }
+
+    @Override
+    public void onBackPressed() {
+    }
+
+    private void setUpHostBar(){
+
+        tabHost =(TabHost)findViewById(R.id.host_bar);
+        tabHost.setup();
+
+        spec1 = tabHost.newTabSpec("Informações");
+        spec1.setIndicator("Informações");
+        spec1.setContent(R.id.tab1);
+
+        spec2 = tabHost.newTabSpec("Cardápio");
+        spec2.setIndicator("Cardápio");
+        spec2.setContent(R.id.tab2);
+
+        spec3 = tabHost.newTabSpec("Avaliações");
+        spec3.setIndicator("Avaliações");
+        spec3.setContent(R.id.tab3);
+
+        tabHost.addTab(spec1);
+        tabHost.addTab(spec2);
+        tabHost.addTab(spec3);
+
+    }
+
+    public void setUpFirebase(){
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
 
-        /**
-         * on swiping the viewpager make respective tab selected
-         * */
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                // on changing the page
-                // make respected tab selected
-                actionBar.setSelectedNavigationItem(position);
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-            }
-        });
-    }
-
-    @Override
-    public void onTabReselected(Tab tab, FragmentTransaction ft) {
-    }
-
-    @Override
-    public void onTabSelected(Tab tab, FragmentTransaction ft) {
-        // on tab selected
-        // show respected fragment view
-        viewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+        return super.onOptionsItemSelected(item);
     }
 }
