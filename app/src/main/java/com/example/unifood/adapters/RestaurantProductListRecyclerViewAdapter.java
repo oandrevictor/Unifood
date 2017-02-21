@@ -54,6 +54,7 @@ public class RestaurantProductListRecyclerViewAdapter extends RecyclerView.Adapt
 
 
 
+    // View Holder CLASS
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;

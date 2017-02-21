@@ -12,7 +12,7 @@ public class Restaurant {
     private String shortDescription;
     private String campusId;
     private List<String> reviewList;
-    private List<String> productList;
+    private List<Product> productList;
     private String userId;
 
     private final String EMPTY = "";
@@ -22,7 +22,7 @@ public class Restaurant {
         this.shortDescription = EMPTY;
         this.userId = EMPTY;
         this.reviewList = new ArrayList<String>();
-        this.productList = new ArrayList<String >();
+        this.productList = new ArrayList<Product>();
     }
 
     public Restaurant(String name,  String campusId, String localization) {
@@ -37,8 +37,8 @@ public class Restaurant {
         this.reviewList.add(reviewId);
     }
 
-    private void addProduct(String productId) {
-        this.productList.add(productId);
+    private void addProduct(Product product) {
+        this.productList.add(product);
     }
 
     private void removeProduct(String productId) {
@@ -102,11 +102,11 @@ public class Restaurant {
         this.reviewList = reviewList;
     }
 
-    public List<String> getProductList() {
+    public List<Product> getProductList() {
         return productList;
     }
 
-    public void setProductList(List<String> productList) {
+    public void setProductList(List<Product> productList) {
         this.productList = productList;
     }
 

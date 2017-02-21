@@ -14,6 +14,9 @@ import com.example.unifood.R;
 import com.example.unifood.adapters.RestaurantProductListRecyclerViewAdapter;
 import com.example.unifood.models.Product;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -22,11 +25,10 @@ import com.example.unifood.models.Product;
  */
 public class RestaurantProductListFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private List<Product> mRestaurantProductList;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -35,7 +37,6 @@ public class RestaurantProductListFragment extends Fragment {
     public RestaurantProductListFragment() {
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static RestaurantProductListFragment newInstance(int columnCount) {
         RestaurantProductListFragment fragment = new RestaurantProductListFragment();
@@ -103,5 +104,9 @@ public class RestaurantProductListFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(Product item);
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.mRestaurantProductList = productList;
     }
 }

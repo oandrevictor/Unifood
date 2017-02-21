@@ -93,10 +93,10 @@ public class RestaurantActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
-                List<String> productList = restaurant.getProductList();
+                List<Product> productList = restaurant.getProductList();
                 AppCompatActivity activity = RestaurantActivity.this;
                 RestaurantProductListFragment fragment = (RestaurantProductListFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_products);
-                // Colocar essa productList no Fragment.
+                fragment.setProductList(productList);
             }
 
             @Override
