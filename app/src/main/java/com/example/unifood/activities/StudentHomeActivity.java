@@ -1,10 +1,13 @@
 package com.example.unifood.activities;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
@@ -66,10 +69,19 @@ public class StudentHomeActivity extends AppCompatActivity  {
 
         loadSavedRestaurants();
 
+        Button editButton = (Button) this.findViewById(R.id.user_edit_button);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startEditActivity(); //* Not sure if will work, starts the LogInActivity Again
+            }
+        });
+
     }
+    /* needs to be uncommented in order to not go back to future loading screen.
     @Override
     public void onBackPressed() {
-    }
+    }*/
 
     private void loadAllRestaurants(){
         restRef = mDatabase.child("restaurants");
@@ -93,7 +105,6 @@ public class StudentHomeActivity extends AppCompatActivity  {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshotx) {
-                Log.e("Arrombaram ","");
                 for (DataSnapshot postSnapshotx: snapshotx.getChildren()) {
                     String refr = postSnapshotx.getValue(String.class);
                     auxRef = mDatabase.child("restaurants").child(refr);
@@ -170,6 +181,12 @@ public class StudentHomeActivity extends AppCompatActivity  {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void startEditActivity(){
+        Class editActivity = StudentEditActivity.class;
+        Intent goToEdit = new Intent(this, editActivity);
+        startActivity(goToEdit);
     }
 
 }
