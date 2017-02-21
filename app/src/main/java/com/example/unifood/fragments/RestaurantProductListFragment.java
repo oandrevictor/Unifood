@@ -14,7 +14,6 @@ import com.example.unifood.R;
 import com.example.unifood.adapters.RestaurantProductListRecyclerViewAdapter;
 import com.example.unifood.models.Product;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -92,6 +91,10 @@ public class RestaurantProductListFragment extends Fragment {
         mListener = null;
     }
 
+    public void setProductList(List<Product> productList) {
+        this.mRestaurantProductList = productList;
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -106,7 +109,4 @@ public class RestaurantProductListFragment extends Fragment {
         void onListFragmentInteraction(Product item);
     }
 
-    public void setProductList(List<Product> productList) {
-        this.mRestaurantProductList = productList;
-    }
 }
