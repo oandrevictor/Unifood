@@ -6,17 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.unifood.R;
-import com.example.unifood.fragments.RestaurantProductListFragment;
+import com.example.unifood.fragments.RestaurantProductFragment;
 import com.example.unifood.models.Product;
 import java.util.List;
 
 
-public class RestaurantProductListRecyclerViewAdapter extends RecyclerView.Adapter<RestaurantProductListRecyclerViewAdapter.ViewHolder> {
+public class RestaurantProductRecyclerViewAdapter extends RecyclerView.Adapter<RestaurantProductRecyclerViewAdapter.ViewHolder> {
 
     private final List<Product> mProducts;
-    private final RestaurantProductListFragment.OnListFragmentInteractionListener mListener;
+    private final RestaurantProductFragment.OnListFragmentInteractionListener mListener;
 
-    public RestaurantProductListRecyclerViewAdapter(List<Product> products, RestaurantProductListFragment.OnListFragmentInteractionListener listener) {
+    public RestaurantProductRecyclerViewAdapter(List<Product> products, RestaurantProductFragment.OnListFragmentInteractionListener listener) {
         mProducts = products;
         mListener = listener;
     }
