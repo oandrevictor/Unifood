@@ -10,6 +10,7 @@ import android.widget.TabHost.TabSpec;
 
 import com.example.unifood.R;
 import com.example.unifood.firebase.utils.Utilities;
+import com.example.unifood.fragments.RestaurantProductListFragment;
 import com.example.unifood.fragments.RestaurantProfileFragment;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
@@ -23,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RestaurantActivity extends AppCompatActivity {
 
@@ -87,7 +89,21 @@ public class RestaurantActivity extends AppCompatActivity {
     }
 
     private void loadProducts() {
-        productsRef = mDatabase.child("products");
+        restaurantRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
+                List<String> productList = restaurant.getProductList();
+                AppCompatActivity activity = RestaurantActivity.this;
+                RestaurantProductListFragment fragment = (RestaurantProductListFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_products);
+                // Colocar essa productList no Fragment.
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
     }
 
     @Override

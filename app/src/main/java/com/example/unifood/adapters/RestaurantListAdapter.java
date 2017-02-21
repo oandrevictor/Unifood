@@ -16,6 +16,8 @@ import com.example.unifood.activities.UniversityActivity;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.University;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import static com.example.unifood.R.string.university;
@@ -63,22 +65,14 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
         TextView titleTextView;
         TextView rating;
         TextView localizationTextView;
-        Button openButton;
         Restaurant restaurant;
 
-        /**
-         * Constructor for our ViewHolder. Within this constructor, we get a reference to our
-         * TextViews
-         *
-         * @param itemView The View that you inflated in
-         *                 {@link UniversityListAdapter#onCreateViewHolder(ViewGroup, int)}
-         */
         public RestaurantViewHolder(View itemView) {
             super(itemView);
-           titleTextView = (TextView) itemView.findViewById(R.id.restaurant_item_title);
+            titleTextView = (TextView) itemView.findViewById(R.id.restaurant_item_title);
+            rating = (TextView) itemView.findViewById(R.id.restaurant_rating_value);
             localizationTextView = (TextView) itemView.findViewById(R.id.restaurant_item_location);
-            /*openButton = (Button)itemView.findViewById(R.id.open_item_button);
-            openButton.setOnClickListener(new View.OnClickListener() {
+            titleTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //* we are actually open the restaurant view, but thats a detail;
@@ -87,7 +81,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
                     intent.putExtra("REST_ID", restaurant.getId());
                     mContext.startActivity(intent);
                 }
-            });*/
+            });
 
         }
         public void setRestaurant(Restaurant restaurant1){

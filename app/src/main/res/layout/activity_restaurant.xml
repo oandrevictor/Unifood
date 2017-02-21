@@ -60,6 +60,13 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
+                        <fragment
+                            android:name="com.example.unifood.fragments.RestaurantProductListFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/restaurant_products"
+                            tools:layout="@layout/fragment_restaurant_product_list" />
+
                     </LinearLayout>
 
                     <LinearLayout
