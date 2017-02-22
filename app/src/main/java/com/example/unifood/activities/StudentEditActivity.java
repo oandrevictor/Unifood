@@ -1,6 +1,7 @@
 package com.example.unifood.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.unifood.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,7 +49,7 @@ public class StudentEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_edit);
         ButterKnife.inject(this);
         setUpFirebase();
-
+        emailField.setText(mFirebaseUser.getEmail());
         mDatabase.child("campus").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -83,10 +85,6 @@ public class StudentEditActivity extends AppCompatActivity {
                 });
             }
 
-
-
-
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -99,8 +97,6 @@ public class StudentEditActivity extends AppCompatActivity {
                 updateInfo();
             }
         });
-
-
 
     }
 
@@ -121,11 +117,27 @@ public class StudentEditActivity extends AppCompatActivity {
         DatabaseReference uInfo = mDatabase.child("users").child(uid).child("userInfo");
         uInfo.child("firstName").setValue(firstName);
         uInfo.child("lastName").setValue(lastName);
-        mDatabase.child("users").child(uid).child("studentInfo").child("campusId").setValue(campus);
-        progressDialog.dismiss();
+        mDatabase.child("users").child(uid).child("studentInfo").child("campusId").setValue(campus, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
+                if (firebaseError != null) {
+                    progressDialog.dismiss();
+                    Toast.makeText(StudentEditActivity.this, "Não foi possível Atualizar", Toast.LENGTH_SHORT).show();
 
+                } else {
+                    progressDialog.dismiss();
+                    Toast.makeText(StudentEditActivity.this, "Informações Atualizadas", Toast.LENGTH_SHORT).show();
+                }
+                startHomeActivity();
+            }
+        });
 
+    }
 
+    public void startHomeActivity(){
+        Class homeActivity = StudentHomeActivity.class;
+        Intent goToHome = new Intent(this, homeActivity);
+        startActivity(goToHome);
     }
 
 

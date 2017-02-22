@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.unifood.R;
 import com.example.unifood.adapters.RestaurantListAdapter;
@@ -43,6 +46,7 @@ public class StudentHomeActivity extends AppCompatActivity  {
     private ArrayList<Restaurant> restaurantSet = new ArrayList<>();
     private ArrayList<Restaurant> faveRestaurantSet = new ArrayList<>();
     private ArrayList<String> faveReferences = new ArrayList<>();
+    RestaurantListAdapter restAdapter;
 
     private Utilities util;
 
@@ -68,16 +72,27 @@ public class StudentHomeActivity extends AppCompatActivity  {
         loadAllRestaurants();
 
         loadSavedRestaurants();
+        paintRestaurants();
 
-        Button editButton = (Button) this.findViewById(R.id.user_edit_button);
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startEditActivity(); //* Not sure if will work, starts the LogInActivity Again
-            }
-        });
+        for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
+            View v = tabHost.getTabWidget().getChildAt(i);
+            v.setBackgroundResource(R.color.colorPrimary);
+
+            TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+            tv.setTextColor(getResources().getColor(R.color.white));
+        }
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+
     /* needs to be uncommented in order to not go back to future loading screen.
     @Override
     public void onBackPressed() {
@@ -99,12 +114,15 @@ public class StudentHomeActivity extends AppCompatActivity  {
     }
 
     private void loadSavedRestaurants(){
-        ref = mDatabase.child("users").child(mFirebaseUser.getUid()).child("studentInfo").child("favRestaurants");
 
+        String uid = mFirebaseUser.getUid();
+        ref = mDatabase.child("users").child(uid).child("studentInfo").child("favRestaurants");
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshotx) {
+                faveRestaurantSet = new ArrayList<>();
+
                 for (DataSnapshot postSnapshotx: snapshotx.getChildren()) {
                     String refr = postSnapshotx.getValue(String.class);
                     auxRef = mDatabase.child("restaurants").child(refr);
@@ -115,6 +133,8 @@ public class StudentHomeActivity extends AppCompatActivity  {
                         public void onDataChange(DataSnapshot snapshoty) {
                             Restaurant rest = snapshoty.getValue(Restaurant.class);
                             faveRestaurantSet.add(rest);
+                            restAdapter.notifyDataSetChanged();
+                            
                         }
 
 
@@ -127,7 +147,7 @@ public class StudentHomeActivity extends AppCompatActivity  {
 
                 }
 
-                paintRestaurants();
+
 
             }
             @Override
@@ -138,11 +158,12 @@ public class StudentHomeActivity extends AppCompatActivity  {
     }
 
 
+
+
     private void paintRestaurants(){
-        RestaurantListAdapter restAdapter = new RestaurantListAdapter(this, faveRestaurantSet);
+        restAdapter = new RestaurantListAdapter(this, faveRestaurantSet);
         RestaurantListFragment fragment = (RestaurantListFragment) getFragmentManager().findFragmentById(R.id.saved_restaurants);
         fragment.updateRecycler(restAdapter);
-
     }
     private void setUpHostBar(){
 
@@ -160,6 +181,7 @@ public class StudentHomeActivity extends AppCompatActivity  {
         tabHost.addTab(spec1);
         tabHost.addTab(spec2);
 
+
     }
 
     public void setUpFirebase(){
@@ -176,7 +198,12 @@ public class StudentHomeActivity extends AppCompatActivity  {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.update_user_info) {
+            startEditActivity();
+            return true;
+        }
+        else if(id == R.id.user_sign_off){
+
             return true;
         }
 
