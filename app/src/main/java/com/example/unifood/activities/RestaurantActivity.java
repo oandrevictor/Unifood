@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import com.example.unifood.fragments.RestaurantReviewFragment;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
+import com.example.unifood.models.Util;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,8 +34,6 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
-
-    private Utilities util;
 
     private TabHost tabHost;
     private TabSpec spec1, spec2, spec3;
@@ -176,6 +176,14 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
 
     public void onListFragmentInteraction(Review item) {
 
+    }
+
+    public void newReviewFromFragment(float newRate, String newComment) {
+
+        String newData = Util.getInstancia().getCurrentDate();
+        Review newReview = new Review(mFirebaseUser.getUid(), restaurantUId, newRate, newComment, newData);
+
+        // TODO: passar esta review pra lista de reviews do restaurantes
     }
 
 }
