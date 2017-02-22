@@ -118,4 +118,8 @@ public class Restaurant {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    public void addReview(Review review) {
+        this.reviewList.add(review);
+    }
 }

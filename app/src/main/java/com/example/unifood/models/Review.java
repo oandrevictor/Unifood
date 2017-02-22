@@ -9,7 +9,7 @@ public class Review {
     private String id;
     private String userId;
     private String restaurantId;
-    private int rate;
+    private float rate;
     private String comment;
     private String date;
     private int likes;
@@ -23,7 +23,7 @@ public class Review {
 
 
 
-    public Review(String userId, String restaurantId, int rate, String date) {
+    public Review(String userId, String restaurantId, float rate, String date) {
         this.userId = userId;
         this.restaurantId = restaurantId;
         this.rate = rate;
@@ -33,7 +33,7 @@ public class Review {
         this.likes = 0;
     }
 
-    public Review(String userId, String restaurantId,int rate, String comment, String date) {
+    public Review(String userId, String restaurantId, float rate, String comment, String date) {
         this(userId, restaurantId, rate, date);
         this.comment = comment;
     }
@@ -68,11 +68,11 @@ public class Review {
         return comment;
     }
 
-    public int getRate() {
+    public float getRate() {
         return rate;
     }
 
-    public void setRate(int rate) {
+    public void setRate(float rate) {
         this.rate = rate;
     }
 

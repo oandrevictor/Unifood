@@ -11,10 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
+import android.widget.Toast;
 
 import com.example.unifood.R;
 import com.example.unifood.adapters.RestaurantReviewRecyclerViewAdapter;
 import com.example.unifood.models.Review;
+import com.example.unifood.models.Util;
 
 import java.util.List;
 
@@ -23,7 +26,8 @@ import butterknife.InjectView;
 
 public class RestaurantReviewFragment extends Fragment {
 
-    @InjectView(R.id.new_review_comment) EditText newComment_Text;
+    @InjectView(R.id.new_review_comment) EditText newCommentText;
+    @InjectView(R.id.new_review_rate) RatingBar newRateStar;
     @InjectView(R.id.new_review_button)  Button newReviewButton;
 
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -51,13 +55,7 @@ public class RestaurantReviewFragment extends Fragment {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
 
-        newReviewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createNewReview();
-            }
-        });
-
+        addListenerRatingBar();
     }
 
     @Override
@@ -100,13 +98,28 @@ public class RestaurantReviewFragment extends Fragment {
         this.mRestaurantReviewList = reviews;
     }
 
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Review item);
+    public void addListenerRatingBar() {
+        newReviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewReview();
+            }
+        });
     }
 
     private void createNewReview() {
-        String newComment = newComment_Text.getText().toString();
 
+        Float newRate = newRateStar.getRating();
+        String newComment = newCommentText.getText().toString();
+
+        mListener.newReviewFromFragment(newRate, newComment);
+        // TODO: verificar se essa chamada está realmente chamando o método newReview.. na activity
+    }
+
+    public interface OnListFragmentInteractionListener {
+        void onListFragmentInteraction(Review item);
+
+        void newReviewFromFragment(float newRate, String newComment);
     }
 
 }
