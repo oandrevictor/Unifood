@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.unifood.R;
 import com.example.unifood.adapters.RestaurantReviewRecyclerViewAdapter;
@@ -16,8 +18,13 @@ import com.example.unifood.models.Review;
 
 import java.util.List;
 
+import butterknife.InjectView;
+
 
 public class RestaurantReviewFragment extends Fragment {
+
+    @InjectView(R.id.new_review_comment) EditText newComment_Text;
+    @InjectView(R.id.new_review_button)  Button newReviewButton;
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
@@ -43,6 +50,14 @@ public class RestaurantReviewFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+        newReviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewReview();
+            }
+        });
+
     }
 
     @Override
@@ -87,6 +102,11 @@ public class RestaurantReviewFragment extends Fragment {
 
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(Review item);
+    }
+
+    private void createNewReview() {
+        String newComment = newComment_Text.getText().toString();
+
     }
 
 }

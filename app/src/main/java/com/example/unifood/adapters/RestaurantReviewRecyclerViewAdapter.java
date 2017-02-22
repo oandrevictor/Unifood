@@ -35,8 +35,6 @@ public class RestaurantReviewRecyclerViewAdapter extends RecyclerView.Adapter<Re
         holder.mReview = mReviews.get(position);
         holder.mRate.setText( Integer.toString( mReviews.get(position).getRate() ) );
         holder.mDate.setText(mReviews.get(position).getDate());
-        holder.mLikes.setText( Integer.toString( mReviews.get(position).getLikes() ) );
-        holder.mDislikes.setText( Integer.toString( mReviews.get(position).getDislikes() ) );
         holder.mComment.setText(mReviews.get(position).getComment());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -64,8 +62,6 @@ public class RestaurantReviewRecyclerViewAdapter extends RecyclerView.Adapter<Re
         public final View mView;
         public final TextView mRate;
         public final TextView mDate;
-        public final TextView mLikes;
-        public final TextView mDislikes;
         public final TextView mComment;
         public Review mReview;
 
@@ -75,8 +71,6 @@ public class RestaurantReviewRecyclerViewAdapter extends RecyclerView.Adapter<Re
             mView = itemView;
             mRate = (TextView) itemView.findViewById(R.id.rest_review_rate);
             mDate = (TextView) itemView.findViewById(R.id.rest_review_date);
-            mLikes = (TextView) itemView.findViewById(R.id.rest_review_likes);
-            mDislikes = (TextView) itemView.findViewById(R.id.rest_review_dislikes);
             mComment = (TextView) itemView.findViewById(R.id.rest_review_comment);
 
         }

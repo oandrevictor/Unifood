@@ -18,6 +18,7 @@ public class Review {
     private final String EMPTY_COMMENT = "";
 
     public Review () {
+
     }
 
 
