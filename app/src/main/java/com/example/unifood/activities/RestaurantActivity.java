@@ -16,7 +16,6 @@ import com.example.unifood.fragments.RestaurantReviewFragment;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
-import com.example.unifood.adapters.RestaurantProductListRecyclerViewAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -172,6 +171,10 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
     }
     
     public void onListFragmentInteraction(Product item) {
+
+    }
+
+    public void onListFragmentInteraction(Review item) {
 
     }
 
