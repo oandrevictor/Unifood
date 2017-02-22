@@ -74,10 +74,18 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
                 AppCompatActivity activity = RestaurantActivity.this;
-                boolean deuRuim = (restaurant == null) ? true : false;
-                System.out.println("Deu ruim? " + deuRuim);
-                RestaurantProfileFragment fragment = (RestaurantProfileFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_profile);
-                //fragment.setRestaurantInfo(restaurant.getName(), restaurant.getCampus(), restaurant.getLocalization());
+
+                String[] restInfo = new String[3];
+                restInfo[0] = restaurant.getName();
+                restInfo[1] = restaurant.getCampus();
+                restInfo[2] = restaurant.getLocalization();
+
+                Bundle bundle = new Bundle();
+                bundle.putStringArray("rInfos", restInfo);
+
+                RestaurantProfileFragment fragment = new RestaurantProfileFragment();
+                fragment.setArguments(bundle);
+                fragment = (RestaurantProfileFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_profile);
 
             }
 
@@ -113,6 +121,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
                 Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
                 List<Review> reviewList = restaurant.getReviewList();
                 AppCompatActivity activity = RestaurantActivity.this;
+                RestaurantReviewFragment fragment = (RestaurantReviewFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_reviews);
             }
 
             @Override
@@ -178,12 +187,13 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
 
     }
 
-    public void newReviewFromFragment(float newRate, String newComment) {
+    public void newReviewFromFragment(float newRate, String newComment, List<Review> restaurantReviews) {
 
         String newData = Util.getInstancia().getCurrentDate();
         Review newReview = new Review(mFirebaseUser.getUid(), restaurantUId, newRate, newComment, newData);
-
-        // TODO: passar esta review pra lista de reviews do restaurantes
+        mDatabase.child("reviews").child(newReview.getId()).setValue(newReview);
+        restaurantReviews.add(newReview);
+        restaurantRef.child("reviewList").setValue(restaurantReviews);
     }
 
 }

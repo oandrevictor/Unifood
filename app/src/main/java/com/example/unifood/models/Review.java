@@ -18,12 +18,13 @@ public class Review {
     private final String EMPTY_COMMENT = "";
 
     public Review () {
-
+        this.id = UUID.randomUUID().toString();
     }
 
 
 
     public Review(String userId, String restaurantId, float rate, String date) {
+        this();
         this.userId = userId;
         this.restaurantId = restaurantId;
         this.rate = rate;
