@@ -108,7 +108,7 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
                             mDatabase.child("users").child(mUserId).child("userInfo").setValue(userInfo);
                             restaurant.setUserId(mUserId);
                             String restaurantKey = mDatabase.child("restaurants").push().getKey();
-                            mDatabase.child("restaurants").child(restaurantKey).setValue(restaurant);
+                            mDatabase.child("restaurants").child(restaurant.getId()).setValue(restaurant);
                             ownerInfo = new OwnerInfo(restaurantKey);
                             mDatabase.child("users").child(mUserId).child("ownerInfo").setValue(ownerInfo);
 

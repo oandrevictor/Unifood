@@ -11,17 +11,18 @@ public class Restaurant {
     private String localization;
     private String shortDescription;
     private String campusId;
-    private List<String> reviewList;
+    private List<Review> reviewList;
     private List<Product> productList;
     private String userId;
 
     private final String EMPTY = "";
 
     public Restaurant() {
+        this.id = UUID.randomUUID().toString();
         this.localization = EMPTY;
         this.shortDescription = EMPTY;
         this.userId = EMPTY;
-        this.reviewList = new ArrayList<String>();
+        this.reviewList = new ArrayList<Review>();
         this.productList = new ArrayList<Product>();
     }
 
@@ -29,12 +30,12 @@ public class Restaurant {
         this();
         this.name = name;
         this.campusId = campusId;
-	    this.localization = localization;
-	}
+        this.localization = localization;
+    }
 
 
-    public void addRate(String reviewId) {
-        this.reviewList.add(reviewId);
+    public void addRate(Review review) {
+        this.reviewList.add(review);
     }
 
     private void addProduct(Product product) {
@@ -45,7 +46,7 @@ public class Restaurant {
         this.productList.remove(productId);
     }
 
- 
+
     // Getter and setter
 
     public String getName() {
@@ -94,11 +95,11 @@ public class Restaurant {
         this.campusId = campusId1;
     }
 
-    public List<String> getReviewList() {
+    public List<Review> getReviewList() {
         return reviewList;
     }
 
-    public void setReviewList(List<String> reviewList) {
+    public void setReviewList(List<Review> reviewList) {
         this.reviewList = reviewList;
     }
 

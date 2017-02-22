@@ -3,19 +3,19 @@ package com.example.unifood.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.support.v7.widget.RecyclerView;
 
 import com.example.unifood.R;
-import com.example.unifood.adapters.RestaurantProductListRecyclerViewAdapter;
 import com.example.unifood.firebase.utils.Utilities;
 import com.example.unifood.fragments.RestaurantProductListFragment;
 import com.example.unifood.fragments.RestaurantProfileFragment;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
+import com.example.unifood.adapters.RestaurantProductListRecyclerViewAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -56,13 +56,14 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
         Intent intentRestaurantSelected = getIntent();
         if (intentRestaurantSelected.hasExtra("REST_ID")) {
             restaurantUId = intentRestaurantSelected.getStringExtra("REST_ID");
+            System.out.println("O id ta sendo pego e eh: " + restaurantUId);
         }
 
         if (restaurantUId != null) {
             restaurantRef = mDatabase.child("restaurants").child(restaurantUId);
             loadProfile();
-            loadReviews();
             loadProducts();
+            loadReviews();
         }
 
     }
@@ -73,9 +74,31 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
                 AppCompatActivity activity = RestaurantActivity.this;
+                boolean deuRuim = (restaurant == null) ? true : false;
+                System.out.println("Deu ruim? " + deuRuim);
                 RestaurantProfileFragment fragment = (RestaurantProfileFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_profile);
-                fragment.setRestaurantInfo(restaurant.getName(), restaurant.getCampus(), restaurant.getLocalization());
-                System.out.print(restaurant.getName());
+                //fragment.setRestaurantInfo(restaurant.getName(), restaurant.getCampus(), restaurant.getLocalization());
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+    }
+
+    private void loadProducts() {
+        restaurantRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
+                List<Product> productList = restaurant.getProductList();
+                AppCompatActivity activity = RestaurantActivity.this;
+                boolean deuRuim = (productList == null) ? true : false;
+                System.out.println("Deu ruim? " + deuRuim);
+                RestaurantProductListFragment fragment = (RestaurantProductListFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_products);
+                fragment.setProductList(productList);
             }
 
             @Override
@@ -86,18 +109,12 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
     }
 
     private void loadReviews() {
-        reviewsRef = mDatabase.child("reviews");
-    }
-
-    private void loadProducts() {
         restaurantRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
-                List<Product> productList = restaurant.getProductList();
+                List<Review> reviewList = restaurant.getReviewList();
                 AppCompatActivity activity = RestaurantActivity.this;
-                RestaurantProductListFragment fragment = (RestaurantProductListFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_products);
-                fragment.setProductList(productList);
             }
 
             @Override
@@ -155,8 +172,8 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
     public void onListFragmentInteraction(Product item) {
 
     }
-
 }

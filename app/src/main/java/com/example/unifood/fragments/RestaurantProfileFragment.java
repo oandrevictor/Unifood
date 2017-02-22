@@ -20,9 +20,9 @@ public class RestaurantProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_restaurant_profile, container, false);
 
-        restaurantName = (TextView) getView().findViewById(R.id.rest_profile_name);
+        /*restaurantName = (TextView) getView().findViewById(R.id.rest_profile_name);
         restaurantUni = (TextView) getView().findViewById(R.id.rest_profile_uni);
-        restaurantLocal = (TextView) getView().findViewById(R.id.rest_profile_local);
+        restaurantLocal = (TextView) getView().findViewById(R.id.rest_profile_local);*/
 
         return rootView;
     }

@@ -4,20 +4,28 @@
     android:layout_height="match_parent"
     tools:context="com.example.unifood.fragments.RestaurantProfileFragment">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rest_profile_name"
-        android:textSize="20dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rest_profile_uni"
-        android:textSize="20dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rest_profile_local"
-        android:textSize="20dp"/>
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rest_profile_name"
+            android:text="olar"
+            android:textSize="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rest_profile_uni"
+            android:text="deveria ter algoi"
+            android:textSize="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rest_profile_local"
+            android:text="porem kd"
+            android:textSize="20dp"/>
+    </LinearLayout>
 
 </FrameLayout>
