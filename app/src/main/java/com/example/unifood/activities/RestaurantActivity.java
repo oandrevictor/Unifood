@@ -2,6 +2,7 @@ package com.example.unifood.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TabHost;
@@ -16,7 +17,7 @@ import com.example.unifood.fragments.RestaurantReviewFragment;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
-import com.example.unifood.adapters.RestaurantProductListRecyclerViewAdapter;
+import com.example.unifood.adapters.RestaurantProductRecyclerViewAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,8 +45,9 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
     DatabaseReference productsRef;
 
     private String restaurantUId;
-    private ArrayList<Review> reviewSet = new ArrayList<>();
-    private ArrayList<Product> productSet = new ArrayList<>();
+    private Restaurant restaurant;
+    private List<Review> reviewSet = new ArrayList<>();
+    private List<Product> productSet = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,67 +62,26 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
             System.out.println("O id ta sendo pego e eh: " + restaurantUId);
         }
 
-        if (restaurantUId != null) {
-            restaurantRef = mDatabase.child("restaurants").child(restaurantUId);
-            loadProfile();
-            loadProducts();
-            loadReviews();
-        }
+        setUpRestaurant();
+
+        loadProfile();
+        loadProducts();
+        loadReviews();
 
     }
 
     private void loadProfile() {
-        restaurantRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
-                AppCompatActivity activity = RestaurantActivity.this;
-                boolean deuRuim = (restaurant == null) ? true : false;
-                System.out.println("Deu ruim? " + deuRuim);
-                RestaurantProfileFragment fragment = (RestaurantProfileFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_profile);
-                //fragment.setRestaurantInfo(restaurant.getName(), restaurant.getCampus(), restaurant.getLocalization());
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
+        AppCompatActivity activity = RestaurantActivity.this;
+        RestaurantProfileFragment fragment = (RestaurantProfileFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_profile);
     }
 
     private void loadProducts() {
-        restaurantRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
-                List<Product> productList = restaurant.getProductList();
-                AppCompatActivity activity = RestaurantActivity.this;
-                RestaurantProductFragment fragment = (RestaurantProductFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_products);
-                fragment.setProductList(productList);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
+        AppCompatActivity activity = RestaurantActivity.this;
+        RestaurantProductFragment fragment = (RestaurantProductFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_products);
     }
 
     private void loadReviews() {
-        restaurantRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
-                List<Review> reviewList = restaurant.getReviewList();
-                AppCompatActivity activity = RestaurantActivity.this;
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
+        AppCompatActivity activity = RestaurantActivity.this;
     }
 
     @Override
@@ -150,6 +111,25 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
 
     }
 
+    private void setUpRestaurant() {
+        if (restaurantUId != null) {
+            restaurantRef = mDatabase.child("restaurants").child(restaurantUId);
+            restaurantRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    restaurant = dataSnapshot.getValue(Restaurant.class);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    System.out.println("The read failed: " + databaseError.getCode());
+                }
+            });
+        }
+        productSet = restaurant.getProductList();
+        reviewSet = restaurant.getReviewList();
+    }
+
     public void setUpFirebase(){
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
@@ -170,9 +150,25 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
 
         return super.onOptionsItemSelected(item);
     }
-    
+
+    @Override
+    public void onAttachFragment(android.app.Fragment fragment) {
+        super.onAttachFragment(fragment);
+        if (fragment instanceof RestaurantProfileFragment) {
+            RestaurantProfileFragment frag = (RestaurantProfileFragment) fragment;
+            frag.setRestaurantInfo(restaurant.getName(), restaurant.getCampus(), restaurant.getLocalization());
+        } else if (fragment instanceof  RestaurantProductFragment) {
+            RestaurantProductFragment frag = (RestaurantProductFragment) fragment;
+            frag.setProductList(productSet);
+        }
+    }
+
     public void onListFragmentInteraction(Product item) {
 
     }
 
+    @Override
+    public void onListFragmentInteraction(Review item) {
+
+    }
 }
