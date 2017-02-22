@@ -10,8 +10,9 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.unifood.R;
 import com.example.unifood.firebase.utils.Utilities;
-import com.example.unifood.fragments.RestaurantProductListFragment;
+import com.example.unifood.fragments.RestaurantProductFragment;
 import com.example.unifood.fragments.RestaurantProfileFragment;
+import com.example.unifood.fragments.RestaurantReviewFragment;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
@@ -27,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RestaurantActivity extends AppCompatActivity implements RestaurantProductListFragment.OnListFragmentInteractionListener {
+public class RestaurantActivity extends AppCompatActivity implements RestaurantProductFragment.OnListFragmentInteractionListener, RestaurantReviewFragment.OnListFragmentInteractionListener {
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -95,9 +96,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
                 Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
                 List<Product> productList = restaurant.getProductList();
                 AppCompatActivity activity = RestaurantActivity.this;
-                boolean deuRuim = (productList == null) ? true : false;
-                System.out.println("Deu ruim? " + deuRuim);
-                RestaurantProductListFragment fragment = (RestaurantProductListFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_products);
+                RestaurantProductFragment fragment = (RestaurantProductFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_products);
                 fragment.setProductList(productList);
             }
 
@@ -171,9 +170,9 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
 
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
+    
     public void onListFragmentInteraction(Product item) {
 
     }
+
 }

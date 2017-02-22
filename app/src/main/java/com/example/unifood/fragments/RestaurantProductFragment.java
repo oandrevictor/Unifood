@@ -11,34 +11,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.unifood.R;
-import com.example.unifood.adapters.RestaurantProductListRecyclerViewAdapter;
+import com.example.unifood.adapters.RestaurantProductRecyclerViewAdapter;
 import com.example.unifood.models.Product;
 
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
-public class RestaurantProductListFragment extends Fragment {
+public class RestaurantProductFragment extends Fragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private List<Product> mRestaurantProductList;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public RestaurantProductListFragment() {
+    public RestaurantProductFragment() {
     }
 
-    @SuppressWarnings("unused")
-    public static RestaurantProductListFragment newInstance(int columnCount) {
-        RestaurantProductListFragment fragment = new RestaurantProductListFragment();
+    public static RestaurantProductFragment newInstance(int columnCount) {
+        RestaurantProductFragment fragment = new RestaurantProductFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -68,8 +57,8 @@ public class RestaurantProductListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            // mRestaurantProductList is the list of product from the current restaurant (dont know how to found and pass it, but when...)
-            recyclerView.setAdapter(new RestaurantProductListRecyclerViewAdapter(mRestaurantProductList, mListener));
+
+            recyclerView.setAdapter(new RestaurantProductRecyclerViewAdapter(mRestaurantProductList, mListener));
         }
         return view;
     }
@@ -95,16 +84,6 @@ public class RestaurantProductListFragment extends Fragment {
         this.mRestaurantProductList = productList;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(Product item);
     }
