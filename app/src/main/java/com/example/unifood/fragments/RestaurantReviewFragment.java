@@ -112,14 +112,14 @@ public class RestaurantReviewFragment extends Fragment {
         Float newRate = newRateStar.getRating();
         String newComment = newCommentText.getText().toString();
 
-        mListener.newReviewFromFragment(newRate, newComment);
+        mListener.newReviewFromFragment(newRate, newComment, mRestaurantReviewList);
         // TODO: verificar se essa chamada está realmente chamando o método newReview.. na activity
     }
 
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(Review item);
 
-        void newReviewFromFragment(float newRate, String newComment);
+        void newReviewFromFragment(float newRate, String newComment, List<Review> reviews);
     }
 
 }

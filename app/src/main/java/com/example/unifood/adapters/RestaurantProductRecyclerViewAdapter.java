@@ -1,5 +1,6 @@
 package com.example.unifood.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +13,13 @@ import java.util.List;
 
 
 public class RestaurantProductRecyclerViewAdapter extends RecyclerView.Adapter<RestaurantProductRecyclerViewAdapter.ViewHolder> {
-
+    private Context mContext;
     private final List<Product> mProducts;
-    private final RestaurantProductFragment.OnListFragmentInteractionListener mListener;
+    private Product product;
 
-    public RestaurantProductRecyclerViewAdapter(List<Product> products, RestaurantProductFragment.OnListFragmentInteractionListener listener) {
+    public RestaurantProductRecyclerViewAdapter(Context context, List<Product> products) {
         mProducts = products;
-        mListener = listener;
+        this.mContext = context;
     }
 
     @Override
@@ -30,21 +31,13 @@ public class RestaurantProductRecyclerViewAdapter extends RecyclerView.Adapter<R
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mProduct = mProducts.get(position);
-        holder.mNameView.setText(mProducts.get(position).getName());
-        holder.mDescriptionView.setText(mProducts.get(position).getDescription());
-        holder.mCostView.setText( Float.toString( mProducts.get(position).getCost() ) );
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mProduct);
-                }
-            }
-        });
+        if (position < mProducts.size()) {
+            product = mProducts.get(position);
+            holder.setProduct(product);
+            holder.mNameView.setText(product.getName());
+            holder.mCostView.setText((int) product.getCost());
+            holder.mDescriptionView.setText(product.getDescription());
+        }
     }
 
     @Override
@@ -71,6 +64,12 @@ public class RestaurantProductRecyclerViewAdapter extends RecyclerView.Adapter<R
             mCostView = (TextView) itemView.findViewById(R.id.rest_product_cost);
         }
 
+        private void setProduct(Product prod) {
+            this.mProduct = prod;
+        }
+
     }
+
+
 
 }

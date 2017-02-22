@@ -6,20 +6,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.example.unifood.adapters.RestaurantListAdapter;
+import com.example.unifood.adapters.RestaurantProductRecyclerViewAdapter;
 import com.example.unifood.fragments.RestaurantListFragment;
+import com.example.unifood.fragments.RestaurantProductFragment;
+import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
+import com.example.unifood.models.Review;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class LoadRestaurants extends AsyncTask<String, Void, String> {
+public class LoadProducts extends AsyncTask<String, Void, String> {
     DataSnapshot snapshot;
-    ArrayList<Restaurant> restaurantSet;
+    List<Product> productsSet;
     AppCompatActivity activity;
     int fragmentId;
 
-    public LoadRestaurants(DataSnapshot snapshot, ArrayList<Restaurant> restaurantSet, AppCompatActivity activity, int fragmentId){
-        this.restaurantSet = restaurantSet;
+    public LoadProducts(DataSnapshot snapshot, List<Product> productsSet, AppCompatActivity activity, int fragmentId){
+        this.productsSet = productsSet;
         this.snapshot = snapshot;
         this.fragmentId = fragmentId;
         this.activity = activity;
@@ -29,17 +34,16 @@ public class LoadRestaurants extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         Log.e("Count " ,""+snapshot.getChildrenCount());
         for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-            Restaurant rst = postSnapshot.getValue(Restaurant.class);
-            restaurantSet.add(rst);
+            Product prod = postSnapshot.getValue(Product.class);
+            productsSet.add(prod);
         }
         return "Executed";
     }
 
     @Override
     protected void onPostExecute(String result) {
-        RestaurantListAdapter restAdapter = new RestaurantListAdapter(activity, restaurantSet);
-        Fragment fragment1 = activity.getFragmentManager().findFragmentById(fragmentId);
-        RestaurantListFragment fragment = (RestaurantListFragment) activity.getFragmentManager().findFragmentById(fragmentId);
+        RestaurantProductRecyclerViewAdapter restAdapter = new RestaurantProductRecyclerViewAdapter(activity, productsSet);
+        RestaurantProductFragment fragment = (RestaurantProductFragment) activity.getFragmentManager().findFragmentById(fragmentId);
         fragment.updateRecycler(restAdapter);
     }
 

@@ -33,7 +33,7 @@ public class RestaurantReviewRecyclerViewAdapter extends RecyclerView.Adapter<Re
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mReview = mReviews.get(position);
-        holder.mRate.setText( Integer.toString( mReviews.get(position).getRate() ) );
+        holder.mRate.setText( Float.toString( mReviews.get(position).getRate() ) );
         holder.mDate.setText(mReviews.get(position).getDate());
         holder.mComment.setText(mReviews.get(position).getComment());
 

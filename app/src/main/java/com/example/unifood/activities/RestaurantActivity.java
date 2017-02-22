@@ -10,6 +10,7 @@ import android.widget.TabHost.TabSpec;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.unifood.R;
+import com.example.unifood.firebase.utils.LoadProducts;
 import com.example.unifood.firebase.utils.Utilities;
 import com.example.unifood.fragments.RestaurantProductFragment;
 import com.example.unifood.fragments.RestaurantProfileFragment;
@@ -29,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RestaurantActivity extends AppCompatActivity implements RestaurantProductFragment.OnListFragmentInteractionListener, RestaurantReviewFragment.OnListFragmentInteractionListener {
+public class RestaurantActivity extends AppCompatActivity implements RestaurantReviewFragment.OnListFragmentInteractionListener {
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -63,7 +64,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
             restaurantRef = mDatabase.child("restaurants").child(restaurantUId);
             loadProfile();
             loadProducts();
-            loadReviews();
+            //loadReviews();
         }
 
     }
@@ -97,14 +98,11 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
     }
 
     private void loadProducts() {
-        restaurantRef.addValueEventListener(new ValueEventListener() {
+        productsRef = restaurantRef.child("productList");
+        productsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
-                List<Product> productList = restaurant.getProductList();
-                AppCompatActivity activity = RestaurantActivity.this;
-                RestaurantProductFragment fragment = (RestaurantProductFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_products);
-                fragment.setProductList(productList);
+                new LoadProducts(dataSnapshot, productSet, RestaurantActivity.this, R.id.restaurant_products).execute();
             }
 
             @Override
@@ -114,7 +112,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
         });
     }
 
-    private void loadReviews() {
+    /*private void loadReviews() {
         restaurantRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -129,7 +127,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
@@ -188,7 +186,6 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantP
     }
 
     public void newReviewFromFragment(float newRate, String newComment, List<Review> restaurantReviews) {
-
         String newData = Util.getInstancia().getCurrentDate();
         Review newReview = new Review(mFirebaseUser.getUid(), restaurantUId, newRate, newComment, newData);
         mDatabase.child("reviews").child(newReview.getId()).setValue(newReview);

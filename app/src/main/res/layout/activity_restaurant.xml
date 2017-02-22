@@ -76,13 +76,6 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <fragment
-                            android:name="com.example.unifood.fragments.RestaurantReviewFragment"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:id="@+id/restaurant_reviews"
-                            tools:layout="@layout/fragment_restaurant_review_list" />
-
                     </LinearLayout>
 
                 </FrameLayout>
