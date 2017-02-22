@@ -18,6 +18,7 @@ public class Restaurant {
     private final String EMPTY = "";
 
     public Restaurant() {
+        this.id = UUID.randomUUID().toString();
         this.localization = EMPTY;
         this.shortDescription = EMPTY;
         this.userId = EMPTY;

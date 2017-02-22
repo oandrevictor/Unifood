@@ -10,6 +10,7 @@ public class University {
     private List<String> allCampus;
 
     public University() {
+        this.id = UUID.randomUUID().toString();
         allCampus = new ArrayList<String>();
     }
 

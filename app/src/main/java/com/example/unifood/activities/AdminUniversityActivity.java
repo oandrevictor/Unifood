@@ -84,7 +84,8 @@ public class AdminUniversityActivity extends AppCompatActivity {
 
                 University university = new University(universityName);
                 university.addCampus(campus.getId());
-                mDatabase.child("universities").push().setValue(university);
+                mDatabase.child("campus").child(campus.getId()).setValue(campus);
+                mDatabase.child("universities").child(university.getId()).setValue(university);
 
                 Class mainA = MainActivity.class;
                 Intent goHome = new Intent(AdminUniversityActivity.this, mainA);
