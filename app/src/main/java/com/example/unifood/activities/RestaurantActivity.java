@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.unifood.R;
 import com.example.unifood.firebase.utils.LoadProducts;
+import com.example.unifood.firebase.utils.LoadReviews;
 import com.example.unifood.firebase.utils.Utilities;
 import com.example.unifood.fragments.RestaurantProductFragment;
 import com.example.unifood.fragments.RestaurantProfileFragment;
@@ -30,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RestaurantActivity extends AppCompatActivity implements RestaurantReviewFragment.OnListFragmentInteractionListener {
+public class RestaurantActivity extends AppCompatActivity {
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -64,7 +65,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantR
             restaurantRef = mDatabase.child("restaurants").child(restaurantUId);
             loadProfile();
             loadProducts();
-            //loadReviews();
+            loadReviews();
         }
 
     }
@@ -112,14 +113,12 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantR
         });
     }
 
-    /*private void loadReviews() {
-        restaurantRef.addValueEventListener(new ValueEventListener() {
+    private void loadReviews() {
+        reviewsRef = restaurantRef.child("reviewList");
+        reviewsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
-                List<Review> reviewList = restaurant.getReviewList();
-                AppCompatActivity activity = RestaurantActivity.this;
-                RestaurantReviewFragment fragment = (RestaurantReviewFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_reviews);
+                new LoadReviews(dataSnapshot, reviewSet, RestaurantActivity.this, R.id.restaurant_reviews).execute();
             }
 
             @Override
@@ -127,10 +126,6 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantR
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-    }*/
-
-    @Override
-    public void onBackPressed() {
     }
 
     private void setUpHostBar(){
@@ -175,14 +170,6 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantR
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void onListFragmentInteraction(Product item) {
-
-    }
-
-    public void onListFragmentInteraction(Review item) {
-
     }
 
     public void newReviewFromFragment(float newRate, String newComment, List<Review> restaurantReviews) {

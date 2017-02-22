@@ -14,17 +14,17 @@ import java.util.List;
 
 public class RestaurantProductRecyclerViewAdapter extends RecyclerView.Adapter<RestaurantProductRecyclerViewAdapter.ViewHolder> {
     private Context mContext;
-    private final List<Product> mProducts;
     private Product product;
+    private final List<Product> mProducts;
 
     public RestaurantProductRecyclerViewAdapter(Context context, List<Product> products) {
-        mProducts = products;
+        this.mProducts = products;
         this.mContext = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(mContext)
                 .inflate(R.layout.fragment_restaurant_product, parent, false);
         return new ViewHolder(view);
     }
@@ -69,7 +69,5 @@ public class RestaurantProductRecyclerViewAdapter extends RecyclerView.Adapter<R
         }
 
     }
-
-
 
 }
