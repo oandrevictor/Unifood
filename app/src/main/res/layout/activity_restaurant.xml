@@ -46,6 +46,12 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
+                        <fragment
+                            android:name="com.example.unifood.fragments.RestaurantProfileFragment"
+                            android:id="@+id/restaurant_profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:layout="@layout/fragment_restaurant_profile"/>
 
                     </LinearLayout>
 
