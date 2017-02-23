@@ -193,8 +193,8 @@ public class RestaurantActivity extends AppCompatActivity {
         String newComment = newCommentText.getText().toString();
         String newData = Util.getInstancia().getCurrentDate();
         Review newReview = new Review(mFirebaseUser.getUid(), restaurantUId, newRate, newComment, newData);
+        System.out.println("to chegando no rest act");
 
-        // TODO: inserir review na lista de reviews do restaurante
         /*
         mDatabase.child("reviews").child(newReview.getId()).setValue(newReview);
         restaurantReviews.add(newReview);
