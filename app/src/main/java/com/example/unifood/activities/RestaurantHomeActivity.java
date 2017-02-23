@@ -89,7 +89,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Restaurant rest = dataSnapshot.getValue(Restaurant.class);
                 restName.setText(rest.getName());
-                restCampus.setText(rest.getCampus());
+                restCampus.setText(rest.getCampusId());
                 restLocal.setText(rest.getLocalization());
             }
 
