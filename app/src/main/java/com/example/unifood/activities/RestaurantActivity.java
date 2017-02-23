@@ -195,7 +195,6 @@ public class RestaurantActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
                 List<Review> mReviews = restaurant.getReviewList();
-                mDatabase.child("reviews").child(newReview.getId()).setValue(newReview);
                 mReviews.add(newReview);
                 restaurantRef.child("reviewList").setValue(mReviews);
             }
