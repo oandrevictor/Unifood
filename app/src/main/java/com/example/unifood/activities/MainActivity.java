@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
                     userType = snapshot.getValue(String.class);
                     if (userType.equals("student")){
                         startStudentHome();
+                    } else if (userType.equals("owner")) {
+                        startRestaurntHome();
                     }
                 }
                 @Override
@@ -144,6 +146,13 @@ public class MainActivity extends AppCompatActivity {
         Class studentHome = StudentHomeActivity.class;
         Intent goToSHome = new Intent(this, studentHome);
         startActivity(goToSHome);
+    }
+
+    private void startRestaurntHome() {
+        Class restaurantHome = RestaurantHomeActivity.class;
+        Intent goToRHome = new Intent(this, restaurantHome);
+        System.out.println("Vou startar owner ein");
+        startActivity(goToRHome);
     }
 
     /**
