@@ -4,18 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
-import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.example.unifood.R;
 import com.example.unifood.firebase.utils.LoadProducts;
 import com.example.unifood.firebase.utils.LoadReviews;
-import com.example.unifood.firebase.utils.Utilities;
-import com.example.unifood.fragments.RestaurantProductFragment;
-import com.example.unifood.fragments.RestaurantProfileFragment;
-import com.example.unifood.fragments.RestaurantReviewFragment;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
@@ -30,6 +25,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class RestaurantActivity extends AppCompatActivity {
 
@@ -48,17 +46,21 @@ public class RestaurantActivity extends AppCompatActivity {
     private ArrayList<Review> reviewSet = new ArrayList<>();
     private ArrayList<Product> productSet = new ArrayList<>();
 
+    @InjectView(R.id.rest_profile_name) TextView restName;
+    @InjectView(R.id.rest_profile_uni) TextView restCampus;
+    @InjectView(R.id.rest_profile_local) TextView restLocal;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
         setUpFirebase();
         setUpHostBar();
+        ButterKnife.inject(this);
 
         Intent intentRestaurantSelected = getIntent();
         if (intentRestaurantSelected.hasExtra("REST_ID")) {
             restaurantUId = intentRestaurantSelected.getStringExtra("REST_ID");
-            System.out.println("O id ta sendo pego e eh: " + restaurantUId);
         }
 
         if (restaurantUId != null) {
@@ -74,21 +76,10 @@ public class RestaurantActivity extends AppCompatActivity {
         restaurantRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
-                AppCompatActivity activity = RestaurantActivity.this;
-
-                String[] restInfo = new String[3];
-                restInfo[0] = restaurant.getName();
-                restInfo[1] = restaurant.getCampus();
-                restInfo[2] = restaurant.getLocalization();
-
-                Bundle bundle = new Bundle();
-                bundle.putStringArray("rInfos", restInfo);
-
-                RestaurantProfileFragment fragment = new RestaurantProfileFragment();
-                fragment.setArguments(bundle);
-                fragment = (RestaurantProfileFragment) activity.getFragmentManager().findFragmentById(R.id.restaurant_profile);
-
+                Restaurant rest = dataSnapshot.getValue(Restaurant.class);
+                restName.setText(rest.getName());
+                restCampus.setText(rest.getCampus());
+                restLocal.setText(rest.getLocalization());
             }
 
             @Override
@@ -133,8 +124,8 @@ public class RestaurantActivity extends AppCompatActivity {
         tabHost =(TabHost) findViewById(R.id.restaurant_host_bar);
         tabHost.setup();
 
-        spec1 = tabHost.newTabSpec("Informações");
-        spec1.setIndicator("Informações");
+        spec1 = tabHost.newTabSpec("Perfil");
+        spec1.setIndicator("Perfil");
         spec1.setContent(R.id.tab1);
 
         spec2 = tabHost.newTabSpec("Cardápio");
