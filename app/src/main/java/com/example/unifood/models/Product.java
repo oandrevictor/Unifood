@@ -23,6 +23,7 @@ public class Product {
         this.name = name;
         this.cost = cost;
         this.description = description;
+        this.availability = true;
     }
 
 
