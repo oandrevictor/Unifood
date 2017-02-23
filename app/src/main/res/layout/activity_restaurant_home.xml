@@ -63,11 +63,11 @@
                         android:orientation="vertical">
 
                         <fragment
-                            android:name="com.example.unifood.fragments.RestaurantProductFragment"
+                            android:name="com.example.unifood.fragments.RestaurantHomeProductFragment"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/home_restaurant_products"
-                            tools:layout="@layout/fragment_restaurant_product_list" />
+                            tools:layout="@layout/fragment_restaurant_home_product_list" />
 
                     </LinearLayout>
 
@@ -78,11 +78,11 @@
                         android:orientation="vertical">
 
                         <fragment
-                            android:name="com.example.unifood.fragments.RestaurantReviewFragment"
+                            android:name="com.example.unifood.fragments.RestaurantHomeReviewFragment"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/home_restaurant_reviews"
-                            tools:layout="@layout/fragment_restaurant_review_list" />
+                            tools:layout="@layout/fragment_restaurant_home_review_list" />
 
                     </LinearLayout>
 

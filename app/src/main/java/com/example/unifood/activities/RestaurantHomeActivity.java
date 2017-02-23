@@ -2,6 +2,9 @@ package com.example.unifood.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -11,6 +14,7 @@ import com.example.unifood.firebase.utils.LoadReviews;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
+import com.example.unifood.models.Util;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -19,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
@@ -44,6 +49,10 @@ public class RestaurantHomeActivity extends AppCompatActivity {
     @InjectView(R.id.rest_profile_name) TextView restName;
     @InjectView(R.id.rest_profile_uni) TextView restCampus;
     @InjectView(R.id.rest_profile_local) TextView restLocal;
+    @InjectView(R.id.product_name) EditText productName;
+    @InjectView(R.id.product_price) EditText productPrice;
+    @InjectView(R.id.product_description) EditText productDescription;
+    @InjectView(R.id.new_product_button) Button newProductButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +72,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
                 loadProfile();
                 loadProducts();
                 loadReviews();
+                addListenerNewProduct();
             }
 
             @Override
@@ -95,7 +105,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         productsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                new LoadProducts(dataSnapshot, productSet, RestaurantHomeActivity.this, R.id.home_restaurant_products).execute();
+                new LoadProducts(dataSnapshot, productSet, RestaurantHomeActivity.this, R.id.home_restaurant_products, "home").execute();
             }
 
             @Override
@@ -110,7 +120,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         reviewsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                new LoadReviews(dataSnapshot, reviewSet, RestaurantHomeActivity.this, R.id.home_restaurant_reviews).execute();
+                new LoadReviews(dataSnapshot, reviewSet, RestaurantHomeActivity.this, R.id.home_restaurant_reviews, "home").execute();
             }
 
             @Override
@@ -118,6 +128,31 @@ public class RestaurantHomeActivity extends AppCompatActivity {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
+    }
+
+    public void addListenerNewProduct() {
+        newProductButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewProduct();
+            }
+        });
+    }
+
+    private void createNewProduct() {
+        String name = productName.getText().toString();
+        Float price = Float.parseFloat(formatDecimal(productPrice.getText().toString()));
+        String description = productDescription.getText().toString();
+        Product newProduct = new Product(name, price, description);
+
+        /*mDatabase.child("reviews").child(newProduct.getId()).setValue(newProduct);
+        restaurantRef.child("reviewList").push();
+        restaurantRef.child("reviewList").child(newProduct.getId()).setValue(newProduct);*/
+    }
+
+    public static String formatDecimal(String value) {
+        DecimalFormat df = new DecimalFormat("#.###.##0,00");
+        return df.format(Double.valueOf(value));
     }
 
     private void setUpHostBar(){

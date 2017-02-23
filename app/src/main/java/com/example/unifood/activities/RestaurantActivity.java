@@ -106,7 +106,7 @@ public class RestaurantActivity extends AppCompatActivity {
         productsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                new LoadProducts(dataSnapshot, productSet, RestaurantActivity.this, R.id.restaurant_products).execute();
+                new LoadProducts(dataSnapshot, productSet, RestaurantActivity.this, R.id.restaurant_products, "student").execute();
             }
 
             @Override
@@ -121,7 +121,7 @@ public class RestaurantActivity extends AppCompatActivity {
         reviewsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                new LoadReviews(dataSnapshot, reviewSet, RestaurantActivity.this, R.id.restaurant_reviews).execute();
+                new LoadReviews(dataSnapshot, reviewSet, RestaurantActivity.this, R.id.restaurant_reviews, "student").execute();
             }
 
             @Override
