@@ -34,7 +34,7 @@ public class Restaurant {
     }
 
 
-    public void addRate(Review review) {
+    public void addReview(Review review) {
         this.reviewList.add(review);
     }
 
@@ -85,12 +85,6 @@ public class Restaurant {
         return campusId;
     }
 
-
-
-    public String getCampus() {
-        return campusId;
-    }
-
     public void setCampusId(String campusId1) {
         this.campusId = campusId1;
     }
@@ -117,9 +111,5 @@ public class Restaurant {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public void addReview(Review review) {
-        this.reviewList.add(review);
     }
 }

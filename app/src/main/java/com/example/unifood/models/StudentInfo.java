@@ -24,6 +24,29 @@ public class StudentInfo{
         this.campusId = campusId;
     }
 
+    public List<String> getFavRestaurants() {
+        return favRestaurants;
+    }
+
+    public void setFavRestaurants(List<String> favRestaurants) {
+        this.favRestaurants = favRestaurants;
+    }
+
+    public List<String> getFavProducts() {
+        return favProducts;
+    }
+
+    public void setFavProducts(List<String> favProducts) {
+        this.favProducts = favProducts;
+    }
+
+    public String getCampusId() {
+        return campusId;
+    }
+
+    public void setCampusId(String campusId) {
+        this.campusId = campusId;
+    }
 
     public void addRestaurantToFavorites(String restaurantId) {
         favRestaurants.add(restaurantId);
@@ -49,31 +72,4 @@ public class StudentInfo{
             return false;
         }
     }
-
-    public List<String> getFavRestaurants() {
-        return favRestaurants;
-    }
-
-    public void setFavRestaurants(List<String> favRestaurants) {
-        this.favRestaurants = favRestaurants;
-    }
-
-    public List<String> getFavProducts() {
-        return favProducts;
-    }
-
-    public void setFavProducts(List<String> favProducts) {
-        this.favProducts = favProducts;
-    }
-
-    public String getCampusId() {
-        return campusId;
-    }
-
-    public void setCampusId(String campusId) {
-        this.campusId = campusId;
-    }
-
-
-
 }
