@@ -188,11 +188,27 @@ public class RestaurantActivity extends AppCompatActivity {
         Float newRate = newRateStar.getRating();
         String newComment = newCommentText.getText().toString();
         String newData = Util.getInstancia().getCurrentDate();
-        Review newReview = new Review(mFirebaseUser.getUid(), restaurantUId, newRate, newComment, newData);
+        final Review newReview = new Review(mFirebaseUser.getUid(), restaurantUId, newRate, newComment, newData);
 
-        mDatabase.child("reviews").child(newReview.getId()).setValue(newReview);
+        restaurantRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
+                List<Review> mReviews = restaurant.getReviewList();
+                mDatabase.child("reviews").child(newReview.getId()).setValue(newReview);
+                mReviews.add(newReview);
+                restaurantRef.child("reviewList").setValue(mReviews);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
+        /*mDatabase.child("reviews").child(newReview.getId()).setValue(newReview);
         restaurantRef.child("reviewList").push();
-        restaurantRef.child("reviewList").child(newReview.getId()).setValue(newReview);
+        restaurantRef.child("reviewList").child(newReview.getId()).setValue(newReview);*/
     }
 
 }
