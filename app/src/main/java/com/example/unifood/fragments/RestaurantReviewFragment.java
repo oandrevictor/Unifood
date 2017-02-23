@@ -20,8 +20,6 @@ public class RestaurantReviewFragment extends Fragment {
         return view;
     }
 
-
-
     public void updateRecycler(RestaurantReviewRecyclerViewAdapter mAdapter) {
         RecyclerView restaurantReviewListRecyclerView = (RecyclerView) getView().findViewById(R.id.review_list);
         restaurantReviewListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

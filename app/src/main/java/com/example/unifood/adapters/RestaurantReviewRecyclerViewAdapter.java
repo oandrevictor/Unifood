@@ -73,4 +73,5 @@ public class RestaurantReviewRecyclerViewAdapter extends RecyclerView.Adapter<Re
             this.mReview = review;
         }
     }
+
 }

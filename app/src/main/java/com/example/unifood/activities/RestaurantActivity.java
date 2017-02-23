@@ -5,17 +5,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
-import android.support.v7.widget.RecyclerView;
 
 import com.example.unifood.R;
 import com.example.unifood.firebase.utils.LoadProducts;
 import com.example.unifood.firebase.utils.LoadReviews;
-import com.example.unifood.firebase.utils.Utilities;
-import com.example.unifood.fragments.RestaurantProductFragment;
 import com.example.unifood.fragments.RestaurantProfileFragment;
-import com.example.unifood.fragments.RestaurantReviewFragment;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
@@ -29,9 +28,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RestaurantActivity extends AppCompatActivity {
+
+    EditText newCommentText;
+    RatingBar newRateStar;
+    Button newReviewButton;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -67,6 +69,11 @@ public class RestaurantActivity extends AppCompatActivity {
             loadProducts();
             loadReviews();
         }
+
+        newCommentText = (EditText) findViewById(R.id.new_review_comment);
+        newRateStar = (RatingBar) findViewById(R.id.new_review_rate);
+        newReviewButton = (Button) findViewById(R.id.new_review_button);
+        addListenerRatingBar();
 
     }
 
@@ -172,12 +179,27 @@ public class RestaurantActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void newReviewFromFragment(float newRate, String newComment, List<Review> restaurantReviews) {
+    public void addListenerRatingBar() {
+        newReviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewReview();
+            }
+        });
+    }
+
+    private void createNewReview() {
+        Float newRate = newRateStar.getRating();
+        String newComment = newCommentText.getText().toString();
         String newData = Util.getInstancia().getCurrentDate();
         Review newReview = new Review(mFirebaseUser.getUid(), restaurantUId, newRate, newComment, newData);
+
+        // TODO: inserir review na lista de reviews do restaurante
+        /*
         mDatabase.child("reviews").child(newReview.getId()).setValue(newReview);
         restaurantReviews.add(newReview);
         restaurantRef.child("reviewList").setValue(restaurantReviews);
+        */
     }
 
 }
