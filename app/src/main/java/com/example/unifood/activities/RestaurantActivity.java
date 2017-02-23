@@ -1,5 +1,6 @@
 package com.example.unifood.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,15 +31,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class RestaurantActivity extends AppCompatActivity {
-
-    EditText newCommentText;
-    RatingBar newRateStar;
-    Button newReviewButton;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -58,6 +56,9 @@ public class RestaurantActivity extends AppCompatActivity {
     @InjectView(R.id.rest_profile_name) TextView restName;
     @InjectView(R.id.rest_profile_uni) TextView restCampus;
     @InjectView(R.id.rest_profile_local) TextView restLocal;
+    @InjectView(R.id.new_review_comment) EditText newCommentText;
+    @InjectView(R.id.new_review_rate) RatingBar newRateStar;
+    @InjectView(R.id.new_review_button) Button newReviewButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +80,6 @@ public class RestaurantActivity extends AppCompatActivity {
             loadReviews();
         }
 
-        newCommentText = (EditText) findViewById(R.id.new_review_comment);
-        newRateStar = (RatingBar) findViewById(R.id.new_review_rate);
-        newReviewButton = (Button) findViewById(R.id.new_review_button);
         addListenerRatingBar();
 
     }
@@ -191,13 +189,10 @@ public class RestaurantActivity extends AppCompatActivity {
         String newComment = newCommentText.getText().toString();
         String newData = Util.getInstancia().getCurrentDate();
         Review newReview = new Review(mFirebaseUser.getUid(), restaurantUId, newRate, newComment, newData);
-        System.out.println("to chegando no rest act");
 
-        /*
         mDatabase.child("reviews").child(newReview.getId()).setValue(newReview);
-        restaurantReviews.add(newReview);
-        restaurantRef.child("reviewList").setValue(restaurantReviews);
-        */
+        restaurantRef.child("reviewList").push();
+        restaurantRef.child("reviewList").child(newReview.getId()).setValue(newReview);
     }
 
 }

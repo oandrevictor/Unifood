@@ -27,7 +27,7 @@ public class LoadRestaurants extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        Log.e("Count " ,""+snapshot.getChildrenCount());
+        Log.e("Count " ,"" + snapshot.getChildrenCount());
         for (DataSnapshot postSnapshot: snapshot.getChildren()) {
             Restaurant rst = postSnapshot.getValue(Restaurant.class);
             restaurantSet.add(rst);

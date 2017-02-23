@@ -65,10 +65,6 @@ public class Review {
         this.userId = userId;
     }
 
-    public String getComment() {
-        return comment;
-    }
-
     public float getRate() {
         return rate;
     }
@@ -77,7 +73,7 @@ public class Review {
         this.rate = rate;
     }
 
-    public String getcomment() {
+    public String getComment() {
         return comment;
     }
 
