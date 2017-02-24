@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:id="@+id/profile_layout">
+    android:id="@+id/profile_layout"
+    tools:context="com.example.unifood.activities.RestaurantActivity">
 
     <LinearLayout
         android:orientation="vertical"

@@ -160,7 +160,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
 
         newProductButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme);
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Criando produto...");
         progressDialog.show();
@@ -173,8 +173,19 @@ public class RestaurantHomeActivity extends AppCompatActivity {
                 Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
                 List<Product> mProducts = restaurant.getProductList();
                 mProducts.add(newProduct);
-                restaurantRef.child("productList").setValue(mProducts);
-                progressDialog.dismiss();
+                restaurantRef.child("productList").setValue(mProducts, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
+                        if (firebaseError != null) {
+                            progressDialog.dismiss();
+                            Toast.makeText(RestaurantHomeActivity.this, "Produto não adicionado!", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            progressDialog.dismiss();
+                            Toast.makeText(RestaurantHomeActivity.this, "Produto adicionado.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 newProductButton.setEnabled(true);
             }
 

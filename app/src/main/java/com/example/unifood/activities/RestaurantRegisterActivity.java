@@ -84,7 +84,7 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
 
         signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme);
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();

@@ -1,6 +1,7 @@
 package com.example.unifood.activities;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
@@ -227,7 +228,11 @@ public class LoginActivity extends AppCompatActivity {
             AlertDialog dialog = builder.create();
             dialog.show();
         } else {
-
+            final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Entrando...");
+            progressDialog.show();
+            logInButton.setEnabled(false);
             mFirebaseAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -235,15 +240,18 @@ public class LoginActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 mFirebaseUser = mFirebaseAuth.getCurrentUser();
                                 String uid = mFirebaseUser.getUid();
-
                                 ref = mDatabase.child("users").child(uid).child("userInfo").child("type");
                                 ref.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         userType = dataSnapshot.getValue(String.class);
                                         if (userType.equals("student")){
+                                            progressDialog.dismiss();
+                                            logInButton.setEnabled(true);
                                             startStudentHome();
                                         } else if (userType.equals("owner")) {
+                                            progressDialog.dismiss();
+                                            logInButton.setEnabled(true);
                                             startRestaurntHome();
                                         }
                                     }
@@ -260,6 +268,8 @@ public class LoginActivity extends AppCompatActivity {
                                         .setPositiveButton(android.R.string.ok, null);
                                 AlertDialog dialog = builder.create();
                                 dialog.show();
+                                progressDialog.dismiss();
+                                logInButton.setEnabled(true);
                             }
                         }
                     });

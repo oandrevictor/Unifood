@@ -14,6 +14,8 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.unifood.R;
 import com.example.unifood.firebase.utils.LoadProducts;
 import com.example.unifood.firebase.utils.LoadReviews;
@@ -188,6 +190,20 @@ public class RestaurantActivity extends AppCompatActivity {
         Float newRate = newRateStar.getRating();
         String newComment = newCommentText.getText().toString();
         String newData = Util.getInstancia().getCurrentDate();
+
+        if (!validate(newRate)) {
+            Toast.makeText(getBaseContext(), "Por favor, avalie entre 1-5 estrelas", Toast.LENGTH_LONG).show();
+            newReviewButton.setEnabled(true);
+            return;
+        }
+
+        newReviewButton.setEnabled(false);
+
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Avaliando...");
+        progressDialog.show();
+
         final Review newReview = new Review(mFirebaseUser.getUid(), restaurantUId, newRate, newComment, newData);
 
         restaurantRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -196,7 +212,19 @@ public class RestaurantActivity extends AppCompatActivity {
                 Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
                 List<Review> mReviews = restaurant.getReviewList();
                 mReviews.add(newReview);
-                restaurantRef.child("reviewList").setValue(mReviews);
+                restaurantRef.child("reviewList").setValue(mReviews, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
+                        if (firebaseError != null) {
+                            progressDialog.dismiss();
+                            Toast.makeText(RestaurantActivity.this, "Avaliação não adicionada!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            progressDialog.dismiss();
+                            Toast.makeText(RestaurantActivity.this, "Restaurante avaliado.", Toast.LENGTH_SHORT).show();
+                        }
+                        newReviewButton.setEnabled(true);
+                    }
+                });
             }
 
             @Override
@@ -205,9 +233,16 @@ public class RestaurantActivity extends AppCompatActivity {
             }
         });
 
-        /*mDatabase.child("reviews").child(newReview.getId()).setValue(newReview);
-        restaurantRef.child("reviewList").push();
-        restaurantRef.child("reviewList").child(newReview.getId()).setValue(newReview);*/
+    }
+
+    private boolean validate(Float newRate) {
+        boolean valid = true;
+
+        if (!(newRate > 0)) {
+            valid = false;
+        }
+
+        return valid;
     }
 
 }

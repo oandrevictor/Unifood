@@ -48,10 +48,14 @@ public class LoadReviews extends AsyncTask<String, Void, String> {
         RestaurantReviewRecyclerViewAdapter restAdapter = new RestaurantReviewRecyclerViewAdapter(activity, reviewsSet);
         if (type.equals("student")) {
             RestaurantReviewFragment fragment = (RestaurantReviewFragment) activity.getFragmentManager().findFragmentById(fragmentId);
-            fragment.updateRecycler(restAdapter);
+            if (fragment != null) {
+                fragment.updateRecycler(restAdapter);
+            }
         } else if (type.equals("home")) {
             RestaurantHomeReviewFragment fragment = (RestaurantHomeReviewFragment) activity.getFragmentManager().findFragmentById(fragmentId);
-            fragment.updateRecycler(restAdapter);
+            if (fragment != null) {
+                fragment.updateRecycler(restAdapter);
+            }
         }
     }
 

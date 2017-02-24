@@ -51,7 +51,7 @@ public class LoadProducts extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         RestaurantProductRecyclerViewAdapter restAdapter = new RestaurantProductRecyclerViewAdapter(activity, productsSet);
-        if (type.equals("stundent")) {
+        if (type.equals("student")) {
             RestaurantProductFragment fragment = (RestaurantProductFragment) activity.getFragmentManager().findFragmentById(fragmentId);
             fragment.updateRecycler(restAdapter);
         } else if (type.equals("home")) {
