@@ -3,6 +3,7 @@ package com.example.unifood.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,9 +22,11 @@ import com.example.unifood.fragments.RestaurantProfileFragment;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
+import com.example.unifood.models.StudentInfo;
 import com.example.unifood.models.Util;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.api.model.StringList;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,6 +51,7 @@ public class RestaurantActivity extends AppCompatActivity {
     DatabaseReference restaurantRef;
     DatabaseReference reviewsRef;
     DatabaseReference productsRef;
+    DatabaseReference studentInfoRef;
 
     private String restaurantUId;
     private ArrayList<Review> reviewSet = new ArrayList<>();
@@ -59,6 +63,7 @@ public class RestaurantActivity extends AppCompatActivity {
     @InjectView(R.id.new_review_comment) EditText newCommentText;
     @InjectView(R.id.new_review_rate) RatingBar newRateStar;
     @InjectView(R.id.new_review_button) Button newReviewButton;
+    @InjectView(R.id.favButton) FloatingActionButton favButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +85,14 @@ public class RestaurantActivity extends AppCompatActivity {
             loadReviews();
         }
 
-        addListenerRatingBar();
+        listenerRatingBar();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        listenerFavButton();
     }
 
     private void loadProfile() {
@@ -175,7 +186,7 @@ public class RestaurantActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void addListenerRatingBar() {
+    public void listenerRatingBar() {
         newReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -205,9 +216,45 @@ public class RestaurantActivity extends AppCompatActivity {
             }
         });
 
-        /*mDatabase.child("reviews").child(newReview.getId()).setValue(newReview);
-        restaurantRef.child("reviewList").push();
-        restaurantRef.child("reviewList").child(newReview.getId()).setValue(newReview);*/
+    }
+
+    public void listenerFavButton() {
+        System.out.print("ESTOU CHEGANDO..............................");
+        favButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                favoritingRestaurant();
+            }
+        });
+    }
+
+    public void favoritingRestaurant() {
+
+        String userUid = mFirebaseUser.getUid();
+        studentInfoRef = mDatabase.child("users").child(userUid).child("studentInfo");
+
+        studentInfoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                StudentInfo student = dataSnapshot.getValue(StudentInfo.class);
+
+                List<String> mFavRest = student.getFavRestaurants();
+
+                if (mFavRest.contains(restaurantUId)) {
+                    //favButton.setBackgroundResource(R.drawable.staroff);
+                } else {
+                    mFavRest.add(restaurantUId);
+                    //favButton.setBackgroundResource(R.drawable.staron);
+                    studentInfoRef.child("favRestaurants").setValue(mFavRest);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
     }
 
 }
