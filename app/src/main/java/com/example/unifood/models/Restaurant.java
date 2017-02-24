@@ -38,12 +38,25 @@ public class Restaurant {
         this.reviewList.add(review);
     }
 
-    private void addProduct(Product product) {
+    public void addProduct(Product product) {
         this.productList.add(product);
     }
 
-    private void removeProduct(String productId) {
+    public void removeProduct(String productId) {
         this.productList.remove(productId);
+    }
+
+    public float getRating() {
+        float restRate = 0;
+        for (Review r: reviewList) {
+            restRate += r.getRate();
+        }
+
+        if (reviewList.size() > 0) {
+            return restRate / reviewList.size();
+        }
+
+        return restRate;
     }
 
 

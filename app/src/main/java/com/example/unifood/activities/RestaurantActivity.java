@@ -62,6 +62,7 @@ public class RestaurantActivity extends AppCompatActivity {
     @InjectView(R.id.rest_profile_name) TextView restName;
     @InjectView(R.id.rest_profile_uni) TextView restCampus;
     @InjectView(R.id.rest_profile_local) TextView restLocal;
+    @InjectView(R.id.rest_profile_rating) TextView restRate;
     @InjectView(R.id.new_review_comment) EditText newCommentText;
     @InjectView(R.id.new_review_rate) RatingBar newRateStar;
     @InjectView(R.id.new_review_button) Button newReviewButton;
@@ -103,8 +104,10 @@ public class RestaurantActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Restaurant rest = dataSnapshot.getValue(Restaurant.class);
                 restName.setText(rest.getName());
-                restCampus.setText(rest.getCampusId());
+                restCampus.setText("Campus: " + rest.getCampusId());
                 restLocal.setText(rest.getLocalization());
+                String rate = Float.toString(rest.getRating());
+                restRate.setText("Avaliação: " + rate);
             }
 
             @Override
@@ -173,7 +176,7 @@ public class RestaurantActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -186,7 +189,7 @@ public class RestaurantActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     public void listenerRatingBar() {
         newReviewButton.setOnClickListener(new View.OnClickListener() {
@@ -257,7 +260,6 @@ public class RestaurantActivity extends AppCompatActivity {
     }
 
     public void listenerFavButton() {
-        System.out.print("ESTOU CHEGANDO..............................");
         favButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
