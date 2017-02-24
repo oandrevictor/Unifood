@@ -22,7 +22,7 @@ public class University {
 
     public boolean addCampus(String campus){
 
-        if (campus!= null) {
+        if (campus != null) {
             return allCampus.add(campus);
         }
         return false;
