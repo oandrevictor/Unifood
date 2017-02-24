@@ -9,7 +9,10 @@ import android.widget.TextView;
 import com.example.unifood.R;
 import com.example.unifood.fragments.RestaurantProductFragment;
 import com.example.unifood.models.Product;
+
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 
 public class RestaurantProductRecyclerViewAdapter extends RecyclerView.Adapter<RestaurantProductRecyclerViewAdapter.ViewHolder> {
@@ -35,7 +38,7 @@ public class RestaurantProductRecyclerViewAdapter extends RecyclerView.Adapter<R
             product = mProducts.get(position);
             holder.setProduct(product);
             holder.mNameView.setText(product.getName());
-            holder.mCostView.setText((int) product.getCost());
+            holder.mCostView.setText(formatDecimal(String.valueOf(product.getCost())));
             holder.mDescriptionView.setText(product.getDescription());
         }
     }
@@ -68,6 +71,11 @@ public class RestaurantProductRecyclerViewAdapter extends RecyclerView.Adapter<R
             this.mProduct = prod;
         }
 
+    }
+
+    public static String formatDecimal(String value) {
+        NumberFormat df = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        return df.format(Double.valueOf(value));
     }
 
 }

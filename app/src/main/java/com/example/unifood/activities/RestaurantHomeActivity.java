@@ -1,5 +1,6 @@
 package com.example.unifood.activities;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.unifood.R;
 import com.example.unifood.firebase.utils.LoadProducts;
@@ -24,7 +26,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -141,18 +148,64 @@ public class RestaurantHomeActivity extends AppCompatActivity {
 
     private void createNewProduct() {
         String name = productName.getText().toString();
-        Float price = Float.parseFloat(formatDecimal(productPrice.getText().toString()));
+        String price = productPrice.getText().toString();
+        price = price.replaceAll(",", ".");
         String description = productDescription.getText().toString();
-        Product newProduct = new Product(name, price, description);
 
-        /*mDatabase.child("reviews").child(newProduct.getId()).setValue(newProduct);
-        restaurantRef.child("reviewList").push();
-        restaurantRef.child("reviewList").child(newProduct.getId()).setValue(newProduct);*/
+        if (!validate(name, price, description)) {
+            Toast.makeText(getBaseContext(), "Cadastro de produto falhou.", Toast.LENGTH_LONG).show();
+            newProductButton.setEnabled(true);
+            return;
+        }
+
+        newProductButton.setEnabled(false);
+
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Criando produto...");
+        progressDialog.show();
+
+        final Product newProduct = new Product(name, Float.parseFloat(price), description);
+
+        restaurantRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
+                List<Product> mProducts = restaurant.getProductList();
+                mProducts.add(newProduct);
+                restaurantRef.child("productList").setValue(mProducts);
+                progressDialog.dismiss();
+                newProductButton.setEnabled(true);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+
+        });
     }
 
-    public static String formatDecimal(String value) {
-        DecimalFormat df = new DecimalFormat("#.###.##0,00");
-        return df.format(Double.valueOf(value));
+    public boolean validate(String prodName, String prodPrice, String prodDesc) {
+        boolean valid = true;
+        if (prodName.isEmpty()) {
+            productName.setError("Um produto precisa de um nome!");
+            valid = false;
+        } else {
+            productName.setError(null);
+        }
+
+        String regexStr = "^\\d+(\\.\\d+)?";
+        Pattern pattern = Pattern.compile(regexStr);
+        System.out.println(prodPrice.matches(String.valueOf(pattern)));
+        if (!prodPrice.matches(String.valueOf(pattern))) {
+            productPrice.setError("Formato de preço inválido.");
+            valid = false;
+        } else {
+            productPrice.setError(null);
+        }
+
+        return valid;
     }
 
     private void setUpHostBar(){
