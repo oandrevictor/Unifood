@@ -25,6 +25,15 @@ public class University {
         if (campus != null) {
             return allCampus.add(campus);
         }
+
+        return false;
+    }
+
+    public boolean removeCampus(String campus) {
+        if (campus != null) {
+            return allCampus.remove(campus);
+        }
+
         return false;
     }
 

@@ -1,6 +1,7 @@
 package com.example.unifood.activities;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
@@ -21,6 +22,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -35,7 +42,11 @@ public class LoginActivity extends AppCompatActivity {
     protected Button logInButton;
     protected TextView signUpTextView;
     protected TextView restaurantSignUpTextView;
+    private DatabaseReference mDatabase;
     private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+    DatabaseReference ref;
+    String userType;
 
     /**
      * Whether or not the system UI should be auto-hidden after
@@ -121,6 +132,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         mVisible = true;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        String userType =  "";
 
         // Set up all ids from layouts for this onCreate method
         findViewsByIdOnCreate();
@@ -215,15 +228,39 @@ public class LoginActivity extends AppCompatActivity {
             AlertDialog dialog = builder.create();
             dialog.show();
         } else {
+            final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Entrando...");
+            progressDialog.show();
+            logInButton.setEnabled(false);
             mFirebaseAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Intent intent = new Intent(LoginActivity.this, StudentHomeActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
+                                mFirebaseUser = mFirebaseAuth.getCurrentUser();
+                                String uid = mFirebaseUser.getUid();
+                                ref = mDatabase.child("users").child(uid).child("userInfo").child("type");
+                                ref.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        userType = dataSnapshot.getValue(String.class);
+                                        if (userType.equals("student")){
+                                            progressDialog.dismiss();
+                                            logInButton.setEnabled(true);
+                                            startStudentHome();
+                                        } else if (userType.equals("owner")) {
+                                            progressDialog.dismiss();
+                                            logInButton.setEnabled(true);
+                                            startRestaurntHome();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                 builder.setMessage(task.getException().getMessage())
@@ -231,10 +268,24 @@ public class LoginActivity extends AppCompatActivity {
                                         .setPositiveButton(android.R.string.ok, null);
                                 AlertDialog dialog = builder.create();
                                 dialog.show();
+                                progressDialog.dismiss();
+                                logInButton.setEnabled(true);
                             }
                         }
                     });
         }
+    }
+
+    private void startStudentHome(){
+        Class studentHome = StudentHomeActivity.class;
+        Intent goToSHome = new Intent(this, studentHome);
+        startActivity(goToSHome);
+    }
+
+    private void startRestaurntHome() {
+        Class restaurantHome = RestaurantHomeActivity.class;
+        Intent goToRHome = new Intent(this, restaurantHome);
+        startActivity(goToRHome);
     }
 
     /**

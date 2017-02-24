@@ -6,21 +6,20 @@ package com.example.unifood.models;
 
 public class OwnerInfo {
 
-    public String getRestaurantId() {
-        return restaurantId;
-    }
+    private String restaurantId;
 
     public OwnerInfo(){
-
     }
 
     public OwnerInfo(String restaurantId){
         this.restaurantId = restaurantId;
     }
 
+    public String getRestaurantId() {
+        return restaurantId;
+    }
+
     public void setRestaurantId(String restaurantId) {
         this.restaurantId = restaurantId;
     }
-
-    private String restaurantId;
 }

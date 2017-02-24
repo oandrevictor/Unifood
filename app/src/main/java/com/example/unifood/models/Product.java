@@ -19,10 +19,11 @@ public class Product {
         this.description = EMPTY;
     }
 
-    public Product(String name, float cost, boolean availability) {
+    public Product(String name, float cost, String description) {
         this.name = name;
         this.cost = cost;
-        this.availability = availability;
+        this.description = description;
+        this.availability = true;
     }
 
 

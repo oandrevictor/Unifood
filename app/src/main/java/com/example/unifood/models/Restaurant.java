@@ -11,8 +11,8 @@ public class Restaurant {
     private String localization;
     private String shortDescription;
     private String campusId;
-    private List<String> reviewList;
-    private List<String> productList;
+    private List<Review> reviewList;
+    private List<Product> productList;
     private String userId;
 
     private final String EMPTY = "";
@@ -22,31 +22,31 @@ public class Restaurant {
         this.localization = EMPTY;
         this.shortDescription = EMPTY;
         this.userId = EMPTY;
-        this.reviewList = new ArrayList<String>();
-        this.productList = new ArrayList<String >();
+        this.reviewList = new ArrayList<Review>();
+        this.productList = new ArrayList<Product>();
     }
 
     public Restaurant(String name,  String campusId, String localization) {
         this();
         this.name = name;
         this.campusId = campusId;
-	    this.localization = localization;
-	}
-
-
-    public void addRate(String reviewId) {
-        this.reviewList.add(reviewId);
+        this.localization = localization;
     }
 
-    private void addProduct(String productId) {
-        this.productList.add(productId);
+
+    public void addReview(Review review) {
+        this.reviewList.add(review);
+    }
+
+    private void addProduct(Product product) {
+        this.productList.add(product);
     }
 
     private void removeProduct(String productId) {
         this.productList.remove(productId);
     }
 
- 
+
     // Getter and setter
 
     public String getName() {
@@ -85,29 +85,23 @@ public class Restaurant {
         return campusId;
     }
 
-
-
-    public String getCampus() {
-        return campusId;
-    }
-
     public void setCampusId(String campusId1) {
         this.campusId = campusId1;
     }
 
-    public List<String> getReviewList() {
+    public List<Review> getReviewList() {
         return reviewList;
     }
 
-    public void setReviewList(List<String> reviewList) {
+    public void setReviewList(List<Review> reviewList) {
         this.reviewList = reviewList;
     }
 
-    public List<String> getProductList() {
+    public List<Product> getProductList() {
         return productList;
     }
 
-    public void setProductList(List<String> productList) {
+    public void setProductList(List<Product> productList) {
         this.productList = productList;
     }
 
