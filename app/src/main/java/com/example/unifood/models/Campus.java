@@ -14,7 +14,7 @@ public class Campus {
     private List<String> restaurants;
 
     public Campus(){
-        this.id = UUID.randomUUID().toString();;
+        this.id = UUID.randomUUID().toString();
         this.restaurants = new ArrayList<String>();
     }
 

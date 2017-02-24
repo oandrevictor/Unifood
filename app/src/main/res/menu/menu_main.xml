@@ -2,9 +2,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/update_user_info"
         android:orderInCategory="100"
-        android:title="my menu item!"
+        android:title="Editar Informações"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/user_sign_off"
+        android:orderInCategory="100"
+        android:title="Sair"
         app:showAsAction="never"/>
 
 </menu>

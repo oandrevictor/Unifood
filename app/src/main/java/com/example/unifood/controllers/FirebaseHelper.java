@@ -40,17 +40,7 @@ public class FirebaseHelper {
         ref.addListenerForSingleValueEvent (new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-
-                Log.e("Count " ,""+snapshot.getChildrenCount());
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    University unit = postSnapshot.getValue(University.class);
-                    if (unit.getId() == uniId ){
-                        uni = unit;
-                    }
-                }
-
                 uni = snapshot.getValue(University.class);
-
                 Log.e("Entrou " ,""+snapshot.getChildrenCount());
             }
             @Override
@@ -59,12 +49,6 @@ public class FirebaseHelper {
             }
         });
 
-
         return uni;
     }
-
-
-
-
-
 }

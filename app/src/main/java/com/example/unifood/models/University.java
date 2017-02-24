@@ -10,6 +10,7 @@ public class University {
     private List<String> allCampus;
 
     public University() {
+        this.id = UUID.randomUUID().toString();
         allCampus = new ArrayList<String>();
     }
 
@@ -20,6 +21,7 @@ public class University {
     }
 
     public boolean addCampus(String campus){
+
         if (campus != null) {
             return allCampus.add(campus);
         }
