@@ -53,10 +53,14 @@ public class LoadProducts extends AsyncTask<String, Void, String> {
         RestaurantProductRecyclerViewAdapter restAdapter = new RestaurantProductRecyclerViewAdapter(activity, productsSet);
         if (type.equals("student")) {
             RestaurantProductFragment fragment = (RestaurantProductFragment) activity.getFragmentManager().findFragmentById(fragmentId);
-            fragment.updateRecycler(restAdapter);
+            if (fragment != null) {
+                fragment.updateRecycler(restAdapter);
+            }
         } else if (type.equals("home")) {
             RestaurantHomeProductFragment fragment = (RestaurantHomeProductFragment) activity.getFragmentManager().findFragmentById(fragmentId);
-            fragment.updateRecycler(restAdapter);
+            if (fragment != null) {
+                fragment.updateRecycler(restAdapter);
+            }
         }
     }
 
