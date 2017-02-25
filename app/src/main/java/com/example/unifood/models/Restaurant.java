@@ -42,8 +42,8 @@ public class Restaurant {
         this.productList.add(product);
     }
 
-    public void removeProduct(String productId) {
-        this.productList.remove(productId);
+    public void removeProduct(Product product) {
+        this.productList.remove(product);
     }
 
     public float getRating() {

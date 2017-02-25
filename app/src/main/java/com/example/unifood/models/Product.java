@@ -14,12 +14,12 @@ public class Product {
     private final String EMPTY = new String();
 
     public Product() {
-
         this.id = UUID.randomUUID().toString();
         this.description = EMPTY;
     }
 
     public Product(String name, float cost, String description) {
+        this();
         this.name = name;
         this.cost = cost;
         this.description = description;
@@ -61,7 +61,7 @@ public class Product {
         this.cost = cost;
     }
 
-    public boolean isAvailability() {
+    public boolean isAvailable() {
         return availability;
     }
 
