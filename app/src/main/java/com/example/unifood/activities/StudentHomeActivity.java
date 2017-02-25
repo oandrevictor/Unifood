@@ -1,6 +1,7 @@
 package com.example.unifood.activities;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.University;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +35,7 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 
+import static android.R.attr.process;
 import static com.google.android.gms.common.stats.zzc.Ar;
 
 public class StudentHomeActivity extends AppCompatActivity  {
@@ -46,6 +49,8 @@ public class StudentHomeActivity extends AppCompatActivity  {
 
     private ArrayList<String> faveReferences = new ArrayList<>();
     RestaurantListAdapter restAdapter;
+    RestaurantListAdapter faveAdapter;
+
 
     private Utilities util;
 
@@ -53,16 +58,20 @@ public class StudentHomeActivity extends AppCompatActivity  {
     private TabSpec spec1,spec2,spec3;
 
     DatabaseReference ref;
-    DatabaseReference auxRef;
+    //DatabaseReference auxRef;
     DatabaseReference restRef;
     ValueEventListener getFaveListener;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_home);
         ButterKnife.inject(this);
+        progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Carregando Favoritos");
+        progressDialog.show();
 
         setUpFirebase();
 
@@ -72,7 +81,16 @@ public class StudentHomeActivity extends AppCompatActivity  {
 
         loadSavedRestaurants();
 
-        paintRestaurants();
+
+       restAdapter = new RestaurantListAdapter(this, restaurantSet);
+        RestaurantListFragment fragment = (RestaurantListFragment) getFragmentManager().findFragmentById(R.id.all_restaurants);
+        fragment.updateRecycler(restAdapter);
+
+        RestaurantListFragment fragment2 = (RestaurantListFragment) getFragmentManager().findFragmentById(R.id.saved_restaurants);
+        faveAdapter = new RestaurantListAdapter(this, faveRestaurantSet);
+        fragment2.updateRecycler(faveAdapter);
+
+
 
         for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
             View v = tabHost.getTabWidget().getChildAt(i);
@@ -103,11 +121,23 @@ public class StudentHomeActivity extends AppCompatActivity  {
     }*/
     private void loadAllRestaurants(){
         restRef = mDatabase.child("restaurants");
-        restRef.addValueEventListener (new ValueEventListener() {
+        restRef.addChildEventListener (new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                new LoadRestaurants(snapshot, restaurantSet, StudentHomeActivity.this, R.id.all_restaurants).execute();
+            public void onChildRemoved(DataSnapshot snapshot){}
+
+            @Override
+            public void onChildChanged(DataSnapshot snapshot, String string){}
+
+            @Override
+            public void onChildMoved(DataSnapshot snapshot, String string){}
+
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String string){
+                Restaurant restaurant = snapshot.getValue(Restaurant.class);
+                restaurantSet.add(restaurant);
+                restAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(DatabaseError firebaseError) {
                 Log.e("The read failed: " ,firebaseError.getMessage());
@@ -121,51 +151,60 @@ public class StudentHomeActivity extends AppCompatActivity  {
         String uid = mFirebaseUser.getUid();
         ref = mDatabase.child("users").child(uid).child("studentInfo").child("favRestaurants");
 
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addChildEventListener (new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshotx) {
-                faveRestaurantSet = new ArrayList<>();
+            public void onChildRemoved(DataSnapshot snapshot){}
 
-                for (DataSnapshot postSnapshotx: snapshotx.getChildren()) {
-                    String refr = postSnapshotx.getValue(String.class);
-                    auxRef = mDatabase.child("restaurants").child(refr);
+            @Override
+            public void onChildChanged(DataSnapshot snapshot, String string){}
 
+            @Override
+            public void onChildMoved(DataSnapshot snapshot, String string){}
 
-                    auxRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot snapshoty) {
-                            Restaurant rest = snapshoty.getValue(Restaurant.class);
-                            faveRestaurantSet.add(rest);
-                            restAdapter.notifyDataSetChanged();
-                            paintRestaurants();
+            @Override
+            public void onChildAdded(DataSnapshot snapshot, String string){
+                String restId = snapshot.getValue(String.class);
+                DatabaseReference auxRef = mDatabase.child("restaurants").child(restId);
 
 
-                        }
+                auxRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshoty) {
+                        Restaurant rest = snapshoty.getValue(Restaurant.class);
+                        faveRestaurantSet.add(rest);
+                        faveAdapter.notifyDataSetChanged();
+
+                    }
 
 
-                        @Override
-                        public void onCancelled(DatabaseError firebaseError) {
-                            Log.e("The read failed: " ,firebaseError.getMessage());
-                        }
-                    });
+                    @Override
+                    public void onCancelled(DatabaseError firebaseError) {
+                        Log.e("The read failed: " ,firebaseError.getMessage());
+                    }
+                });
 
-
-                }
+                progressDialog.dismiss();
             }
+
             @Override
             public void onCancelled(DatabaseError firebaseError) {
                 Log.e("The read failed: " ,firebaseError.getMessage());
+                progressDialog.dismiss();
             }
+
+
         });
+
+
+
     }
 
 
 
 
     private void paintRestaurants(){
-        restAdapter = new RestaurantListAdapter(this, faveRestaurantSet);
         RestaurantListFragment fragment = (RestaurantListFragment) getFragmentManager().findFragmentById(R.id.saved_restaurants);
-        fragment.updateRecycler(restAdapter);
+        fragment.updateRecycler(faveAdapter);
     }
     private void setUpHostBar(){
 
@@ -206,6 +245,9 @@ public class StudentHomeActivity extends AppCompatActivity  {
         }
         else if(id == R.id.user_sign_off){
 
+            mFirebaseAuth.signOut(); // SignOut of Firebase
+            startLogInActivity();
+
             return true;
         }
 
@@ -216,6 +258,12 @@ public class StudentHomeActivity extends AppCompatActivity  {
         Class editActivity = StudentEditActivity.class;
         Intent goToEdit = new Intent(this, editActivity);
         startActivity(goToEdit);
+    }
+
+    private void startLogInActivity() {
+        Class loginActivity = LoginActivity.class;
+        Intent goToLogin = new Intent(this, loginActivity);
+        startActivity(goToLogin);
     }
 
 }

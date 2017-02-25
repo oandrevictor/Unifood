@@ -12,8 +12,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,8 +28,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -40,11 +49,13 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     UserInfo userInfo;
     StudentInfo studentInfo;
+    String campus;
+    FirebaseUser mFirebaseUser;
+    DatabaseReference mDatabase;
 
 
     @InjectView(R.id.first_name) EditText first_nameText;
     @InjectView(R.id.last_name) EditText last_nameText;
-    @InjectView(R.id.input_university) EditText universityText;
     @InjectView(R.id.input_email) EditText emailText;
     @InjectView(R.id.input_password) EditText passwordText;
     @InjectView(R.id.btn_signup) Button signupButton;
@@ -57,6 +68,8 @@ public class SignUpActivity extends AppCompatActivity {
         ButterKnife.inject(this);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +77,7 @@ public class SignUpActivity extends AppCompatActivity {
                 signup();
             }
         });
-
+        loadCampus();
         toLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,11 +87,52 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    public void loadCampus(){
+
+        mDatabase.child("campus").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final List<String> campusNames = new ArrayList<String>();
+                final List<String> campusId = new ArrayList<String>();
+
+                for (DataSnapshot campusSnapshot: dataSnapshot.getChildren()) {
+                    String areaName = campusSnapshot.child("name").getValue(String.class);
+                    campusNames.add(areaName);
+                    campusId.add(campusSnapshot.getKey());
+                }
+
+                Spinner campusSpinner = (Spinner) findViewById(R.id.sign_up_campus_spinner);
+                ArrayAdapter<String> campusAdapter = new ArrayAdapter<String>(SignUpActivity.this, android.R.layout.simple_spinner_item, campusNames);
+                campusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                campusSpinner.setAdapter(campusAdapter);
+
+                campusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                               int arg2, long arg3) {
+                        campus= campusId.get(arg2);
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> arg0) {
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void signup() {
         Log.d(TAG, getString(R.string.register));
         String firstName = first_nameText.getText().toString();
         String lastName = last_nameText.getText().toString();
-        String university = universityText.getText().toString();
+        String university = campus;
         String email = emailText.getText().toString();
         String password = passwordText.getText().toString();
 
@@ -106,8 +160,8 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-                            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                            mFirebaseUser = mFirebaseAuth.getCurrentUser();
+                            mDatabase = FirebaseDatabase.getInstance().getReference();
                             String mUserId  = mFirebaseUser.getUid();
                             mDatabase.child("users").child(mUserId).child("userInfo").setValue(userInfo);
                             mDatabase.child("users").child(mUserId).child("studentInfo").setValue(studentInfo);
@@ -161,12 +215,7 @@ public class SignUpActivity extends AppCompatActivity {
             last_nameText.setError(null);
         }
 
-        if (university.isEmpty() || university.length() < 1) {
-            universityText.setError(getText(R.string.two_characters));
-            valid = false;
-        } else {
-            universityText.setError(null);
-        }
+
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailText.setError(getText(R.string.valid_email));

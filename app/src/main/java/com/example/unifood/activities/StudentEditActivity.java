@@ -53,9 +53,6 @@ public class StudentEditActivity extends AppCompatActivity {
         mDatabase.child("campus").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Is better to use a List, because you don't know the size
-                // of the iterator returned by dataSnapshot.getChildren() to
-                // initialize the array
                 final List<String> campusNames = new ArrayList<String>();
                 final List<String> campusId = new ArrayList<String>();
 
