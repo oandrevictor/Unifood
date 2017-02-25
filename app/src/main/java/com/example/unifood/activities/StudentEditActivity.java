@@ -137,7 +137,6 @@ public class StudentEditActivity extends AppCompatActivity {
         startActivity(goToHome);
     }
 
-
     public void setUpFirebase(){
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();

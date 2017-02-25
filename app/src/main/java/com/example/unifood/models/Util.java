@@ -1,6 +1,7 @@
 package com.example.unifood.models;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -18,12 +19,9 @@ public class Util {
     }
 
     public String getCurrentDate() {
-        Locale br = new Locale("pt","br");
-        Date currentDate = new Date();
-        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, br);
-        df.format(currentDate);
-
-        return currentDate.toString();
+        Date date = new Date();
+        String currentDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
+        return currentDate;
     }
 
 }

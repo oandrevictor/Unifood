@@ -40,9 +40,9 @@
         <activity android:name=".activities.RestaurantActivity" />
         <activity android:name=".activities.RestaurantRegisterActivity" />
         <activity android:name=".activities.StudentHomeActivity" />
-        <activity android:name=".activities.RestaurantHomeActivity"></activity>
-        <activity android:name=".activities.StudentEditActivity"></activity>
-
+        <activity android:name=".activities.RestaurantHomeActivity" />
+        <activity android:name=".activities.StudentEditActivity" />
+        <activity android:name=".activities.RestaurantEditActivity"></activity>
     </application>
 
 </manifest>

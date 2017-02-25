@@ -48,4 +48,9 @@
     <string name="add_comment">Insira seu comentário</string>
     <string name="create_review">Avaliar</string>
 
+    <!-- Edit Restaurant -->
+    <string name="rest_name">Nome</string>
+    <string name="rest_local">Localização</string>
+    <string name="rest_univ">Univerdidade</string>
+
 </resources>
