@@ -134,7 +134,9 @@ public class StudentHomeActivity extends AppCompatActivity  {
                             Restaurant rest = snapshoty.getValue(Restaurant.class);
                             faveRestaurantSet.add(rest);
                             restAdapter.notifyDataSetChanged();
-                            
+                            paintRestaurants();
+
+
                         }
 
 
