@@ -24,6 +24,7 @@
             android:id="@+id/rest_product_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textStyle="bold"
             android:layout_alignParentLeft="true"
             android:layout_margin="@dimen/text_margin"
             android:textAppearance="?attr/textAppearanceListItem" />
