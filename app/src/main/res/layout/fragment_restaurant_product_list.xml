@@ -7,15 +7,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/product_list"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:name="com.example.unifood.fragments.RestaurantProductFragment"
-    app:layoutManager="LinearLayoutManager"
-    tools:context="com.example.unifood.fragments.RestaurantProductFragment"
-    tools:listitem="@layout/fragment_restaurant_product"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/product_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:name="com.example.unifood.fragments.RestaurantProductFragment"
+        app:layoutManager="LinearLayoutManager"
+        tools:context="com.example.unifood.fragments.RestaurantProductFragment"
+        tools:listitem="@layout/fragment_restaurant_product"/>
 
 </LinearLayout>
