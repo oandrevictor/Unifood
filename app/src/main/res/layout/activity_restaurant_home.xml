@@ -4,25 +4,86 @@
     android:id="@+id/activity_restaurant_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.unifood.activities.RestaurantHomeFragment">
+    android:orientation="vertical"
+    tools:context="com.example.unifood.activities.RestaurantHomeActivity">
 
-    <TextView
-        android:text="Comentários mais recentes"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/last_ratings"
-        android:fontFamily="serif" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true">
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
-        android:layout_below="@+id/last_ratings"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true" />
+        <TabHost
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/restaurantHome_host_bar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/home_Tab1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <fragment
+                            android:name="com.example.unifood.fragments.RestaurantProfileFragment"
+                            android:id="@+id/home_restaurant_profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:layout="@layout/fragment_restaurant_profile"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/home_tab2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <fragment
+                            android:name="com.example.unifood.fragments.RestaurantHomeProductFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/home_restaurant_products"
+                            tools:layout="@layout/fragment_restaurant_home_product_list" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/home_tab3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <fragment
+                            android:name="com.example.unifood.fragments.RestaurantHomeReviewFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/home_restaurant_reviews"
+                            tools:layout="@layout/fragment_restaurant_home_review_list" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+
+    </LinearLayout>
+
 </RelativeLayout>

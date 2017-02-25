@@ -106,7 +106,7 @@ public class StudentEditActivity extends AppCompatActivity {
         String email = emailField.getText().toString();
 
         updateButton.setEnabled(false);
-        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dark_Dialog);
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Atualizando.");
         progressDialog.show();
