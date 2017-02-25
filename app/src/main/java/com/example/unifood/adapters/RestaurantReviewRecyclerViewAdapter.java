@@ -36,7 +36,7 @@ public class RestaurantReviewRecyclerViewAdapter extends RecyclerView.Adapter<Re
         if (position < mReviews.size()) {
             review = mReviews.get(position);
             holder.setReview(review);
-            holder.mRate.setText( Float.toString( mReviews.get(position).getRate() ) );
+            holder.mRate.setText("★" + Math.round(mReviews.get(position).getRate()));
             holder.mDate.setText(mReviews.get(position).getDate());
             holder.mComment.setText(mReviews.get(position).getComment());
         }

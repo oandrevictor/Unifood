@@ -20,7 +20,7 @@ public class Util {
 
     public String getCurrentDate() {
         Date date = new Date();
-        String currentDate = new SimpleDateFormat("dd-MM-yyyy").format(date);
+        String currentDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
         return currentDate;
     }
 
