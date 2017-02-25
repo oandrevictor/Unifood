@@ -96,7 +96,6 @@ public class StudentHomeActivity extends AppCompatActivity  {
         return true;
     }
 
-
     /* needs to be uncommented in order to not go back to future loading screen.
     @Override
     public void onBackPressed() {
@@ -157,14 +156,12 @@ public class StudentHomeActivity extends AppCompatActivity  {
         });
     }
 
-
-
-
     private void paintRestaurants(){
         restAdapter = new RestaurantListAdapter(this, faveRestaurantSet);
         RestaurantListFragment fragment = (RestaurantListFragment) getFragmentManager().findFragmentById(R.id.saved_restaurants);
         fragment.updateRecycler(restAdapter);
     }
+
     private void setUpHostBar(){
 
         tabHost =(TabHost)findViewById(R.id.host_bar);
