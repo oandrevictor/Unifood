@@ -12,10 +12,6 @@ import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
 
-/**
- * Created by oandrevictor on 18/02/17.
- */
-
 public class LoadRestaurants extends AsyncTask<String, Void, String> {
     DataSnapshot snapshot;
     ArrayList<Restaurant> restaurantSet;
@@ -31,7 +27,7 @@ public class LoadRestaurants extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        Log.e("Count " ,""+snapshot.getChildrenCount());
+        Log.e("Count " ,"" + snapshot.getChildrenCount());
         for (DataSnapshot postSnapshot: snapshot.getChildren()) {
             Restaurant rst = postSnapshot.getValue(Restaurant.class);
             restaurantSet.add(rst);

@@ -84,7 +84,7 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
 
         signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme);
+        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();
@@ -107,9 +107,9 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
 
                             mDatabase.child("users").child(mUserId).child("userInfo").setValue(userInfo);
                             restaurant.setUserId(mUserId);
-                            String restaurantKey = mDatabase.child("restaurants").push().getKey();
-                            mDatabase.child("restaurants").child(restaurantKey).setValue(restaurant);
-                            ownerInfo = new OwnerInfo(restaurantKey);
+                            mDatabase.child("restaurants").push();
+                            mDatabase.child("restaurants").child(restaurant.getId()).setValue(restaurant);
+                            ownerInfo = new OwnerInfo(restaurant.getId());
                             mDatabase.child("users").child(mUserId).child("ownerInfo").setValue(ownerInfo);
 
                             Intent intent = new Intent(RestaurantRegisterActivity.this, MainActivity.class);

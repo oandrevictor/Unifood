@@ -13,8 +13,6 @@ import android.widget.Button;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.unifood.R;
 import com.example.unifood.adapters.RestaurantListAdapter;
 import com.example.unifood.controllers.FirebaseHelper;
@@ -45,6 +43,7 @@ public class StudentHomeActivity extends AppCompatActivity  {
     private ArrayList<University> dataSet = new ArrayList<>();
     private ArrayList<Restaurant> restaurantSet = new ArrayList<>();
     private ArrayList<Restaurant> faveRestaurantSet = new ArrayList<>();
+
     private ArrayList<String> faveReferences = new ArrayList<>();
     RestaurantListAdapter restAdapter;
 
@@ -72,6 +71,7 @@ public class StudentHomeActivity extends AppCompatActivity  {
         loadAllRestaurants();
 
         loadSavedRestaurants();
+
         paintRestaurants();
 
         for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
@@ -85,6 +85,11 @@ public class StudentHomeActivity extends AppCompatActivity  {
     }
 
     @Override
+    public void onBackPressed() {
+
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
@@ -92,12 +97,10 @@ public class StudentHomeActivity extends AppCompatActivity  {
     }
 
 
-
     /* needs to be uncommented in order to not go back to future loading screen.
     @Override
     public void onBackPressed() {
     }*/
-
     private void loadAllRestaurants(){
         restRef = mDatabase.child("restaurants");
         restRef.addValueEventListener (new ValueEventListener() {
@@ -113,7 +116,7 @@ public class StudentHomeActivity extends AppCompatActivity  {
 
     }
 
-    private void loadSavedRestaurants(){
+    private void loadSavedRestaurants() {
 
         String uid = mFirebaseUser.getUid();
         ref = mDatabase.child("users").child(uid).child("studentInfo").child("favRestaurants");
@@ -146,9 +149,6 @@ public class StudentHomeActivity extends AppCompatActivity  {
 
 
                 }
-
-
-
             }
             @Override
             public void onCancelled(DatabaseError firebaseError) {

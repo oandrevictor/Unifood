@@ -41,7 +41,6 @@ public class FirebaseHelper {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 uni = snapshot.getValue(University.class);
-
                 Log.e("Entrou " ,""+snapshot.getChildrenCount());
             }
             @Override
@@ -50,12 +49,6 @@ public class FirebaseHelper {
             }
         });
 
-
         return uni;
     }
-
-
-
-
-
 }
