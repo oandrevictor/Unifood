@@ -48,6 +48,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
             holder.setRestaurant(rst);
             holder.titleTextView.setText(rst.getName());
             holder.localizationTextView.setText(rst.getLocalization());
+            holder.rating.setText(Float.toString(rst.getRating()));
         }
 
     }
