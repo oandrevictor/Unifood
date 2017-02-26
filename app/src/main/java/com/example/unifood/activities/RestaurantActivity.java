@@ -12,15 +12,12 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
-import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.unifood.R;
 import com.example.unifood.firebase.utils.LoadProducts;
 import com.example.unifood.firebase.utils.LoadReviews;
-import com.example.unifood.fragments.RestaurantProfileFragment;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
@@ -28,7 +25,6 @@ import com.example.unifood.models.StudentInfo;
 import com.example.unifood.models.Util;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.api.model.StringList;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -154,15 +150,15 @@ public class RestaurantActivity extends AppCompatActivity {
 
         spec1 = tabHost.newTabSpec("Perfil");
         spec1.setIndicator("Perfil");
-        spec1.setContent(R.id.tab1);
+        spec1.setContent(R.id.tab_1);
 
         spec2 = tabHost.newTabSpec("Cardápio");
         spec2.setIndicator("Cardápio");
-        spec2.setContent(R.id.tab2);
+        spec2.setContent(R.id.tab_2);
 
         spec3 = tabHost.newTabSpec("Avaliações");
         spec3.setIndicator("Avaliações");
-        spec3.setContent(R.id.tab3);
+        spec3.setContent(R.id.tab_3);
 
         tabHost.addTab(spec1);
         tabHost.addTab(spec2);
@@ -244,7 +240,7 @@ public class RestaurantActivity extends AppCompatActivity {
         return valid;
     }
 
-    public void listenerFavButton() {
+    private void listenerFavButton() {
         favButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -253,7 +249,7 @@ public class RestaurantActivity extends AppCompatActivity {
         });
     }
 
-    public void favoritingRestaurant() {
+    private void favoritingRestaurant() {
 
         String userUid = mFirebaseUser.getUid();
         studentInfoRef = mDatabase.child("users").child(userUid).child("studentInfo");
@@ -281,22 +277,5 @@ public class RestaurantActivity extends AppCompatActivity {
             }
         });
     }
-
-    /*
-        @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-     */
 
 }
