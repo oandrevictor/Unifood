@@ -23,15 +23,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/restaurant_item_title"
-                android:textSize="24sp"
-                android:textStyle="bold"/>
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/jet" />
 
             <TextView
                 android:text="Próximo ao bloco BG"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/restaurant_item_location"
-                android:textSize="18sp"/>
+                android:textSize="14sp"/>
 
         </LinearLayout>
 
@@ -39,26 +40,29 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1">
-
-            <RatingBar
-                android:layout_width="51dp"
-                android:id="@+id/ratingBar"
-                android:rating="10"
+            <TextView
+                android:text="Avaliação"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minHeight="10dip"
-                android:clickable="false"
-                android:layout_alignParentRight="true"/>
+                android:layout_gravity="center"
+                android:layout_alignParentRight="true"
+                android:id="@+id/avaliacao_text"
+                android:textColor="@color/oil" />
+
 
             <TextView
                 android:text="3.5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/restaurant_rating_value"
-                android:textSize="20sp"
-                android:layout_gravity="center"
-                android:layout_centerInParent="true"
+                android:textSize="18sp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/avaliacao_text"
                 android:textStyle="bold"
-                android:layout_toLeftOf="@id/ratingBar"/>
+                android:textColor="@color/jet" />
+
+
         </RelativeLayout>
 
     </LinearLayout>

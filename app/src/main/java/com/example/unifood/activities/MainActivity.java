@@ -1,6 +1,9 @@
 package com.example.unifood.activities;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.unifood.R;
 import com.example.unifood.adapters.UniversityListAdapter;
@@ -30,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import static android.R.attr.type;
+import static com.example.unifood.R.drawable.fullbg;
 
 public class MainActivity extends AppCompatActivity {
     private UniversityListAdapter mAdapter;
@@ -50,8 +55,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
+
         setContentView(R.layout.activity_main);
+        ImageView mImageView = (ImageView) findViewById(R.id.backg);
+        mImageView.setImageBitmap(
+                decodeSampledBitmapFromResource(getResources(), R.drawable.fullbg, 100, 100));
         setUpFirebase();
+
+        getSupportActionBar().hide();
+
 
         if (mFirebaseUser == null) {
             // Not logged in, launch the Log In activity
@@ -80,37 +93,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        // Click SignOut Button
-        Button signOutButton = (Button) this.findViewById(R.id.sign_out_button);
-        signOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFirebaseAuth.signOut(); // SignOut of Firebase
-                startLogInActivity(); //* Not sure if will work, starts the LogInActivity Again
-            }
-        });
-
-        // Click Admin Button
-        Button admButton = (Button) this.findViewById(R.id.admin_button);
-        admButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startAdmActivity();
-            }
-        });
-        dataSet = new ArrayList<University>();
-        ref = mDatabase.child("universities");
-
-        ref.addValueEventListener (new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                new LongOperation(snapshot).execute();
-            }
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-                Log.e("The read failed: " ,firebaseError.getMessage());
-            }
-        });
 
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -191,58 +173,45 @@ public class MainActivity extends AppCompatActivity {
         client.disconnect();
     }
 
-    protected class LongOperation extends AsyncTask<String, Void, String> {
-        DataSnapshot snapshot;
-        public LongOperation(DataSnapshot snapshot){
-            this.snapshot = snapshot;
-        }
+    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+                                                         int reqWidth, int reqHeight) {
 
-        @Override
-        protected String doInBackground(String... params) {
-            Log.e("Count " ,""+snapshot.getChildrenCount());
-            for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                University uni = postSnapshot.getValue(University.class);
-                dataSet.add(uni);
-            }
-/*
-            ref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    Log.e("Count " ,""+snapshot.getChildrenCount());
-                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                        University uni = postSnapshot.getValue(University.class);
-                        dataSet.add(uni);
-                    }
-                }
-                @Override
-                public void onCancelled(DatabaseError firebaseError) {
-                    Log.e("The read failed: " ,firebaseError.getMessage());
-                }
-            });*/
-            return "Executed";
-        }
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(res, resId, options);
 
-        @Override
-        protected void onPostExecute(String result) {
-            mAdapter = new UniversityListAdapter(MainActivity.this, dataSet);
-            // Link the adapter to the RecyclerView
-            RecyclerView universityListRecyclerView;
-            // Set local attributes to corresponding views
-            universityListRecyclerView = (RecyclerView) MainActivity.this.findViewById(R.id.all_universities_list);
-            // Set layout for the RecyclerView, because it's a list we are using the linear layout
-            universityListRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-            universityListRecyclerView.setAdapter(mAdapter);
-            setProgressBarIndeterminateVisibility(false);
-        }
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 
-        @Override
-        protected void onPreExecute() {
-
-            setProgressBarIndeterminateVisibility(true);
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {}
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(res, resId, options);
     }
+
+
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+
 
 }

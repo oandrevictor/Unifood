@@ -73,6 +73,8 @@ public class StudentHomeActivity extends AppCompatActivity  {
         progressDialog.setMessage("Carregando Favoritos");
         progressDialog.show();
 
+
+
         setUpFirebase();
 
         setUpHostBar();
@@ -94,7 +96,7 @@ public class StudentHomeActivity extends AppCompatActivity  {
 
         for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
             View v = tabHost.getTabWidget().getChildAt(i);
-            v.setBackgroundResource(R.color.colorPrimary);
+            //v.setBackgroundResource(R.color.colorPrimary);
 
             TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
             tv.setTextColor(getResources().getColor(R.color.white));
