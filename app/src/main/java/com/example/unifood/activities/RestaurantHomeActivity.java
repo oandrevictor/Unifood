@@ -271,6 +271,8 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         }
         else if(id == R.id.user_sign_off){
 
+            mFirebaseAuth.signOut(); // SignOut of Firebase
+            startLogInActivity();
             return true;
         }
 
@@ -282,6 +284,12 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         Intent goToEdit = new Intent(this, editActivity);
         goToEdit.putExtra("REST_ID", restID);
         startActivity(goToEdit);
+    }
+
+    private void startLogInActivity() {
+        Class loginActivity = LoginActivity.class;
+        Intent goToLogin = new Intent(this, loginActivity);
+        startActivity(goToLogin);
     }
 
 }
