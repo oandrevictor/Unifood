@@ -19,17 +19,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.pressImeActionButton;
 import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -37,13 +33,13 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class RestaurantEditActivityTest {
+public class AddProductTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void restaurantEditTest() {
+    public void addProductTest() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.email_field),
                         withParent(withId(R.id.fullscreen_content)),
@@ -54,19 +50,13 @@ public class RestaurantEditActivityTest {
                 allOf(withId(R.id.email_field),
                         withParent(withId(R.id.fullscreen_content)),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("rita@gmail.com"));
+        appCompatEditText2.perform(replaceText("rita@gmail.com"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.email_field), withText("rita@gmail.com"),
-                        withParent(withId(R.id.fullscreen_content)),
-                        isDisplayed()));
-        appCompatEditText3.perform(pressImeActionButton());
-
-        ViewInteraction appCompatEditText4 = onView(
                 allOf(withId(R.id.password_field),
                         withParent(withId(R.id.fullscreen_content)),
                         isDisplayed()));
-        appCompatEditText4.perform(replaceText("rita123"), closeSoftKeyboard());
+        appCompatEditText3.perform(replaceText("rita123"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.login_button), withText("Entrar"),
@@ -74,52 +64,51 @@ public class RestaurantEditActivityTest {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        openActionBarOverflowOrOptionsMenu(getInstrumentation().getContext());
-        onView(withText("Editar Informações")).perform(click());
-        /*ViewInteraction appCompatTextView = onView(
-                allOf(withId(R.id.update_user_info), withText("Editar Informações"), isDisplayed()));
-        appCompatTextView.perform(click());*/
+        ViewInteraction appCompatTextView = onView(
+                allOf(withText("Cardápio"), isDisplayed()));
+        appCompatTextView.perform(click());
+
+        ViewInteraction appCompatEditText4 = onView(
+                allOf(withId(R.id.product_name), isDisplayed()));
+        appCompatEditText4.perform(click());
 
         ViewInteraction appCompatEditText5 = onView(
-                withId(R.id.rest_edit_name));
-        appCompatEditText5.perform(scrollTo(), replaceText("Rita's Self Service"), closeSoftKeyboard());
+                allOf(withId(R.id.product_name), isDisplayed()));
+        appCompatEditText5.perform(replaceText("Suco Abacaxi Com Acerola"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText6 = onView(
-                allOf(withId(R.id.rest_edit_name), withText("Rita's Self Service")));
-        appCompatEditText6.perform(pressImeActionButton());
+                allOf(withId(R.id.product_price), isDisplayed()));
+        appCompatEditText6.perform(replaceText("2,50"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText7 = onView(
-                withId(R.id.rest_edit_local));
-        appCompatEditText7.perform(scrollTo(), replaceText("Bloco AA - Reitoria"), closeSoftKeyboard());
-
-        ViewInteraction appCompatEditText8 = onView(
-                allOf(withId(R.id.rest_edit_local), withText("Bloco AA - Reitoria")));
-        appCompatEditText8.perform(pressImeActionButton());
+                allOf(withId(R.id.product_description), isDisplayed()));
+        appCompatEditText7.perform(replaceText("O melhor!"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.update_b), withText("Atualizar")));
-        appCompatButton2.perform(scrollTo(), click());
+                allOf(withId(R.id.new_product_button), withText("Adicionar Produto"), isDisplayed()));
+        appCompatButton2.perform(click());
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.rest_profile_name), withText("Rita's Self Service"),
-                        childAtPosition(
-                                allOf(withId(R.id.profile_layout),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
-                                                1)),
-                                0),
-                        isDisplayed()));
-        textView.check(matches(withText("Rita's Self Service")));
+        pressBack();
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.rest_profile_local), withText("Bloco AA - Reitoria"),
+                allOf(withText("Suco Abacaxi Com Acerola"),
                         childAtPosition(
                                 childAtPosition(
-                                        IsInstanceOf.<View>instanceOf(android.widget.RelativeLayout.class),
-                                        3),
-                                1),
+                                        IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
+                                        0),
+                                0),
                         isDisplayed()));
-        textView2.check(matches(withText("Bloco AA - Reitoria")));
+        textView2.check(matches(withText("Suco Abacaxi Com Acerola")));
+
+        ViewInteraction textView3 = onView(
+                allOf(withId(R.id.rest_product_name), withText("Suco Abacaxi Com Acerola"),
+                        childAtPosition(
+                                childAtPosition(
+                                        IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
+                                        0),
+                                0),
+                        isDisplayed()));
+        textView3.check(matches(isDisplayed()));
 
     }
 
