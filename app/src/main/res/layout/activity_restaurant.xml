@@ -82,18 +82,18 @@
                     </LinearLayout>
 
                 </FrameLayout>
-            </LinearLayout>
-        </TabHost>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/favButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:clickable="true"
-            android:onClick="onClick"
-            app:fabSize="mini"
-            app:srcCompat="@android:drawable/btn_star_big_off" />
+            </LinearLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/favButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:clickable="true"
+                android:onClick="onClick"
+                app:fabSize="mini"
+                app:srcCompat="@android:drawable/btn_star_big_off" />
+        </TabHost>
 
     </LinearLayout>
 

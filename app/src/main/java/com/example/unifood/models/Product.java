@@ -16,6 +16,7 @@ public class Product {
     public Product() {
         this.id = UUID.randomUUID().toString();
         this.description = EMPTY;
+        this.availability = true;
     }
 
     public Product(String name, float cost, String description) {
@@ -23,7 +24,6 @@ public class Product {
         this.name = name;
         this.cost = cost;
         this.description = description;
-        this.availability = true;
     }
 
 

@@ -16,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.unifood.R;
-import com.example.unifood.firebase.utils.LoadProducts;
-import com.example.unifood.firebase.utils.LoadReviews;
+import com.example.unifood.adapters.RestaurantProductRecyclerViewAdapter;
+import com.example.unifood.adapters.RestaurantReviewRecyclerViewAdapter;
+import com.example.unifood.fragments.RestaurantProductFragment;
+import com.example.unifood.fragments.RestaurantReviewFragment;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
@@ -25,6 +27,7 @@ import com.example.unifood.models.StudentInfo;
 import com.example.unifood.models.Util;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,7 +56,9 @@ public class RestaurantActivity extends AppCompatActivity {
 
     private String restaurantUId;
     private ArrayList<Review> reviewSet = new ArrayList<>();
+    RestaurantReviewRecyclerViewAdapter reviewAdapter;
     private ArrayList<Product> productSet = new ArrayList<>();
+    RestaurantProductRecyclerViewAdapter productAdapter;
 
     @InjectView(R.id.rest_profile_name) TextView restName;
     @InjectView(R.id.rest_profile_uni) TextView restCampus;
@@ -82,6 +87,14 @@ public class RestaurantActivity extends AppCompatActivity {
             loadProfile();
             loadProducts();
             loadReviews();
+
+            RestaurantProductFragment fragment = (RestaurantProductFragment) getFragmentManager().findFragmentById(R.id.restaurant_products);
+            productAdapter = new RestaurantProductRecyclerViewAdapter(this, productSet);
+            fragment.updateRecycler(productAdapter);
+
+            RestaurantReviewFragment fragment2 = (RestaurantReviewFragment) getFragmentManager().findFragmentById(R.id.restaurant_reviews);
+            reviewAdapter = new RestaurantReviewRecyclerViewAdapter(this, reviewSet);
+            fragment2.updateRecycler(reviewAdapter);
         }
 
         listenerRatingBar();
@@ -115,30 +128,64 @@ public class RestaurantActivity extends AppCompatActivity {
 
     private void loadProducts() {
         productsRef = restaurantRef.child("productList");
-        productsRef.addValueEventListener(new ValueEventListener() {
+        productsRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                new LoadProducts(dataSnapshot, productSet, RestaurantActivity.this, R.id.restaurant_products, "student").execute();
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Product product = dataSnapshot.getValue(Product.class);
+                productSet.add(product);
+                productAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
+
             }
         });
     }
 
     private void loadReviews() {
         reviewsRef = restaurantRef.child("reviewList");
-        reviewsRef.addValueEventListener(new ValueEventListener() {
+        reviewsRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                new LoadReviews(dataSnapshot, reviewSet, RestaurantActivity.this, R.id.restaurant_reviews, "student").execute();
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Review review = dataSnapshot.getValue(Review.class);
+                reviewSet.add(review);
+                reviewAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
+
             }
         });
     }
