@@ -62,6 +62,10 @@ public class CampusTest {
 
         Assert.assertEquals(0, campus.getRestaurants().size());
 
+        campus.setRestaurants(null);
+
+        Assert.assertEquals(0, campus.getRestaurants().size());
+
         campus.setRestaurants(RESTAURANT_LIST);
 
         Assert.assertEquals(3, campus.getRestaurants().size());

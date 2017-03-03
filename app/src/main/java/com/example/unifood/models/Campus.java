@@ -47,7 +47,6 @@ public class Campus {
 
     public boolean removeRestaurant(String restaurantId){
         return restaurants.remove(restaurantId);
-
     }
 
 
