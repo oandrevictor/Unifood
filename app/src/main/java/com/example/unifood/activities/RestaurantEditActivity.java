@@ -77,17 +77,23 @@ public class RestaurantEditActivity extends AppCompatActivity {
         String local = localField.getText().toString();
         String email = emailField.getText().toString();
 
-        updateButton.setEnabled(false);
-        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Atualizando.");
-        progressDialog.show();
+        final ProgressDialog progressDialog = startDialog(getString(R.string.updateDialog), updateButton);
 
         mFirebaseUser.updateEmail(email);
 
         if (!name.equals(VAZIO))  restaurantRef.child("name").setValue(name);
-        if (!local.equals(VAZIO)) restaurantRef.child("localization").setValue(local);
+        if (!local.equals(VAZIO)) restaurantRef.child("localization").setValue(local, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
+                if (firebaseError != null) {
+                    Toast.makeText(RestaurantEditActivity.this, "Perfil do restaurante não atualizado!", Toast.LENGTH_SHORT).show();
 
+                } else {
+                    Toast.makeText(RestaurantEditActivity.this, "Perfil do restaurante atualizado.", Toast.LENGTH_SHORT).show();
+                }
+                finishDialog(progressDialog, updateButton);
+            }
+        });
         startHomeActivity();
     }
 
@@ -102,6 +108,21 @@ public class RestaurantEditActivity extends AppCompatActivity {
     private void setRestaurantRef() {
         if (restaurantId != null)
             restaurantRef = mDatabase.child("restaurants").child(restaurantId);
+    }
+
+    private ProgressDialog startDialog(String message, Button bt) {
+        bt.setEnabled(false);
+        ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(message);
+        progressDialog.show();
+
+        return progressDialog;
+    }
+
+    private void finishDialog(ProgressDialog pg, Button bt) {
+        pg.dismiss();
+        bt.setEnabled(true);
     }
 
     public void startHomeActivity(){

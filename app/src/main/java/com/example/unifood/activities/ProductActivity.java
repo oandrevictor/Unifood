@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.unifood.R;
 import com.example.unifood.models.Product;
@@ -18,8 +20,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import static java.lang.String.*;
 
 public class ProductActivity extends AppCompatActivity {
 
@@ -34,9 +40,9 @@ public class ProductActivity extends AppCompatActivity {
     private Product mProduct;
     private int mProductIndex;
 
-    @InjectView(R.id.product_name_edit) TextView nameField;
-    @InjectView(R.id.product_cost_edit) TextView costField;
-    @InjectView(R.id.product_description_edit) TextView descriptionField;
+    @InjectView(R.id.product_name_edit) EditText nameField;
+    @InjectView(R.id.product_cost_edit) EditText costField;
+    @InjectView(R.id.product_description_edit) EditText descriptionField;
     @InjectView(R.id.update_product_button) Button button;
 
     @Override
@@ -114,22 +120,52 @@ public class ProductActivity extends AppCompatActivity {
 
         String name = nameField.getText().toString();
         String cost = costField.getText().toString();
-        cost = cost.replaceAll(",", ".");
+        cost = formatCost(cost);
         String description = descriptionField.getText().toString();
 
-        updatingDialog();
+        final ProgressDialog progressDialog = startDialog(getString(R.string.updateDialog), button);
 
         if (!description.equals(VAZIO)) mDatabase.child("restaurants").child(restId).child("productList").child(prodIndex).child("description").setValue(description);
         if (!name.equals(VAZIO))  mDatabase.child("restaurants").child(restId).child("productList").child(prodIndex).child("name").setValue(name);
-        mDatabase.child("restaurants").child(restId).child("productList").child(prodIndex).child("cost").setValue(Float.parseFloat(cost));
+        mDatabase.child("restaurants").child(restId).child("productList").child(prodIndex).child("cost").setValue(Float.parseFloat(cost), new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
+                if (firebaseError != null) {
+                    Toast.makeText(ProductActivity.this, "Produto não atualizado!", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(ProductActivity.this, "Produto atualizado.", Toast.LENGTH_SHORT).show();
+                }
+                finishDialog(progressDialog, button);
+            }
+        });
+        startHomeActivity();
     }
 
-    private void updatingDialog() {
-        button.setEnabled(false);
-        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
+    private String formatCost(String cost) {
+        cost = cost.replaceAll(",", ".");
+        return cost;
+    }
+
+    public void startHomeActivity(){
+        Class homeActivity = RestaurantHomeActivity.class;
+        Intent goToHome = new Intent(this, homeActivity);
+        startActivity(goToHome);
+    }
+
+    private ProgressDialog startDialog(String message, Button bt) {
+        bt.setEnabled(false);
+        ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Atualizando.");
+        progressDialog.setMessage(message);
         progressDialog.show();
+
+        return progressDialog;
+    }
+
+    private void finishDialog(ProgressDialog pg, Button bt) {
+        pg.dismiss();
+        bt.setEnabled(true);
     }
 
 }
