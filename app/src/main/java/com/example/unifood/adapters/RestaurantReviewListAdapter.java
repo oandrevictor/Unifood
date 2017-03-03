@@ -8,18 +8,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.unifood.R;
-import com.example.unifood.fragments.RestaurantReviewFragment;
 import com.example.unifood.models.Review;
 
 import java.util.List;
 
 
-public class RestaurantReviewRecyclerViewAdapter extends RecyclerView.Adapter<RestaurantReviewRecyclerViewAdapter.ViewHolder> {
+public class RestaurantReviewListAdapter extends RecyclerView.Adapter<RestaurantReviewListAdapter.ViewHolder> {
     private Context mContext;
     private Review review;
     private final List<Review> mReviews;
 
-    public RestaurantReviewRecyclerViewAdapter(Context context, List<Review> reviews) {
+    public RestaurantReviewListAdapter(Context context, List<Review> reviews) {
         this.mReviews = reviews;
         this.mContext = context;
     }

@@ -17,23 +17,6 @@ public class UserInfo {
         this.type = type;
     }
 
-/* The following method are not in this class. To-be removed.
-    public void rate(int rate, String comment, Restaurant restaurant) {
-
-        this.util = Util.getInstancia();
-        String currentDate = util.getCurrentDate();
-
-        Review myRate = new Review(id, rate, comment, currentDate);
-
-        restaurant.addRate(myRate.getId());
-    }
-
-    public void editReview(Restaurant restaurant) {
-        //TODO
-    }
-*/
-
-
     // Getters and Setters
     public String getType() {
         return type;

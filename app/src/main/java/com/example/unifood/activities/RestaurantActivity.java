@@ -16,8 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.unifood.R;
-import com.example.unifood.adapters.RestaurantProductRecyclerViewAdapter;
-import com.example.unifood.adapters.RestaurantReviewRecyclerViewAdapter;
+import com.example.unifood.adapters.RestaurantProductListAdapter;
+import com.example.unifood.adapters.RestaurantReviewListAdapter;
 import com.example.unifood.fragments.RestaurantProductFragment;
 import com.example.unifood.fragments.RestaurantReviewFragment;
 import com.example.unifood.models.Product;
@@ -56,9 +56,9 @@ public class RestaurantActivity extends AppCompatActivity {
 
     private String restaurantUId;
     private ArrayList<Review> reviewSet = new ArrayList<>();
-    RestaurantReviewRecyclerViewAdapter reviewAdapter;
+    RestaurantReviewListAdapter reviewAdapter;
     private ArrayList<Product> productSet = new ArrayList<>();
-    RestaurantProductRecyclerViewAdapter productAdapter;
+    RestaurantProductListAdapter productAdapter;
 
     @InjectView(R.id.rest_profile_name) TextView restName;
     @InjectView(R.id.rest_profile_uni) TextView restCampus;
@@ -89,11 +89,11 @@ public class RestaurantActivity extends AppCompatActivity {
             loadReviews();
 
             RestaurantProductFragment fragment = (RestaurantProductFragment) getFragmentManager().findFragmentById(R.id.restaurant_products);
-            productAdapter = new RestaurantProductRecyclerViewAdapter(this, productSet);
+            productAdapter = new RestaurantProductListAdapter(this, productSet);
             fragment.updateRecycler(productAdapter);
 
             RestaurantReviewFragment fragment2 = (RestaurantReviewFragment) getFragmentManager().findFragmentById(R.id.restaurant_reviews);
-            reviewAdapter = new RestaurantReviewRecyclerViewAdapter(this, reviewSet);
+            reviewAdapter = new RestaurantReviewListAdapter(this, reviewSet);
             fragment2.updateRecycler(reviewAdapter);
         }
 

@@ -16,14 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.unifood.R;
-import com.example.unifood.adapters.RestaurantProductRecyclerViewAdapter;
-import com.example.unifood.adapters.RestaurantReviewRecyclerViewAdapter;
+import com.example.unifood.adapters.RestaurantProductListAdapter;
+import com.example.unifood.adapters.RestaurantReviewListAdapter;
 import com.example.unifood.fragments.RestaurantHomeProductFragment;
 import com.example.unifood.fragments.RestaurantHomeReviewFragment;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
-import com.example.unifood.models.Util;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -55,9 +55,9 @@ public class RestaurantHomeActivity extends AppCompatActivity {
     DatabaseReference productsRef;
 
     private ArrayList<Review> reviewSet = new ArrayList<>();
-    private RestaurantReviewRecyclerViewAdapter reviewAdapter;
+    private RestaurantReviewListAdapter reviewAdapter;
     private ArrayList<Product> productSet = new ArrayList<>();
-    private RestaurantProductRecyclerViewAdapter productAdapter;
+    private RestaurantProductListAdapter productAdapter;
 
     @InjectView(R.id.rest_profile_name) TextView restName;
     @InjectView(R.id.rest_profile_uni) TextView restCampus;
@@ -88,11 +88,11 @@ public class RestaurantHomeActivity extends AppCompatActivity {
                 loadReviews();
 
                 RestaurantHomeProductFragment fragment = (RestaurantHomeProductFragment) getFragmentManager().findFragmentById(R.id.home_restaurant_products);
-                productAdapter = new RestaurantProductRecyclerViewAdapter(RestaurantHomeActivity.this, productSet);
+                productAdapter = new RestaurantProductListAdapter(RestaurantHomeActivity.this, productSet);
                 fragment.updateRecycler(productAdapter);
 
                 RestaurantHomeReviewFragment fragment2 = (RestaurantHomeReviewFragment) getFragmentManager().findFragmentById(R.id.home_restaurant_reviews);
-                reviewAdapter = new RestaurantReviewRecyclerViewAdapter(RestaurantHomeActivity.this, reviewSet);
+                reviewAdapter = new RestaurantReviewListAdapter(RestaurantHomeActivity.this, reviewSet);
                 fragment2.updateRecycler(reviewAdapter);
 
                 addListenerNewProduct();

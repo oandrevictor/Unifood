@@ -4,10 +4,8 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.example.unifood.adapters.RestaurantProductRecyclerViewAdapter;
-import com.example.unifood.adapters.RestaurantReviewRecyclerViewAdapter;
+import com.example.unifood.adapters.RestaurantReviewListAdapter;
 import com.example.unifood.fragments.RestaurantHomeReviewFragment;
-import com.example.unifood.fragments.RestaurantProductFragment;
 import com.example.unifood.fragments.RestaurantReviewFragment;
 import com.example.unifood.models.Review;
 import com.google.firebase.database.DataSnapshot;
@@ -45,7 +43,7 @@ public class LoadReviews extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        RestaurantReviewRecyclerViewAdapter restAdapter = new RestaurantReviewRecyclerViewAdapter(activity, reviewsSet);
+        RestaurantReviewListAdapter restAdapter = new RestaurantReviewListAdapter(activity, reviewsSet);
         if (type.equals("student")) {
             RestaurantReviewFragment fragment = (RestaurantReviewFragment) activity.getFragmentManager().findFragmentById(fragmentId);
             if (fragment != null) {
