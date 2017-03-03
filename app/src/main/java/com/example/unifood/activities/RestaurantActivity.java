@@ -115,7 +115,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 restName.setText(rest.getName());
                 restCampus.setText("Campus: " + rest.getCampusId());
                 restLocal.setText(rest.getLocalization());
-                String rate = Float.toString(rest.getRating());
+                String rate = String.format("%.2f", rest.getRate());
                 restRate.setText("Avaliação: " + rate);
             }
 
@@ -239,12 +239,7 @@ public class RestaurantActivity extends AppCompatActivity {
             return;
         }
 
-        newReviewButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Avaliando...");
-        progressDialog.show();
+        final ProgressDialog progressDialog = startDialog(getString(R.string.reviewDialog), newReviewButton);
 
         final Review newReview = new Review(mFirebaseUser.getUid(), restaurantUId, newRate, newComment, newData);
 
@@ -258,13 +253,11 @@ public class RestaurantActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
                         if (firebaseError != null) {
-                            progressDialog.dismiss();
                             Toast.makeText(RestaurantActivity.this, "Avaliação não adicionada!", Toast.LENGTH_SHORT).show();
                         } else {
-                            progressDialog.dismiss();
                             Toast.makeText(RestaurantActivity.this, "Restaurante avaliado.", Toast.LENGTH_SHORT).show();
                         }
-                        newReviewButton.setEnabled(true);
+                        finishDialog(progressDialog, newReviewButton);
                     }
                 });
             }
@@ -274,7 +267,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-
+        clearTextViews();
     }
 
     private boolean validate(Float newRate) {
@@ -323,6 +316,26 @@ public class RestaurantActivity extends AppCompatActivity {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
+    }
+
+    private void clearTextViews() {
+        newCommentText.getText().clear();
+        newRateStar.clearAnimation();
+    }
+
+    private ProgressDialog startDialog(String message, Button bt) {
+        bt.setEnabled(false);
+        ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(message);
+        progressDialog.show();
+
+        return progressDialog;
+    }
+
+    private void finishDialog(ProgressDialog pg, Button bt) {
+        pg.dismiss();
+        bt.setEnabled(true);
     }
 
 }

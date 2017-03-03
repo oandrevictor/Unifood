@@ -121,7 +121,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
                 restName.setText(rest.getName());
                 restCampus.setText("Campus: " + rest.getCampusId());
                 restLocal.setText(rest.getLocalization());
-                String rate = Float.toString(rest.getRating());
+                String rate = Float.toString(rest.getRate());
                 restRate.setText("Avaliação: " + rate);
             }
 
@@ -224,10 +224,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
 
         newProductButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Criando produto...");
-        progressDialog.show();
+        final ProgressDialog progressDialog = startDialog(getString(R.string.addProductDialog), newProductButton);
 
         final Product newProduct = new Product(name, Float.parseFloat(price), description);
 
@@ -250,7 +247,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
                         }
                     }
                 });
-                newProductButton.setEnabled(true);
+                finishDialog(progressDialog, newProductButton);
             }
 
             @Override
@@ -259,6 +256,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
             }
 
         });
+        clearTextViews();
     }
 
     public boolean validate(String prodName, String prodPrice, String prodDesc) {
@@ -329,6 +327,28 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void clearTextViews() {
+        productName.getText().clear();
+        productPrice.getText().clear();
+        productDescription.getText().clear();
+
+    }
+
+    private ProgressDialog startDialog(String message, Button bt) {
+        bt.setEnabled(false);
+        ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(message);
+        progressDialog.show();
+
+        return progressDialog;
+    }
+
+    private void finishDialog(ProgressDialog pg, Button bt) {
+        pg.dismiss();
+        bt.setEnabled(true);
     }
 
     private void startEditActivity(){
