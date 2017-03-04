@@ -20,6 +20,7 @@ import com.example.unifood.adapters.RestaurantProductListAdapter;
 import com.example.unifood.adapters.RestaurantReviewListAdapter;
 import com.example.unifood.fragments.RestaurantHomeProductFragment;
 import com.example.unifood.fragments.RestaurantHomeReviewFragment;
+import com.example.unifood.models.Campus;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
@@ -82,20 +83,25 @@ public class RestaurantHomeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 restID = dataSnapshot.getValue(String.class);
-                restaurantRef = mDatabase.child("restaurants").child(restID);
-                loadProfile();
-                loadProducts();
-                loadReviews();
+                if (restID != null) {
 
-                RestaurantHomeProductFragment fragment = (RestaurantHomeProductFragment) getFragmentManager().findFragmentById(R.id.home_restaurant_products);
-                productAdapter = new RestaurantProductListAdapter(RestaurantHomeActivity.this, productSet);
-                fragment.updateRecycler(productAdapter);
+                    restaurantRef = mDatabase.child("restaurants").child(restID);
+                    loadProfile();
+                    loadProducts();
+                    loadReviews();
 
-                RestaurantHomeReviewFragment fragment2 = (RestaurantHomeReviewFragment) getFragmentManager().findFragmentById(R.id.home_restaurant_reviews);
-                reviewAdapter = new RestaurantReviewListAdapter(RestaurantHomeActivity.this, reviewSet);
-                fragment2.updateRecycler(reviewAdapter);
+                    RestaurantHomeProductFragment fragment = (RestaurantHomeProductFragment) getFragmentManager().findFragmentById(R.id.home_restaurant_products);
+                    productAdapter = new RestaurantProductListAdapter(RestaurantHomeActivity.this, productSet);
+                    fragment.updateRecycler(productAdapter);
 
-                addListenerNewProduct();
+                    RestaurantHomeReviewFragment fragment2 = (RestaurantHomeReviewFragment) getFragmentManager().findFragmentById(R.id.home_restaurant_reviews);
+                    reviewAdapter = new RestaurantReviewListAdapter(RestaurantHomeActivity.this, reviewSet);
+                    fragment2.updateRecycler(reviewAdapter);
+
+                    addListenerNewProduct();
+                } else {
+                    finish();
+                }
             }
 
             @Override
@@ -109,7 +115,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu_rest, menu);
         return true;
     }
 
@@ -119,7 +125,18 @@ public class RestaurantHomeActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Restaurant rest = dataSnapshot.getValue(Restaurant.class);
                 restName.setText(rest.getName());
-                restCampus.setText("Campus: " + rest.getCampusId());
+                mDatabase.child("campus").child(rest.getCampusId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshotx) {
+                        Campus campus = dataSnapshotx.getValue(Campus.class);
+                        restCampus.setText("Campus: " + campus.getName());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
                 restLocal.setText(rest.getLocalization());
                 String rate = Float.toString(rest.getRate());
                 restRate.setText("Avaliação: " + rate);
@@ -315,14 +332,19 @@ public class RestaurantHomeActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if (id == R.id.update_user_info) {
+        if (id == R.id.user_update) {
             startEditActivity();
             return true;
         }
-        else if(id == R.id.user_sign_off){
+        else if(id == R.id.user_logout){
 
             mFirebaseAuth.signOut(); // SignOut of Firebase
             startLogInActivity();
+            return true;
+        }
+        else if(id == R.id.user_delete){
+
+            startDeleteActivity();
             return true;
         }
 
@@ -362,6 +384,14 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         Class loginActivity = LoginActivity.class;
         Intent goToLogin = new Intent(this, loginActivity);
         startActivity(goToLogin);
+        finish();
+    }
+
+    private void startDeleteActivity(){
+        Class deleteActivity = RestaurantDeleteActivity.class;
+        Intent goToEdit = new Intent(this, deleteActivity);
+        goToEdit.putExtra("REST_ID", restID);
+        startActivity(goToEdit);
     }
 
 }

@@ -22,6 +22,7 @@ import com.example.unifood.adapters.RestaurantProductListAdapter;
 import com.example.unifood.adapters.RestaurantReviewListAdapter;
 import com.example.unifood.fragments.RestaurantProductFragment;
 import com.example.unifood.fragments.RestaurantReviewFragment;
+import com.example.unifood.models.Campus;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
@@ -115,7 +116,18 @@ public class RestaurantActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Restaurant rest = dataSnapshot.getValue(Restaurant.class);
                 restName.setText(rest.getName());
-                restCampus.setText("Campus: " + rest.getCampusId());
+                mDatabase.child("campus").child(rest.getCampusId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshotx) {
+                        Campus campus = dataSnapshotx.getValue(Campus.class);
+                        restCampus.setText("Campus: " + campus.getName());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
                 restLocal.setText(rest.getLocalization());
                 String rate = String.format("%.2f", rest.getRate());
                 restRate.setText("Avaliação: " + rate);
@@ -251,6 +263,9 @@ public class RestaurantActivity extends AppCompatActivity {
                 Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
                 List<Review> mReviews = restaurant.getReviewList();
                 mReviews.add(newReview);
+                restaurant.updateRating();
+                Float rate = restaurant.getRate();
+                restaurantRef.child("rate").setValue(rate);
                 restaurantRef.child("reviewList").setValue(mReviews, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
@@ -307,7 +322,6 @@ public class RestaurantActivity extends AppCompatActivity {
                 if (mFavRest.contains(restaurantUId)) {
                     //favButton.setBackgroundResource(R.drawable.staroff);
                     removeFavRestDialog(mFavRest);
-                    Toast.makeText(RestaurantActivity.this, "Restaurante removido dos favoritos.", Toast.LENGTH_SHORT).show();
                 } else {
                     mFavRest.add(restaurantUId);
                     //favButton.setBackgroundResource(R.drawable.staron);
@@ -332,6 +346,7 @@ public class RestaurantActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 mFavRest.remove(restaurantUId);
                 studentInfoRef.child("favRestaurants").setValue(mFavRest);
+                Toast.makeText(RestaurantActivity.this, "Restaurante removido dos favoritos.", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
@@ -351,7 +366,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
     private void clearTextViews() {
         newCommentText.getText().clear();
-        newRateStar.clearAnimation();
+        newRateStar.setRating(0F);
     }
 
     private ProgressDialog startDialog(String message, Button bt) {
