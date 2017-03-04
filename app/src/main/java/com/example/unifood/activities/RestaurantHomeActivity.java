@@ -20,6 +20,7 @@ import com.example.unifood.adapters.RestaurantProductListAdapter;
 import com.example.unifood.adapters.RestaurantReviewListAdapter;
 import com.example.unifood.fragments.RestaurantHomeProductFragment;
 import com.example.unifood.fragments.RestaurantHomeReviewFragment;
+import com.example.unifood.models.Campus;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
@@ -119,7 +120,18 @@ public class RestaurantHomeActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Restaurant rest = dataSnapshot.getValue(Restaurant.class);
                 restName.setText(rest.getName());
-                restCampus.setText("Campus: " + rest.getCampusId());
+                mDatabase.child("campus").child(rest.getCampusId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshotx) {
+                        Campus campus = dataSnapshotx.getValue(Campus.class);
+                        restCampus.setText("Campus: " + campus.getName());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
                 restLocal.setText(rest.getLocalization());
                 String rate = Float.toString(rest.getRate());
                 restRate.setText("Avaliação: " + rate);
