@@ -44,10 +44,7 @@ public class RestaurantEditActivity extends AppCompatActivity {
     @InjectView(R.id.rest_edit_name)  EditText nameField;
     @InjectView(R.id.rest_edit_local) EditText localField;
     @InjectView(R.id.rest_edit_email) EditText emailField;
-    @InjectView(R.id.confirm_password) EditText passwordField;
-    @InjectView(R.id.confirm_email) EditText emailConfirmField;
     @InjectView(R.id.update_b)   Button updateButton;
-    @InjectView(R.id.delete_button) Button deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

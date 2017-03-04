@@ -82,20 +82,25 @@ public class RestaurantHomeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 restID = dataSnapshot.getValue(String.class);
-                restaurantRef = mDatabase.child("restaurants").child(restID);
-                loadProfile();
-                loadProducts();
-                loadReviews();
+                if (restID != null) {
 
-                RestaurantHomeProductFragment fragment = (RestaurantHomeProductFragment) getFragmentManager().findFragmentById(R.id.home_restaurant_products);
-                productAdapter = new RestaurantProductListAdapter(RestaurantHomeActivity.this, productSet);
-                fragment.updateRecycler(productAdapter);
+                    restaurantRef = mDatabase.child("restaurants").child(restID);
+                    loadProfile();
+                    loadProducts();
+                    loadReviews();
 
-                RestaurantHomeReviewFragment fragment2 = (RestaurantHomeReviewFragment) getFragmentManager().findFragmentById(R.id.home_restaurant_reviews);
-                reviewAdapter = new RestaurantReviewListAdapter(RestaurantHomeActivity.this, reviewSet);
-                fragment2.updateRecycler(reviewAdapter);
+                    RestaurantHomeProductFragment fragment = (RestaurantHomeProductFragment) getFragmentManager().findFragmentById(R.id.home_restaurant_products);
+                    productAdapter = new RestaurantProductListAdapter(RestaurantHomeActivity.this, productSet);
+                    fragment.updateRecycler(productAdapter);
 
-                addListenerNewProduct();
+                    RestaurantHomeReviewFragment fragment2 = (RestaurantHomeReviewFragment) getFragmentManager().findFragmentById(R.id.home_restaurant_reviews);
+                    reviewAdapter = new RestaurantReviewListAdapter(RestaurantHomeActivity.this, reviewSet);
+                    fragment2.updateRecycler(reviewAdapter);
+
+                    addListenerNewProduct();
+                } else {
+                    finish();
+                }
             }
 
             @Override
@@ -367,6 +372,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         Class loginActivity = LoginActivity.class;
         Intent goToLogin = new Intent(this, loginActivity);
         startActivity(goToLogin);
+        finish();
     }
 
     private void startDeleteActivity(){
@@ -375,4 +381,5 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         goToEdit.putExtra("REST_ID", restID);
         startActivity(goToEdit);
     }
+
 }

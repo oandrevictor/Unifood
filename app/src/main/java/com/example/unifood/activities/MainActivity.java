@@ -33,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static android.R.attr.start;
 import static android.R.attr.type;
 import static com.example.unifood.R.drawable.fullbg;
 
@@ -79,10 +80,13 @@ public class MainActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot snapshot) {
                     Log.e("h", snapshot.getKey());
                     userType = snapshot.getValue(String.class);
-                    if (userType.equals("student")){
+                    if (userType != null && userType.equals("student")){
                         startStudentHome();
-                    } else if (userType.equals("owner")) {
+                    } else if (userType != null && userType.equals("owner")) {
                         startRestaurntHome();
+                    } else {
+                        mFirebaseAuth.signOut();
+                        startLogInActivity();
                     }
                 }
                 @Override
@@ -115,7 +119,9 @@ public class MainActivity extends AppCompatActivity {
     private void startLogInActivity() {
         Class loginActivity = LoginActivity.class;
         Intent goToLogin = new Intent(this, loginActivity);
+        goToLogin.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(goToLogin);
+        finish();
     }
 
     private void startAdmActivity() {
@@ -188,7 +194,6 @@ public class MainActivity extends AppCompatActivity {
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeResource(res, resId, options);
     }
-
 
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
