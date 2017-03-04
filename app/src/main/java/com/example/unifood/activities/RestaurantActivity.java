@@ -1,9 +1,11 @@
 package com.example.unifood.activities;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -300,14 +302,17 @@ public class RestaurantActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 StudentInfo student = dataSnapshot.getValue(StudentInfo.class);
 
-                List<String> mFavRest = student.getFavRestaurants();
+                final List<String> mFavRest = student.getFavRestaurants();
 
                 if (mFavRest.contains(restaurantUId)) {
                     //favButton.setBackgroundResource(R.drawable.staroff);
+                    removeFavRestDialog(mFavRest);
+                    Toast.makeText(RestaurantActivity.this, "Restaurante removido dos favoritos.", Toast.LENGTH_SHORT).show();
                 } else {
                     mFavRest.add(restaurantUId);
                     //favButton.setBackgroundResource(R.drawable.staron);
                     studentInfoRef.child("favRestaurants").setValue(mFavRest);
+                    Toast.makeText(RestaurantActivity.this, "Restaurante adicionado aos favoritos.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -316,6 +321,32 @@ public class RestaurantActivity extends AppCompatActivity {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
+    }
+
+    private void removeFavRestDialog(final List<String> mFavRest) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(RestaurantActivity.this);
+        builder.setTitle("Remover favorito");
+        builder.setMessage("O restaurante já está na sua lista de favoritos. Deseja remove-lo?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                mFavRest.remove(restaurantUId);
+                studentInfoRef.child("favRestaurants").setValue(mFavRest);
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private void clearTextViews() {
