@@ -170,5 +170,21 @@ public class Restaurant {
             this.rate = rate1;
         }
     }
+    @Override
+    public boolean equals(Object o){
+        if (o!=null){
+           if (o instanceof Restaurant){
+               Restaurant r2 = (Restaurant) o;
+               return r2.getId().equals(this.getId());
+            }
+        }
+        return false;
+    }
+    public void update(Restaurant r){
+        this.name = r.getName();
+        this.localization = r.getLocalization();
+        this.reviewList = r.getReviewList();
+        this.rate = r.rate;
+    }
 
 }
