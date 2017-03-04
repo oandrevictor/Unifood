@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -152,6 +153,12 @@ public class ProductActivity extends AppCompatActivity {
         String description = descriptionField.getText().toString();
         boolean avaliability = checkBoxDisp.isChecked();
 
+        if (!validate(name, cost)) {
+            Toast.makeText(getBaseContext(), "Cadastro de produto falhou.", Toast.LENGTH_LONG).show();
+            button.setEnabled(true);
+            return;
+        }
+
         final ProgressDialog progressDialog = startDialog(getString(R.string.updateDialog), button);
 
         if (!description.equals(VAZIO)) mDatabase.child("restaurants").child(restId).child("productList").child(prodIndex).child("description").setValue(description);
@@ -196,6 +203,28 @@ public class ProductActivity extends AppCompatActivity {
     private void finishDialog(ProgressDialog pg, Button bt) {
         pg.dismiss();
         bt.setEnabled(true);
+    }
+
+    public boolean validate(String prodName, String prodPrice) {
+        boolean valid = true;
+        if (prodName.isEmpty()) {
+            nameField.setError("Um produto precisa de um nome!");
+            valid = false;
+        } else {
+            nameField.setError(null);
+        }
+
+        String regexStr = "^\\d+(\\.\\d+)?";
+        Pattern pattern = Pattern.compile(regexStr);
+        System.out.println(prodPrice.matches(String.valueOf(pattern)));
+        if (!prodPrice.matches(String.valueOf(pattern))) {
+            costField.setError("Formato de preço inválido.");
+            valid = false;
+        } else {
+            costField.setError(null);
+        }
+
+        return valid;
     }
 
 }

@@ -2,10 +2,8 @@ package com.example.unifood.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,10 +11,6 @@ import android.widget.Toast;
 
 import com.example.unifood.R;
 import com.example.unifood.models.Restaurant;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -39,9 +33,8 @@ public class RestaurantEditActivity extends AppCompatActivity {
     private String restaurantId;
     private String userId;
 
-    public final String VAZIO = "";
-
     @InjectView(R.id.rest_edit_name)  EditText nameField;
+    @InjectView(R.id.rest_edit_description) EditText descriptionField;
     @InjectView(R.id.rest_edit_local) EditText localField;
     @InjectView(R.id.rest_edit_email) EditText emailField;
     @InjectView(R.id.update_b)   Button updateButton;
@@ -69,15 +62,23 @@ public class RestaurantEditActivity extends AppCompatActivity {
     public void updateInfo() {
 
         String name = nameField.getText().toString();
+        String description = descriptionField.getText().toString();
         String local = localField.getText().toString();
         String email = emailField.getText().toString();
+
+        if (!validate(name, description, local, email)) {
+            Toast.makeText(getBaseContext(), "Complete os campos corretamente.", Toast.LENGTH_LONG).show();
+            updateButton.setEnabled(true);
+            return;
+        }
 
         final ProgressDialog progressDialog = startDialog(getString(R.string.updateDialog), updateButton);
 
         mFirebaseUser.updateEmail(email);
 
-        if (!name.equals(VAZIO))  restaurantRef.child("name").setValue(name);
-        if (!local.equals(VAZIO)) restaurantRef.child("localization").setValue(local, new DatabaseReference.CompletionListener() {
+        restaurantRef.child("name").setValue(name);
+        restaurantRef.child("description").setValue(description);
+        restaurantRef.child("localization").setValue(local, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
                 if (firebaseError != null) {
@@ -133,6 +134,7 @@ public class RestaurantEditActivity extends AppCompatActivity {
                 Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
                 emailField.setText(mFirebaseUser.getEmail());
                 nameField.setText(restaurant.getName());
+                descriptionField.setText(restaurant.getShortDescription());
                 localField.setText(restaurant.getLocalization());
             }
 
@@ -141,6 +143,40 @@ public class RestaurantEditActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private boolean validate(String name, String description, String local, String email) {
+        boolean valid = true;
+
+        if (name.isEmpty() || name.length() < 2) {
+            nameField.setError(getText(R.string.three_characters));
+            valid = false;
+        } else {
+            nameField.setError(null);
+        }
+
+        if (description.isEmpty() || description.length() <= 10 || description.length() > 100) {
+            descriptionField.setError(getText(R.string.between_ten_oneH_characters));
+            valid = false;
+        } else {
+            descriptionField.setError(null);
+        }
+
+        if (local.isEmpty() || local.length() <= 10 || local.length() > 50) {
+            localField.setError(getText(R.string.between_ten_fifty_characters));
+            valid = false;
+        } else {
+            localField.setError(null);
+        }
+
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailField.setError(getText(R.string.valid_email));
+            valid = false;
+        } else {
+            emailField.setError(null);
+        }
+
+        return valid;
     }
 
     private void onClickUpdateButton() {
