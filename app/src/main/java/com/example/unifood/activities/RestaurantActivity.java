@@ -22,6 +22,7 @@ import com.example.unifood.adapters.RestaurantProductListAdapter;
 import com.example.unifood.adapters.RestaurantReviewListAdapter;
 import com.example.unifood.fragments.RestaurantProductFragment;
 import com.example.unifood.fragments.RestaurantReviewFragment;
+import com.example.unifood.models.Campus;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
@@ -115,7 +116,18 @@ public class RestaurantActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Restaurant rest = dataSnapshot.getValue(Restaurant.class);
                 restName.setText(rest.getName());
-                restCampus.setText("Campus: " + rest.getCampusId());
+                mDatabase.child("campus").child(rest.getCampusId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshotx) {
+                        Campus campus = dataSnapshotx.getValue(Campus.class);
+                        restCampus.setText("Campus: " + campus.getName());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
                 restLocal.setText(rest.getLocalization());
                 String rate = String.format("%.2f", rest.getRate());
                 restRate.setText("Avaliação: " + rate);
@@ -354,7 +366,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
     private void clearTextViews() {
         newCommentText.getText().clear();
-        newRateStar.clearAnimation();
+        newRateStar.setRating(0F);
     }
 
     private ProgressDialog startDialog(String message, Button bt) {

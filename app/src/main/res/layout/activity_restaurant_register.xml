@@ -96,13 +96,23 @@
             android:layout_gravity="center"
             />
 
-        <MultiAutoCompleteTextView
-            android:hint="University - Campus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/auto_complete_campus" />
+            <!-- University Name Label -->
+            <TextView
+                android:layout_marginTop="4dp"
+                android:text="Campus:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView3" />
 
-        <EditText
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/register_campus_spinner"
+                android:hint="Campus"
+                android:layout_marginBottom="4dp"/>
+
+
+            <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
