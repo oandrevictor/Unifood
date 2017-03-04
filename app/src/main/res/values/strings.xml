@@ -23,6 +23,7 @@
     <string name="action_logout">Logout</string>
     <string name="users">users</string>
     <string name="creating_account">Creating Account...</string>
+    <string name="update_button">Atualizar</string>
 
     <!-- Register Layout -->
     <string name="register">Registrar</string>
@@ -43,14 +44,24 @@
     <string name="between_four_ten_characters">entre 4 e 10 caracteres alfanuméricos</string>
     <string name="between_ten_oneH_characters">entre 10 e 100 caracteres</string>
     <string name="between_ten_fifty_characters">entre 10 e 50 caracteres</string>
+    <string name="cardapio_tab">Cardápio</string>
 
     <!-- New Review Layout -->
     <string name="add_comment">Insira seu comentário</string>
     <string name="create_review">Avaliar</string>
 
     <!-- Edit Restaurant -->
+    <string name="edit_info_button">Editar Informações</string>
     <string name="rest_name">Nome</string>
     <string name="rest_local">Localização</string>
     <string name="rest_univ">Univerdidade</string>
+    <string name="updateDialog">Atualizando...</string>
+    <string name="reviewDialog">Avaliando...</string>
+    <string name="addProductDialog">Adicionando produto...</string>
+    <string name="confirm_password">Confirme senha para deletar conta</string>
+    <string name="confirm_email">Confirme email para deletar conta</string>
+
+    <!-- Add New Product -->
+    <string name="add_product_button">Adicionar Produto</string>
 
 </resources>

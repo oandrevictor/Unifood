@@ -36,7 +36,8 @@
         <activity android:name=".activities.StudentHomeActivity" />
         <activity android:name=".activities.RestaurantHomeActivity" />
         <activity android:name=".activities.StudentEditActivity" />
-        <activity android:name=".activities.RestaurantEditActivity"></activity>
+        <activity android:name=".activities.RestaurantEditActivity" />
+        <activity android:name=".activities.ProductActivity"></activity>
     </application>
 
 </manifest>

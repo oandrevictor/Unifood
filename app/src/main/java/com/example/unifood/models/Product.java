@@ -16,6 +16,7 @@ public class Product {
     public Product() {
         this.id = UUID.randomUUID().toString();
         this.description = EMPTY;
+        this.availability = true;
     }
 
     public Product(String name, float cost, String description) {
@@ -23,7 +24,6 @@ public class Product {
         this.name = name;
         this.cost = cost;
         this.description = description;
-        this.availability = true;
     }
 
 
@@ -34,7 +34,9 @@ public class Product {
     }
 
     public void setId(String id) {
-        this.id = id;
+        if (id != null) {
+            this.id = id;
+        }
     }
 
     public String getName() {
@@ -42,7 +44,9 @@ public class Product {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (name != null) {
+            this.name = name;
+        }
     }
 
     public String getDescription() {
@@ -50,7 +54,9 @@ public class Product {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description != null) {
+            this.description = description;
+        }
     }
 
     public float getCost() {
@@ -58,7 +64,9 @@ public class Product {
     }
 
     public void setCost(float cost) {
-        this.cost = cost;
+        if (cost > 0) {
+            this.cost = cost;
+        }
     }
 
     public boolean isAvailable() {

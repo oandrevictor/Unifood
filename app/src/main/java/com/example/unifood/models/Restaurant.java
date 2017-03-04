@@ -14,6 +14,7 @@ public class Restaurant {
     private List<Review> reviewList;
     private List<Product> productList;
     private String userId;
+    private Float rate;
 
     private final String EMPTY = "";
 
@@ -24,6 +25,7 @@ public class Restaurant {
         this.userId = EMPTY;
         this.reviewList = new ArrayList<Review>();
         this.productList = new ArrayList<Product>();
+        this.rate = 0f;
     }
 
     public Restaurant(String name,  String campusId, String localization) {
@@ -35,28 +37,44 @@ public class Restaurant {
 
 
     public void addReview(Review review) {
-        this.reviewList.add(review);
+        if (review != null) {
+            this.reviewList.add(review);
+        }
+    }
+
+    public boolean removeReview(Review review) {
+        if (review != null && this.reviewList.contains(review)) {
+            return this.reviewList.remove(review);
+        }
+
+        return false;
     }
 
     public void addProduct(Product product) {
-        this.productList.add(product);
+        if (product != null) {
+            this.productList.add(product);
+        }
     }
 
-    public void removeProduct(Product product) {
-        this.productList.remove(product);
+    public boolean removeProduct(Product product) {
+        if (product != null && this.productList.contains(product)) {
+            return this.productList.remove(product);
+        }
+
+        return false;
     }
 
-    public float getRating() {
+    public void updateRating() {
         float restRate = 0;
         for (Review r: reviewList) {
             restRate += r.getRate();
         }
 
         if (reviewList.size() > 0) {
-            return restRate / reviewList.size();
+            this.rate = restRate / reviewList.size();
+        } else {
+            this.rate = restRate;
         }
-
-        return restRate;
     }
 
 
@@ -67,7 +85,9 @@ public class Restaurant {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (name != null) {
+            this.name = name;
+        }
     }
 
     public String getLocalization() {
@@ -75,7 +95,9 @@ public class Restaurant {
     }
 
     public void setLocalization(String localization) {
-        this.localization = localization;
+        if (localization != null) {
+            this.localization = localization;
+        }
     }
 
     public String getShortDescription() {
@@ -83,7 +105,9 @@ public class Restaurant {
     }
 
     public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
+        if (shortDescription != null) {
+            this.shortDescription = shortDescription;
+        }
     }
 
     public String getId() {
@@ -91,7 +115,9 @@ public class Restaurant {
     }
 
     public void setId(String id) {
-        this.id = id;
+        if (id != null) {
+            this.id = id;
+        }
     }
 
     public String getCampusId() {
@@ -99,7 +125,9 @@ public class Restaurant {
     }
 
     public void setCampusId(String campusId1) {
-        this.campusId = campusId1;
+        if (campusId1 != null) {
+            this.campusId = campusId1;
+        }
     }
 
     public List<Review> getReviewList() {
@@ -107,7 +135,9 @@ public class Restaurant {
     }
 
     public void setReviewList(List<Review> reviewList) {
-        this.reviewList = reviewList;
+        if (reviewList != null) {
+            this.reviewList = reviewList;
+        }
     }
 
     public List<Product> getProductList() {
@@ -115,7 +145,9 @@ public class Restaurant {
     }
 
     public void setProductList(List<Product> productList) {
-        this.productList = productList;
+        if (productList != null) {
+            this.productList = productList;
+        }
     }
 
     public String getUserId() {
@@ -123,6 +155,20 @@ public class Restaurant {
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
+        if (userId != null) {
+            this.userId = userId;
+        }
     }
+
+    public Float getRate() {
+        updateRating();
+        return rate;
+    }
+
+    public void setRate(Float rate1) {
+        if (rate1 >= 0) {
+            this.rate = rate1;
+        }
+    }
+
 }

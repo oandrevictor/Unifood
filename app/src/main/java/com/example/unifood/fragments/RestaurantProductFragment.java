@@ -3,7 +3,7 @@ package com.example.unifood.fragments;
 import android.os.Bundle;
 
 import com.example.unifood.R;
-import com.example.unifood.adapters.RestaurantProductRecyclerViewAdapter;
+import com.example.unifood.adapters.RestaurantProductListAdapter;
 
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +21,7 @@ public class RestaurantProductFragment extends Fragment {
         return rootView;
     }
 
-    public void updateRecycler(RestaurantProductRecyclerViewAdapter mAdapter){
+    public void updateRecycler(RestaurantProductListAdapter mAdapter){
         RecyclerView restaurantProductsListRecyclerView = (RecyclerView) getView().findViewById(R.id.product_list);
         restaurantProductsListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         restaurantProductsListRecyclerView.setAdapter(mAdapter);

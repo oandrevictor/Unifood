@@ -25,7 +25,9 @@ public class StudentInfo {
     }
 
     public void setFavRestaurants(List<String> favRestaurants) {
-        this.favRestaurants = favRestaurants;
+        if (favRestaurants != null) {
+            this.favRestaurants = favRestaurants;
+        }
     }
 
     public List<String> getFavProducts() {
@@ -33,7 +35,9 @@ public class StudentInfo {
     }
 
     public void setFavProducts(List<String> favProducts) {
-        this.favProducts = favProducts;
+        if (favProducts != null) {
+            this.favProducts = favProducts;
+        }
     }
 
     public String getCampusId() {
@@ -41,11 +45,13 @@ public class StudentInfo {
     }
 
     public void setCampusId(String campusId) {
-        this.campusId = campusId;
+        if (campusId != null) {
+            this.campusId = campusId;
+        }
     }
 
     public boolean delRestaurantFromFavorites(String restaurantId) {
-        if (favRestaurants.contains(restaurantId)){
+        if (restaurantId != null && favRestaurants.contains(restaurantId)){
             return favProducts.remove(restaurantId);
         } else {
             return false;
@@ -53,9 +59,8 @@ public class StudentInfo {
     }
 
     public boolean delProductFromFavorites(String productId) {
-        if (favProducts.contains(productId)){
+        if (productId != null && favProducts.contains(productId)){
             return favProducts.remove(productId);
-
         } else {
             return false;
         }
