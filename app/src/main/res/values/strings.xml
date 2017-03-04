@@ -58,6 +58,8 @@
     <string name="updateDialog">Atualizando...</string>
     <string name="reviewDialog">Avaliando...</string>
     <string name="addProductDialog">Adicionando produto...</string>
+    <string name="confirm_password">Confirme senha para deletar conta</string>
+    <string name="confirm_email">Confirme email para deletar conta</string>
 
     <!-- Add New Product -->
     <string name="add_product_button">Adicionar Produto</string>

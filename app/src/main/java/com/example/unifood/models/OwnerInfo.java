@@ -20,6 +20,8 @@ public class OwnerInfo {
     }
 
     public void setRestaurantId(String restaurantId) {
-        this.restaurantId = restaurantId;
+        if (restaurantId != null) {
+            this.restaurantId = restaurantId;
+        }
     }
 }
