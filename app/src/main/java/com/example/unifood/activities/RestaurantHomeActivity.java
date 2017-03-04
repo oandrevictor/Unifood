@@ -228,7 +228,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         price = price.replaceAll(",", ".");
         String description = productDescription.getText().toString();
 
-        if (!validate(name, price, description)) {
+        if (!validate(name, price)) {
             Toast.makeText(getBaseContext(), "Cadastro de produto falhou.", Toast.LENGTH_LONG).show();
             newProductButton.setEnabled(true);
             return;
@@ -271,7 +271,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         clearTextViews();
     }
 
-    public boolean validate(String prodName, String prodPrice, String prodDesc) {
+    public boolean validate(String prodName, String prodPrice) {
         boolean valid = true;
         if (prodName.isEmpty()) {
             productName.setError("Um produto precisa de um nome!");
