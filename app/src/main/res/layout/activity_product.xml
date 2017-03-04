@@ -65,6 +65,12 @@
                 android:hint="Descrição"/>
         </android.support.design.widget.TextInputLayout>
 
+        <CheckBox android:id="@+id/checkbox_disp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disponível"
+            android:onClick="onCheckboxClicked"/>
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/update_product_button"
             android:layout_width="match_parent"

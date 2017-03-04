@@ -50,7 +50,7 @@ public class Product {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -60,7 +60,7 @@ public class Product {
     }
 
     public float getCost() {
-        return cost;
+        return this.cost;
     }
 
     public void setCost(float cost) {
@@ -70,7 +70,7 @@ public class Product {
     }
 
     public boolean isAvailable() {
-        return availability;
+        return this.availability;
     }
 
     public void setAvailability(boolean availability) {

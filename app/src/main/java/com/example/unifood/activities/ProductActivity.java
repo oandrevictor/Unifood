@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class ProductActivity extends AppCompatActivity {
     @InjectView(R.id.product_name_edit) EditText nameField;
     @InjectView(R.id.product_cost_edit) EditText costField;
     @InjectView(R.id.product_description_edit) EditText descriptionField;
+    @InjectView(R.id.checkbox_disp) CheckBox checkBoxDisp;
     @InjectView(R.id.update_product_button) Button button;
 
     @Override
@@ -56,7 +58,7 @@ public class ProductActivity extends AppCompatActivity {
         loadDatabaseReferences();
 
         onClickButton();
-
+        onCheckBoxClicked();
     }
 
     private void setUpFirebase(){
@@ -90,6 +92,23 @@ public class ProductActivity extends AppCompatActivity {
                             nameField.setText(mProduct.getName());
                             costField.setText(Float.toString(mProduct.getCost()));
                             descriptionField.setText(mProduct.getDescription());
+                            productListRef.child(Integer.toString(mProductIndex)).child("available").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshotx) {
+                                    Boolean availability = dataSnapshotx.getValue(Boolean.class);
+                                    if (availability) {
+                                        checkBoxDisp.setChecked(true);
+                                    } else {
+                                        checkBoxDisp.setChecked(false);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
                         }
                         index++;
                     } // ends for
@@ -113,6 +132,15 @@ public class ProductActivity extends AppCompatActivity {
         });
     }
 
+    private void onCheckBoxClicked() {
+        checkBoxDisp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // faz nada
+            }
+        });
+    }
+
     private void updateInfo() {
 
         String VAZIO = "";
@@ -122,11 +150,13 @@ public class ProductActivity extends AppCompatActivity {
         String cost = costField.getText().toString();
         cost = formatCost(cost);
         String description = descriptionField.getText().toString();
+        boolean avaliability = checkBoxDisp.isChecked();
 
         final ProgressDialog progressDialog = startDialog(getString(R.string.updateDialog), button);
 
         if (!description.equals(VAZIO)) mDatabase.child("restaurants").child(restId).child("productList").child(prodIndex).child("description").setValue(description);
         if (!name.equals(VAZIO))  mDatabase.child("restaurants").child(restId).child("productList").child(prodIndex).child("name").setValue(name);
+        mDatabase.child("restaurants").child(restId).child("productList").child(prodIndex).child("available").setValue(avaliability);
         mDatabase.child("restaurants").child(restId).child("productList").child(prodIndex).child("cost").setValue(Float.parseFloat(cost), new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
