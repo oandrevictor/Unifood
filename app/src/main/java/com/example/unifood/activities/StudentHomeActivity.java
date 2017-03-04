@@ -70,7 +70,7 @@ public class StudentHomeActivity extends AppCompatActivity  {
         ButterKnife.inject(this);
         progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Carregando Favoritos");
+        progressDialog.setMessage("");
         progressDialog.show();
 
 
@@ -82,6 +82,7 @@ public class StudentHomeActivity extends AppCompatActivity  {
         loadAllRestaurants();
 
         loadSavedRestaurants();
+        progressDialog.dismiss();
 
 
        restAdapter = new RestaurantListAdapter(this, restaurantSet);
@@ -96,10 +97,10 @@ public class StudentHomeActivity extends AppCompatActivity  {
 
         for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
             View v = tabHost.getTabWidget().getChildAt(i);
-            //v.setBackgroundResource(R.color.colorPrimary);
-
             TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
             tv.setTextColor(getResources().getColor(R.color.white));
+            v.setBackgroundResource(R.drawable.tab_selector);
+
         }
 
     }
@@ -127,16 +128,24 @@ public class StudentHomeActivity extends AppCompatActivity  {
             public void onChildRemoved(DataSnapshot snapshot){}
 
             @Override
-            public void onChildChanged(DataSnapshot snapshot, String string){}
+            public void onChildChanged(DataSnapshot snapshot, String string){
+                Restaurant restaurant = snapshot.getValue(Restaurant.class);
+                int index  = restaurantSet.indexOf(restaurant);
+                restaurantSet.get(index).update(restaurant);
+                restAdapter.notifyDataSetChanged();
+            }
 
             @Override
             public void onChildMoved(DataSnapshot snapshot, String string){}
 
             @Override
             public void onChildAdded(DataSnapshot snapshot, String string){
+                progressDialog.show();
                 Restaurant restaurant = snapshot.getValue(Restaurant.class);
                 restaurantSet.add(restaurant);
                 restAdapter.notifyDataSetChanged();
+                progressDialog.dismiss();
+
             }
 
             @Override
@@ -154,16 +163,43 @@ public class StudentHomeActivity extends AppCompatActivity  {
 
         ref.addChildEventListener (new ChildEventListener() {
             @Override
-            public void onChildRemoved(DataSnapshot snapshot){}
+            public void onChildRemoved(DataSnapshot snapshot){
+                Log.e("The: " ,"m");
+                String restRemoved = snapshot.getValue(String.class);
+                DatabaseReference removedRef = mDatabase.child("restaurants").child(restRemoved);
+                removedRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshoty) {
+                        Restaurant rest = snapshoty.getValue(Restaurant.class);
+                        boolean result = faveRestaurantSet.remove(rest);
+                        if (result){
+                            Log.e("DELETE","YAS");}
+                        else{
+                            Log.e("DELETE","ONO");}
+                        faveAdapter.notifyDataSetChanged();
+
+                    }
+
+
+                    @Override
+                    public void onCancelled(DatabaseError firebaseError) {
+                        Log.e("The read failed: " ,firebaseError.getMessage());
+                    }
+                });
+
+            }
 
             @Override
-            public void onChildChanged(DataSnapshot snapshot, String string){}
+            public void onChildChanged(DataSnapshot snapshot, String string){
+
+            }
 
             @Override
             public void onChildMoved(DataSnapshot snapshot, String string){}
 
             @Override
             public void onChildAdded(DataSnapshot snapshot, String string){
+                progressDialog.show();
                 String restId = snapshot.getValue(String.class);
                 DatabaseReference auxRef = mDatabase.child("restaurants").child(restId);
 
