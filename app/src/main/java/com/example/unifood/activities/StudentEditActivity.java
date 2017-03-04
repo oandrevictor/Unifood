@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,6 +15,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.unifood.R;
+import com.example.unifood.models.Restaurant;
+import com.example.unifood.models.StudentInfo;
+import com.example.unifood.models.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -36,6 +40,8 @@ public class StudentEditActivity extends AppCompatActivity {
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
     String campus;
+    ProgressDialog progressDialog;
+
 
     @InjectView(R.id.user_edit_first_name) EditText firstNameField;
     @InjectView(R.id.user_edit_last_name) EditText lastNameField;
@@ -50,6 +56,7 @@ public class StudentEditActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         setUpFirebase();
         emailField.setText(mFirebaseUser.getEmail());
+        getStudent();
         mDatabase.child("campus").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -95,6 +102,29 @@ public class StudentEditActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void getStudent(){
+        progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+        mDatabase.child("users").child(mFirebaseUser.getUid()).child("userInfo").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshoty) {
+                UserInfo info = snapshoty.getValue(UserInfo.class);
+                firstNameField.setText(info.getFirstName());
+                lastNameField.setText(info.getLastName());
+                progressDialog.dismiss();
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+                Log.e("The read failed: " ,firebaseError.getMessage());
+                progressDialog.dismiss();
+
+            }
+        });
     }
 
     public void updateInfo(){
