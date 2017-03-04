@@ -23,6 +23,9 @@ public class OwnerInfoTest {
 
     @Test
     public void testEditOwnerInfo(){
+        owner.setRestaurantId(null);
+        assertEquals(RESTAURANTID, owner.getRestaurantId());
+
         owner.setRestaurantId(NEW_RESTAURANTID);
         assertEquals(NEW_RESTAURANTID, owner.getRestaurantId());
     }

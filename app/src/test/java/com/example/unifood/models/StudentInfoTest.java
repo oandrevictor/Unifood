@@ -31,7 +31,7 @@ public class StudentInfoTest {
     @Test
     public void testAddRestaurantToFavorites() {
         assertTrue(student.getFavRestaurants().isEmpty());
-        student.addRestaurantToFavorites(RESTAURANTID);
+        //student.addRestaurantToFavorites(RESTAURANTID);
         assertTrue(student.getFavRestaurants().size() == 1);
         assertTrue(student.getFavRestaurants().contains(RESTAURANTID));
     }
@@ -39,14 +39,14 @@ public class StudentInfoTest {
     @Test
     public void testAddProductToFavorites() {
         assertTrue(student.getFavProducts().isEmpty());
-        student.addProductToFavorites(PRODUCTID);
+        //student.addProductToFavorites(PRODUCTID);
         assertTrue(student.getFavProducts().size() == 1);
         assertTrue(student.getFavProducts().contains(PRODUCTID));
     }
 
     @Test
     public void testDelRestaurantFromFavorites() {
-        student.addRestaurantToFavorites(RESTAURANTID);
+        //student.addRestaurantToFavorites(RESTAURANTID);
         assertTrue(student.getFavRestaurants().size() == 1);
         assertTrue(student.getFavRestaurants().contains(RESTAURANTID));
         assertTrue(student.delRestaurantFromFavorites(RESTAURANTID));
@@ -57,7 +57,7 @@ public class StudentInfoTest {
 
     @Test
     public void delProductFromFavorites() {
-        student.addProductToFavorites(PRODUCTID);
+        //student.addProductToFavorites(PRODUCTID);
         assertTrue(student.getFavProducts().size() == 1);
         assertTrue(student.getFavProducts().contains(PRODUCTID));
         assertTrue(student.delProductFromFavorites(PRODUCTID));

@@ -36,16 +36,26 @@ public class ProductTest {
 
     @Test
     public void testEditProduct(){
+        product.setName(null);
+        product.setCost(-1);
+        product.setAvailability(NEW_AVAILABILITY);
+        product.setDescription(null);
+        product.setId(null);
+
+        assertEquals(NAME, product.getName());
+        assertEquals(COST, product.getCost());
+        assertEquals(NEW_AVAILABILITY, product.isAvailable());
+        assertEquals(DESCRIPTION, product.getDescription());
+        assertFalse(product.getId().isEmpty());
+
         product.setName(NEW_NAME);
         product.setCost(NEW_COST);
-        product.setAvailability(NEW_AVAILABILITY);
-        product.setDescription(DESCRIPTION);
+        product.setDescription(NEW_DESCRIPTION);
         product.setId(NEW_ID);
 
         assertEquals(NEW_NAME, product.getName());
         assertEquals(NEW_COST, product.getCost());
-        assertEquals(NEW_AVAILABILITY, product.isAvailable());
-        assertEquals(DESCRIPTION, product.getDescription());
+        assertEquals(NEW_DESCRIPTION, product.getDescription());
         assertEquals(NEW_ID, product.getId());
     }
 }

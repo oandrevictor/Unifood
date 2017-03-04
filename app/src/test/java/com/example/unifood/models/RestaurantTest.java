@@ -16,9 +16,9 @@ public class RestaurantTest {
     private final String DESCRIPTION = "Melhor x egg burg da UFCG";
     private final String USERID = "b159-151e772";
     private final String NEW_ID = "fh8r6-hhf9w-377y";
-    private final String REVIEWID = "9e4b-41c1-b928";
     private final float INITIAL_RATE = 0;
     private final float FINAL_RATE = 3.4F;
+    public final float DELTA = 0.0001f;
     private Restaurant restaurant;
     private Product product1;
     private Product product2;
@@ -71,10 +71,25 @@ public class RestaurantTest {
     public void testAddReview() {
         restaurant.addReview(review1);
         assertTrue(restaurant.getReviewList().contains(review1));
+
+        restaurant.addReview(null);
+        assertEquals(1, restaurant.getReviewList().size());
+    }
+
+    @Test
+    public void testRemoveReview(){
+        restaurant.addReview(review1);
+
+        restaurant.removeReview(null);
+        assertEquals(1, restaurant.getReviewList().size());
+
+        restaurant.removeReview(review1);
+        assertTrue(restaurant.getReviewList().isEmpty());
     }
 
     @Test
     public void testAddProduct() {
+        restaurant.addProduct(null);
         assertTrue(restaurant.getProductList().isEmpty());
         restaurant.addProduct(product1);
         assertTrue(restaurant.getProductList().contains(product1));
@@ -83,19 +98,25 @@ public class RestaurantTest {
     @Test
     public void testRemoveProduct() {
         restaurant.addProduct(product2);
-        assertTrue(restaurant.getProductList().contains(product2));
+
+        restaurant.removeProduct(null);
+        assertEquals(1, restaurant.getProductList().size());
+
         restaurant.removeProduct(product2);
-        assertFalse(restaurant.getProductList().contains(product2));
+        assertTrue(restaurant.getProductList().isEmpty());
     }
 
     @Test
-    public void testGetRating() {
-        assertEquals(INITIAL_RATE, restaurant.getRating());
+    public void testUpdateRating() {
+        restaurant.updateRating();
+        assertEquals(INITIAL_RATE, restaurant.getRate(), DELTA);
 
         restaurant.addReview(review1);
         restaurant.addReview(review2);
         restaurant.addReview(review3);
 
-        assertEquals(FINAL_RATE, restaurant.getRating(), 0.0001f);
+        restaurant.updateRating();
+
+        assertEquals(FINAL_RATE, restaurant.getRate(), DELTA);
     }
 }

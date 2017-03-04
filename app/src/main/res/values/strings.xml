@@ -63,5 +63,6 @@
 
     <!-- Add New Product -->
     <string name="add_product_button">Adicionar Produto</string>
+    <string name="update_product_button">Atualizar Produto</string>
 
 </resources>
