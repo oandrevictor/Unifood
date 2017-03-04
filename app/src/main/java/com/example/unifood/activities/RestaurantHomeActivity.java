@@ -109,7 +109,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu_rest, menu);
         return true;
     }
 
@@ -315,14 +315,19 @@ public class RestaurantHomeActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if (id == R.id.update_user_info) {
+        if (id == R.id.user_update) {
             startEditActivity();
             return true;
         }
-        else if(id == R.id.user_sign_off){
+        else if(id == R.id.user_logout){
 
             mFirebaseAuth.signOut(); // SignOut of Firebase
             startLogInActivity();
+            return true;
+        }
+        else if(id == R.id.user_delete){
+
+            startDeleteActivity();
             return true;
         }
 
@@ -364,4 +369,10 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         startActivity(goToLogin);
     }
 
+    private void startDeleteActivity(){
+        Class deleteActivity = RestaurantDeleteActivity.class;
+        Intent goToEdit = new Intent(this, deleteActivity);
+        goToEdit.putExtra("REST_ID", restID);
+        startActivity(goToEdit);
+    }
 }

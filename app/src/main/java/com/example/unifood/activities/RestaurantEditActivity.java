@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.unifood.R;
+import com.example.unifood.models.Restaurant;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -56,23 +57,7 @@ public class RestaurantEditActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         setUpFirebase();
         setRestaurantId();
-
-        restaurantRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
-                emailField.setText(mFirebaseUser.getEmail());
-                nameField.setText(restaurant.getName());
-                localField.setText(restaurant.getLocalization());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
+        setTextsViews();
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +65,6 @@ public class RestaurantEditActivity extends AppCompatActivity {
                 updateInfo();
             }
         });
-        onClickDeleteButton();
     }
 
     public void setUpFirebase(){
@@ -150,72 +134,21 @@ public class RestaurantEditActivity extends AppCompatActivity {
         startActivity(goToHome);
     }
 
-    private void onClickDeleteButton() {
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleterFirebaseUser();
-                deleteUser();
-            }
-        });
-    }
-
-    private void startLoginActivity() {
-        Class loginActivity = LoginActivity.class;
-        Intent goToLogin = new Intent(this, loginActivity);
-        startActivity(goToLogin);
-    }
-
-    private void deleterFirebaseUser() {
-
-        String email = emailConfirmField.getText().toString();
-        String passowrd = passwordField.getText().toString();
-
-        AuthCredential credential = EmailAuthProvider.getCredential(email, passowrd);
-
-        mFirebaseUser.reauthenticate(credential)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        mFirebaseUser.delete()
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                    }
-                                });
-                    }
-                });
-
-    }
-
-    private void deleteRestaurant() {
-        restaurantRef = mDatabase.child("restaurants").child(restaurantId);
-        restaurantRef.addValueEventListener(new ValueEventListener() {
+    private void setTextsViews() {
+        restaurantRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                deleteRestaurant();
-                dataSnapshot.getRef().removeValue();
+                Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
+                emailField.setText(mFirebaseUser.getEmail());
+                nameField.setText(restaurant.getName());
+                localField.setText(restaurant.getLocalization());
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-    }
-
-    private void deleteUser() {
-        userRef = mDatabase.child("users").child(userId);
-        userRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                dataSnapshot.getRef().removeValue();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
     }
 
 
