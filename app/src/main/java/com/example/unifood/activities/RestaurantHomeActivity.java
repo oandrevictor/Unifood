@@ -213,11 +213,6 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-
-    }
-
     public void addListenerNewProduct() {
         newProductButton.setOnClickListener(new View.OnClickListener() {
             @Override

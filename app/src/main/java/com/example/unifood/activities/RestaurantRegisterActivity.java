@@ -139,8 +139,6 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
                         onSignupSuccess();
                     }
                 });
-
-
     }
 
     public void onSignupSuccess() {
@@ -255,4 +253,5 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
             }
         });
     }
+
 }

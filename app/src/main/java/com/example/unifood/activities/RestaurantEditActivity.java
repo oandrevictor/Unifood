@@ -56,12 +56,7 @@ public class RestaurantEditActivity extends AppCompatActivity {
         setRestaurantId();
         setTextsViews();
 
-        updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateInfo();
-            }
-        });
+        onClickUpdateButton();
     }
 
     public void setUpFirebase(){
@@ -148,5 +143,13 @@ public class RestaurantEditActivity extends AppCompatActivity {
         });
     }
 
+    private void onClickUpdateButton() {
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateInfo();
+            }
+        });
+    }
 
 }

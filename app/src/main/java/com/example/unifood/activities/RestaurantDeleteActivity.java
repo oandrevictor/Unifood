@@ -1,6 +1,5 @@
 package com.example.unifood.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -8,22 +7,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.unifood.R;
-import com.example.unifood.models.Restaurant;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -37,8 +30,6 @@ public class RestaurantDeleteActivity extends AppCompatActivity {
     private DatabaseReference userRef;
     private String restaurantId;
     private String userId;
-
-    public final String VAZIO = "";
 
     @InjectView(R.id.confirm_password) EditText passwordField;
     @InjectView(R.id.confirm_email) EditText emailConfirmField;
@@ -97,13 +88,8 @@ public class RestaurantDeleteActivity extends AppCompatActivity {
             String email = emailConfirmField.getText().toString();
             String password = passwordField.getText().toString();
 
-            AuthCredential credential;
-
-            if (email == null) {
-                credential = EmailAuthProvider.getCredential(mFirebaseUser.getEmail(), password);
-            } else {
-                credential = GoogleAuthProvider.getCredential(email, null);
-            }
+            AuthCredential credential = EmailAuthProvider
+                    .getCredential(email, password);
 
             mFirebaseUser.reauthenticate(credential)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
