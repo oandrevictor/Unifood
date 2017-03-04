@@ -15,6 +15,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -88,8 +89,16 @@ public class RestaurantDeleteActivity extends AppCompatActivity {
             String email = emailConfirmField.getText().toString();
             String password = passwordField.getText().toString();
 
-            AuthCredential credential = EmailAuthProvider
-                    .getCredential(email, password);
+            AuthCredential credential;
+
+            if (email == null) { // redundante porém dá certo
+                credential = EmailAuthProvider.getCredential(mFirebaseUser.getEmail(), password);
+            } else {
+                credential = GoogleAuthProvider.getCredential(email, null);
+            }
+
+            credential = EmailAuthProvider
+                .getCredential(email, password);
 
             mFirebaseUser.reauthenticate(credential)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
