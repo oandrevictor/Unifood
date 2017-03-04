@@ -19,6 +19,8 @@ public class Review {
 
     public Review () {
         this.id = UUID.randomUUID().toString();
+        this.dislikes = 0;
+        this.likes = 0;
     }
 
 
@@ -30,8 +32,6 @@ public class Review {
         this.rate = rate;
         this.date = date;
         this.comment = EMPTY_COMMENT;
-        this.dislikes = 0;
-        this.likes = 0;
     }
 
     public Review(String userId, String restaurantId, float rate, String comment, String date) {
@@ -46,7 +46,9 @@ public class Review {
     }
 
     public void setId(String id) {
-        this.id = id;
+        if (id != null) {
+            this.id = id;
+        }
     }
 
     public String getRestaurantId() {
@@ -54,7 +56,9 @@ public class Review {
     }
 
     public void setRestaurantId(String restaurantId) {
-        this.restaurantId = restaurantId;
+        if (restaurantId != null) {
+            this.restaurantId = restaurantId;
+        }
     }
 
     public String getUserId() {
@@ -62,7 +66,9 @@ public class Review {
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
+        if (userId != null) {
+            this.userId = userId;
+        }
     }
 
     public float getRate() {
@@ -70,7 +76,9 @@ public class Review {
     }
 
     public void setRate(float rate) {
-        this.rate = rate;
+        if (rate >= 0) {
+            this.rate = rate;
+        }
     }
 
     public String getComment() {
@@ -78,7 +86,9 @@ public class Review {
     }
 
     public void setComment(String comment) {
-        this.comment = comment;
+        if (comment != null) {
+            this.comment = comment;
+        }
     }
 
     public String getDate() {
@@ -86,7 +96,9 @@ public class Review {
     }
 
     public void setDate(String date) {
-        this.date = date;
+        if (date != null) {
+            this.date = date;
+        }
     }
 
     public int getLikes() {
@@ -94,7 +106,9 @@ public class Review {
     }
 
     public void setLikes(int likes) {
-        this.likes = likes;
+        if (likes >= 0) {
+            this.likes = likes;
+        }
     }
 
     public int getDislikes() {
@@ -102,7 +116,9 @@ public class Review {
     }
 
     public void setDislikes(int dislikes) {
-        this.dislikes = dislikes;
+        if (dislikes >= 0) {
+            this.dislikes = dislikes;
+        }
     }
 
 }

@@ -23,7 +23,9 @@ public class UserInfo {
     }
 
     public void setType(String type) {
-        this.type = type;
+        if (type != null) {
+            this.type = type;
+        }
     }
 
     public String getFirstName() {
@@ -31,7 +33,9 @@ public class UserInfo {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        if (firstName != null) {
+            this.firstName = firstName;
+        }
     }
 
     public String getLastName() {
@@ -39,7 +43,9 @@ public class UserInfo {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        if (lastName != null) {
+            this.lastName = lastName;
+        }
     }
 
 

@@ -39,18 +39,26 @@ public class University {
 
     public String getId(){return id;}
 
-    public void setId(String id1){this.id =id1;}
+    public void setId(String id1){
+        if (id1 != null) {
+            this.id =id1;
+        }
+    }
 
     public String getName(){return name;}
 
     public void setName(String name1){
-        this.name = name1;
+        if (name1 != null) {
+            this.name = name1;
+        }
     }
 
     public List<String> getAllCampus(){return allCampus;}
 
     public  void setAllCampus(List<String> allCampus1){
-        allCampus=allCampus1;
+        if (allCampus1 != null) {
+            this.allCampus = allCampus1;
+        }
     }
 
 }
