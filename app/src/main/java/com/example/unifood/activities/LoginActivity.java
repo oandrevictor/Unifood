@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -57,8 +58,6 @@ public class LoginActivity extends AppCompatActivity {
      * system UI. This is to prevent the jarring behavior of controls going away
      * while interacting with activity UI.
      */
-
-
 
     // METHODS
 
@@ -217,7 +216,9 @@ public class LoginActivity extends AppCompatActivity {
     private void startRestaurntHome() {
         Class restaurantHome = RestaurantHomeActivity.class;
         Intent goToRHome = new Intent(this, restaurantHome);
+        goToRHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(goToRHome);
+        finish();
     }
 
     /**

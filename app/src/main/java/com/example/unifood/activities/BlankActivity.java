@@ -37,6 +37,7 @@ public class BlankActivity extends AppCompatActivity {
         setRestaurantId();
         deleteRestaurant();
         deleteUser();
+        finish();
     }
 
     public void setUpFirebase(){
@@ -76,17 +77,6 @@ public class BlankActivity extends AppCompatActivity {
     private void deleteUser() {
         userRef = mDatabase.child("users").child(userId);
         userRef.removeValue();
-        /*userRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                dataSnapshot.getRef().removeValue();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        */
     }
 
 }
