@@ -161,7 +161,6 @@ public class Restaurant {
     }
 
     public Float getRate() {
-        updateRating();
         return rate;
     }
 
