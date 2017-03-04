@@ -16,8 +16,11 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -75,13 +78,6 @@ public class RestaurantDeleteActivity extends AppCompatActivity {
         });
     }
 
-    private void startBlankActivity() {
-        Class blankActivity = BlankActivity.class;
-        Intent goToBlank = new Intent(this, blankActivity);
-        goToBlank.putExtra("REST_ID", restaurantId);
-        startActivity(goToBlank);
-    }
-
     private void deleterFirebaseUser() {
 
         if (mFirebaseUser != null) {
@@ -105,7 +101,8 @@ public class RestaurantDeleteActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
 
-                            startBlankActivity();
+                            deleteRestaurant();
+                            deleteUser();
 
                             mFirebaseUser.delete()
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -118,6 +115,26 @@ public class RestaurantDeleteActivity extends AppCompatActivity {
                     });
 
         }
+    }
+
+    private void deleteRestaurant() {
+
+        restaurantRef = mDatabase.child("restaurants").child(restaurantId);
+        restaurantRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dataSnapshot.getRef().removeValue();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void deleteUser() {
+        userRef = mDatabase.child("users").child(userId);
+        userRef.removeValue();
     }
 
 }
