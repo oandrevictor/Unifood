@@ -65,7 +65,7 @@ public class Restaurant {
     }
 
     public void updateRating() {
-        float restRate = 0;
+        float restRate = 0f;
         for (Review r: reviewList) {
             restRate += r.getRate();
         }

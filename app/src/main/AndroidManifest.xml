@@ -17,8 +17,7 @@
         </activity>
         <activity
             android:name=".activities.LoginActivity"
-            android:label="Logar-se">
-        </activity>
+            android:label="Logar-se" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -37,7 +36,9 @@
         <activity android:name=".activities.RestaurantHomeActivity" />
         <activity android:name=".activities.StudentEditActivity" />
         <activity android:name=".activities.RestaurantEditActivity" />
-        <activity android:name=".activities.ProductActivity"></activity>
+        <activity android:name=".activities.ProductActivity" />
+        <activity android:name=".activities.RestaurantDeleteActivity" />
+        <activity android:name=".activities.BlankActivity"></activity>
     </application>
 
 </manifest>

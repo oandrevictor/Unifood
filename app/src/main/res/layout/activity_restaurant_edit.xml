@@ -102,37 +102,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/update_b" />
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp">
-
-                <EditText android:id="@+id/confirm_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:hint="@string/confirm_email" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp">
-
-                <EditText android:id="@+id/confirm_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:hint="@string/confirm_password" />
-            </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:text="Deletar conta"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/delete_button" />
 
         </LinearLayout>
 
