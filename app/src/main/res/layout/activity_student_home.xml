@@ -23,7 +23,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-                android:foregroundTint="@color/colorSeparator" />
+                android:tabStripLeft="@mipmap/ic_launcher"
+                android:tabStripRight="@mipmap/ic_launcher"
+
+                android:foregroundTint="@color/colorSeparator"
+                android:theme="@style/AppTheme" />
 
 
             <FrameLayout
