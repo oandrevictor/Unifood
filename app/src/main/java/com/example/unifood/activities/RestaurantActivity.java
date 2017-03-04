@@ -16,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.unifood.R;
-import com.example.unifood.firebase.utils.LoadProducts;
-import com.example.unifood.firebase.utils.LoadReviews;
+import com.example.unifood.adapters.RestaurantProductListAdapter;
+import com.example.unifood.adapters.RestaurantReviewListAdapter;
+import com.example.unifood.fragments.RestaurantProductFragment;
+import com.example.unifood.fragments.RestaurantReviewFragment;
 import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
@@ -25,6 +27,7 @@ import com.example.unifood.models.StudentInfo;
 import com.example.unifood.models.Util;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,7 +56,9 @@ public class RestaurantActivity extends AppCompatActivity {
 
     private String restaurantUId;
     private ArrayList<Review> reviewSet = new ArrayList<>();
+    RestaurantReviewListAdapter reviewAdapter;
     private ArrayList<Product> productSet = new ArrayList<>();
+    RestaurantProductListAdapter productAdapter;
 
     @InjectView(R.id.rest_profile_name) TextView restName;
     @InjectView(R.id.rest_profile_uni) TextView restCampus;
@@ -82,6 +87,14 @@ public class RestaurantActivity extends AppCompatActivity {
             loadProfile();
             loadProducts();
             loadReviews();
+
+            RestaurantProductFragment fragment = (RestaurantProductFragment) getFragmentManager().findFragmentById(R.id.restaurant_products);
+            productAdapter = new RestaurantProductListAdapter(this, productSet);
+            fragment.updateRecycler(productAdapter);
+
+            RestaurantReviewFragment fragment2 = (RestaurantReviewFragment) getFragmentManager().findFragmentById(R.id.restaurant_reviews);
+            reviewAdapter = new RestaurantReviewListAdapter(this, reviewSet);
+            fragment2.updateRecycler(reviewAdapter);
         }
 
         listenerRatingBar();
@@ -102,7 +115,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 restName.setText(rest.getName());
                 restCampus.setText("Campus: " + rest.getCampusId());
                 restLocal.setText(rest.getLocalization());
-                String rate = Float.toString(rest.getRating());
+                String rate = String.format("%.2f", rest.getRate());
                 restRate.setText("Avaliação: " + rate);
             }
 
@@ -115,30 +128,64 @@ public class RestaurantActivity extends AppCompatActivity {
 
     private void loadProducts() {
         productsRef = restaurantRef.child("productList");
-        productsRef.addValueEventListener(new ValueEventListener() {
+        productsRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                new LoadProducts(dataSnapshot, productSet, RestaurantActivity.this, R.id.restaurant_products, "student").execute();
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Product product = dataSnapshot.getValue(Product.class);
+                productSet.add(product);
+                productAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
+
             }
         });
     }
 
     private void loadReviews() {
         reviewsRef = restaurantRef.child("reviewList");
-        reviewsRef.addValueEventListener(new ValueEventListener() {
+        reviewsRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                new LoadReviews(dataSnapshot, reviewSet, RestaurantActivity.this, R.id.restaurant_reviews, "student").execute();
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Review review = dataSnapshot.getValue(Review.class);
+                reviewSet.add(review);
+                reviewAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
+
             }
         });
     }
@@ -192,12 +239,7 @@ public class RestaurantActivity extends AppCompatActivity {
             return;
         }
 
-        newReviewButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Avaliando...");
-        progressDialog.show();
+        final ProgressDialog progressDialog = startDialog(getString(R.string.reviewDialog), newReviewButton);
 
         final Review newReview = new Review(mFirebaseUser.getUid(), restaurantUId, newRate, newComment, newData);
 
@@ -211,13 +253,11 @@ public class RestaurantActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
                         if (firebaseError != null) {
-                            progressDialog.dismiss();
                             Toast.makeText(RestaurantActivity.this, "Avaliação não adicionada!", Toast.LENGTH_SHORT).show();
                         } else {
-                            progressDialog.dismiss();
                             Toast.makeText(RestaurantActivity.this, "Restaurante avaliado.", Toast.LENGTH_SHORT).show();
                         }
-                        newReviewButton.setEnabled(true);
+                        finishDialog(progressDialog, newReviewButton);
                     }
                 });
             }
@@ -227,7 +267,7 @@ public class RestaurantActivity extends AppCompatActivity {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-
+        clearTextViews();
     }
 
     private boolean validate(Float newRate) {
@@ -276,6 +316,26 @@ public class RestaurantActivity extends AppCompatActivity {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
+    }
+
+    private void clearTextViews() {
+        newCommentText.getText().clear();
+        newRateStar.clearAnimation();
+    }
+
+    private ProgressDialog startDialog(String message, Button bt) {
+        bt.setEnabled(false);
+        ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(message);
+        progressDialog.show();
+
+        return progressDialog;
+    }
+
+    private void finishDialog(ProgressDialog pg, Button bt) {
+        pg.dismiss();
+        bt.setEnabled(true);
     }
 
 }

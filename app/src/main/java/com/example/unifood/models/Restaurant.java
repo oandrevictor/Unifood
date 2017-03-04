@@ -14,6 +14,7 @@ public class Restaurant {
     private List<Review> reviewList;
     private List<Product> productList;
     private String userId;
+    private Float rate;
 
     private final String EMPTY = "";
 
@@ -24,6 +25,7 @@ public class Restaurant {
         this.userId = EMPTY;
         this.reviewList = new ArrayList<Review>();
         this.productList = new ArrayList<Product>();
+        this.rate = 0f;
     }
 
     public Restaurant(String name,  String campusId, String localization) {
@@ -46,17 +48,17 @@ public class Restaurant {
         this.productList.remove(product);
     }
 
-    public float getRating() {
+    public void updateRating() {
         float restRate = 0;
         for (Review r: reviewList) {
             restRate += r.getRate();
         }
 
         if (reviewList.size() > 0) {
-            return restRate / reviewList.size();
+            this.rate = restRate / reviewList.size();
+        } else {
+            this.rate = restRate;
         }
-
-        return restRate;
     }
 
 
@@ -125,4 +127,12 @@ public class Restaurant {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    public Float getRate() {
+        updateRating();
+        return rate;
+    }
+
+    public void setRate(Float rate1) { this.rate = rate1; }
+
 }

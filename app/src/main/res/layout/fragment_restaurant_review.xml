@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
-        android:layout_margin="8dp">
+        android:layout_margin="7dp">
 
         <TextView
             android:id="@+id/rest_review_rate"
@@ -35,8 +35,15 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/rest_review_date"
             android:layout_alignParentLeft="true"
-            android:layout_margin="10dp"
+            android:layout_margin="12dp"
             android:textAppearance="?attr/textAppearanceListItem" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/rest_review_comment"
+            android:background="#c0c0c0"/>
+
     </RelativeLayout>
 
 </LinearLayout>

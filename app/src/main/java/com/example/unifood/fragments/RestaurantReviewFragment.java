@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.unifood.R;
-import com.example.unifood.adapters.RestaurantReviewRecyclerViewAdapter;
+import com.example.unifood.adapters.RestaurantReviewListAdapter;
 
 
 public class RestaurantReviewFragment extends Fragment {
@@ -20,7 +20,7 @@ public class RestaurantReviewFragment extends Fragment {
         return view;
     }
 
-    public void updateRecycler(RestaurantReviewRecyclerViewAdapter mAdapter) {
+    public void updateRecycler(RestaurantReviewListAdapter mAdapter) {
         RecyclerView restaurantReviewListRecyclerView = (RecyclerView) getView().findViewById(R.id.review_list);
         restaurantReviewListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         restaurantReviewListRecyclerView.setAdapter(mAdapter);
