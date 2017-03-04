@@ -53,10 +53,25 @@ public class RestaurantEditActivity extends AppCompatActivity {
 
         ButterKnife.inject(this);
         setUpFirebase();
-
-        emailField.setText(mFirebaseUser.getEmail());
-
         setRestaurantId();
+
+        restaurantRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
+                emailField.setText(mFirebaseUser.getEmail());
+                nameField.setText(restaurant.getName());
+                localField.setText(restaurant.getLocalization());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
