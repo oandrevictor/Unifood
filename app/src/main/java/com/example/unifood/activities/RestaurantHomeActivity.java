@@ -1,8 +1,11 @@
 package com.example.unifood.activities;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,8 +28,13 @@ import com.example.unifood.models.Product;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,10 +58,12 @@ public class RestaurantHomeActivity extends AppCompatActivity {
     private TabHost tabHost;
     private TabHost.TabSpec spec1, spec2, spec3;
 
-    String restID;
-    DatabaseReference restaurantRef;
-    DatabaseReference reviewsRef;
-    DatabaseReference productsRef;
+    private DatabaseReference restaurantRef;
+    private DatabaseReference reviewsRef;
+    private DatabaseReference productsRef;
+    private DatabaseReference userRef;
+    private String userId;
+    private String restID;
 
     private ArrayList<Review> reviewSet = new ArrayList<>();
     private RestaurantReviewListAdapter reviewAdapter;
@@ -320,6 +330,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        userId  =  FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     @Override
@@ -338,8 +349,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
             return true;
         }
         else if(id == R.id.user_delete){
-
-            startDeleteActivity();
+            confirmDelete();
             return true;
         }
 
@@ -382,11 +392,81 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         finish();
     }
 
-    private void startDeleteActivity(){
-        Class deleteActivity = RestaurantDeleteActivity.class;
-        Intent goToEdit = new Intent(this, deleteActivity);
-        goToEdit.putExtra("REST_ID", restID);
-        startActivity(goToEdit);
+    private void confirmDelete() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(RestaurantHomeActivity.this);
+        builder.setTitle("Deletar conta");
+        builder.setMessage("Você tem certeza?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                deleterFirebaseUser();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void deleterFirebaseUser() {
+
+        if (mFirebaseUser != null) {
+
+            AuthCredential credential;
+
+            credential = EmailAuthProvider
+                    .getCredential("qql@email.com", "password");
+
+            mFirebaseUser.reauthenticate(credential)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if (!task.isSuccessful())
+                                finish();
+
+                            deleteRestaurant();
+                            deleteUser();
+
+                            mFirebaseUser.delete()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                        }
+                                    });
+                        }
+                    });
+
+        }
+    }
+
+    private void deleteRestaurant() {
+
+        restaurantRef = mDatabase.child("restaurants").child(restID);
+        restaurantRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dataSnapshot.getRef().removeValue();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void deleteUser() {
+        userRef = mDatabase.child("users").child(userId);
+        userRef.removeValue();
     }
 
 }
