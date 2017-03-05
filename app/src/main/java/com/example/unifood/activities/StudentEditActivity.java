@@ -132,6 +132,12 @@ public class StudentEditActivity extends AppCompatActivity {
         String lastName = lastNameField.getText().toString();
         String email = emailField.getText().toString();
 
+        if (!validate(firstName, lastName, email)) {
+            Toast.makeText(getBaseContext(), "Complete os campos corretamente.", Toast.LENGTH_LONG).show();
+            updateButton.setEnabled(true);
+            return;
+        }
+
         updateButton.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(this, R.style.AppTheme_Dialog);
         progressDialog.setIndeterminate(true);
@@ -159,6 +165,33 @@ public class StudentEditActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public boolean validate(String firstName, String lastName, String email) {
+        boolean valid = true;
+
+        if (firstName.isEmpty() || firstName.length() < 3) {
+            firstNameField.setError(getText(R.string.four_characters));
+            valid = false;
+        } else {
+            firstNameField.setError(null);
+        }
+
+        if (lastName.isEmpty() || lastName.length() < 3) {
+            lastNameField.setError(getText(R.string.four_characters));
+            valid = false;
+        } else {
+            lastNameField.setError(null);
+        }
+
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailField.setError(getText(R.string.valid_email));
+            valid = false;
+        } else {
+            emailField.setError(null);
+        }
+
+        return valid;
     }
 
     public void startHomeActivity(){

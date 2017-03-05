@@ -37,8 +37,6 @@
         <activity android:name=".activities.StudentEditActivity" />
         <activity android:name=".activities.RestaurantEditActivity" />
         <activity android:name=".activities.ProductActivity" />
-        <activity android:name=".activities.RestaurantDeleteActivity" />
-        <activity android:name=".activities.BlankActivity"></activity>
     </application>
 
 </manifest>

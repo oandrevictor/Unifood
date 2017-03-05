@@ -66,7 +66,6 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
         ButterKnife.inject(this);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         loadCampus();
 
@@ -115,6 +114,7 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            mFirebaseUser = mFirebaseAuth.getCurrentUser();
                             String mUserId  = mFirebaseUser.getUid();
                             mDatabase.child("users").child(mUserId).child("userInfo").setValue(userInfo);
                             restaurant.setUserId(mUserId);
@@ -139,8 +139,6 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
                         onSignupSuccess();
                     }
                 });
-
-
     }
 
     public void onSignupSuccess() {
@@ -255,4 +253,5 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
             }
         });
     }
+
 }
