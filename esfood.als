@@ -67,6 +67,8 @@ fact {
 	all t:Type, u1:User, u2:User | (t in u1.type) and (t in u2.type) => u1 = u2
 
 	all r:Restaurant, o1:Owner, o2:Owner | (r in o1.restaurant) and (r in o2.restaurant) => o1 = o2
+
+	all c:Campus, u1:University, u2:University | (c in u1.campus) and (c in u2.campus) => u1 = u2
 }
 
 
