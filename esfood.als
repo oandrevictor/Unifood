@@ -12,13 +12,13 @@ sig Campus {
 
 sig User {
 	type: one Type,
-	uCampus: one Campus
 }
 
 abstract sig Type {}
 
 sig Student extends Type {
-	favRestaurant: some Restaurant
+	favRestaurant: some Restaurant,
+	sCampus: one Campus
 }
 
 sig Owner extends Type {
@@ -26,6 +26,8 @@ sig Owner extends Type {
 }
 
 sig Restaurant {
+	rCampus: one Campus,
+	owner: one Owner,
 	products: some Product,
 	reviews: some Review
 }
@@ -58,10 +60,13 @@ fact Restaurant{
 }
 
 fact usersInteractInsideCampus{
-	all u:User| let c = u.uCampus, t = u.type{
-	t in Student => t.favRestaurant in c.restaurants
-	t in Owner => t.restaurant in c.restaurants
+	all u:User| let  t = u.type{
+	t in Student => t.favRestaurant in t.sCampus.restaurants
 	}
+}
+
+fact GoAndBackRestaurantAndCampus{
+	all rest:Restaurant| rest in rest.rCampus.restaurants
 }
 
 fact GoAndBackRestaurantReview{
@@ -69,7 +74,9 @@ fact GoAndBackRestaurantReview{
 }
 
 fact ReviewsInsideCampus{
-	all rv:Review,
+all s:Student,rv:Review{
+ s in rv.rUser=> rv.rRestaurant.rCampus = s.sCampus
+	}
 }
 
 
@@ -77,8 +84,9 @@ fact {
 	all u:User | one u.type
 	all t:Type | some t.~type
 
-	all u:User | one u.uCampus
-	all c:Campus | some c.~uCampus
+	all s:Student | one s.sCampus
+	all r:Restaurant | one r.rCampus
+	all c:Campus | some c.~sCampus
 
 	all p:Product | some p.~products
 	all r:Review | some r.~reviews
@@ -94,6 +102,7 @@ fact {
 --Predicates--
 
 pred show[]{
+
 }
 
-run show for 3
+run show for 4
