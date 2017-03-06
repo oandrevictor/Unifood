@@ -11,11 +11,9 @@ public class Product {
     private float cost;
     private boolean availability;
 
-    private final String EMPTY = new String();
-
     public Product() {
         this.id = UUID.randomUUID().toString();
-        this.description = EMPTY;
+        this.description = "";
         this.availability = true;
     }
 

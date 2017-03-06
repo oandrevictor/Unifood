@@ -10,15 +10,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import com.example.unifood.R;
 import com.example.unifood.adapters.RestaurantListAdapter;
-import com.example.unifood.controllers.FirebaseHelper;
-import com.example.unifood.firebase.utils.LoadRestaurants;
-import com.example.unifood.firebase.utils.Utilities;
 import com.example.unifood.fragments.RestaurantListFragment;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.University;
@@ -50,9 +46,6 @@ public class StudentHomeActivity extends AppCompatActivity  {
     private ArrayList<String> faveReferences = new ArrayList<>();
     RestaurantListAdapter restAdapter;
     RestaurantListAdapter faveAdapter;
-
-
-    private Utilities util;
 
     private TabHost tabHost;
     private TabSpec spec1,spec2,spec3;

@@ -124,12 +124,6 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    private void startAdmActivity() {
-        Class admActivity = AdminUniversityActivity.class;
-        Intent goToAdm = new Intent(this, admActivity);
-        startActivity(goToAdm);
-    }
-
     private void startStudentHome(){
         Class studentHome = StudentHomeActivity.class;
         Intent goToSHome = new Intent(this, studentHome);
@@ -194,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeResource(res, resId, options);
     }
-
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image

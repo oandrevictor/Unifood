@@ -169,6 +169,7 @@ public class Restaurant {
             this.rate = rate1;
         }
     }
+
     @Override
     public boolean equals(Object o){
         if (o!=null){
@@ -179,6 +180,7 @@ public class Restaurant {
         }
         return false;
     }
+
     public void update(Restaurant r){
         this.name = r.getName();
         this.localization = r.getLocalization();
