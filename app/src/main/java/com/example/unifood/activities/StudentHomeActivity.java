@@ -1,8 +1,10 @@
 package com.example.unifood.activities;
 
-import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,18 +12,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import com.example.unifood.R;
 import com.example.unifood.adapters.RestaurantListAdapter;
-import com.example.unifood.controllers.FirebaseHelper;
-import com.example.unifood.firebase.utils.LoadRestaurants;
 import com.example.unifood.firebase.utils.Utilities;
 import com.example.unifood.fragments.RestaurantListFragment;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.University;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -35,14 +38,15 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 
-import static android.R.attr.process;
-import static com.google.android.gms.common.stats.zzc.Ar;
-
 public class StudentHomeActivity extends AppCompatActivity  {
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mDatabase;
+
+    private DatabaseReference studentRef;
+    private String studentId;
+
     private ArrayList<University> dataSet = new ArrayList<>();
     private ArrayList<Restaurant> restaurantSet = new ArrayList<>();
     private ArrayList<Restaurant> faveRestaurantSet = new ArrayList<>();
@@ -271,22 +275,88 @@ public class StudentHomeActivity extends AppCompatActivity  {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.update_user_info) {
+        if (id == R.id.user_update) {
             startEditActivity();
             return true;
         }
-        else if(id == R.id.user_sign_off){
+        else if(id == R.id.user_logout){
 
             mFirebaseAuth.signOut(); // SignOut of Firebase
             startLogInActivity();
-
+            return true;
+        }
+        else if(id == R.id.user_delete){
+            confirmDelete();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void confirmDelete() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(StudentHomeActivity.this);
+        builder.setTitle("Deletar conta");
+        builder.setMessage("Você tem certeza?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                deleterFirebaseUser();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void deleterFirebaseUser() {
+
+        if (mFirebaseUser != null) {
+
+            AuthCredential credential;
+
+            credential = EmailAuthProvider
+                    .getCredential("qql@email.com", "password");
+
+            mFirebaseUser.reauthenticate(credential)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if (!task.isSuccessful())
+                                finish();
+
+                            deleteStudent();
+
+                            mFirebaseUser.delete()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                        }
+                                    });
+                        }
+                    });
+
+        }
+    }
+
+    private void deleteStudent() {
+        studentId  =  FirebaseAuth.getInstance().getCurrentUser().getUid();
+        studentRef = mDatabase.child("users").child(studentId);
+        studentRef.removeValue();
     }
 
     public void startEditActivity(){
