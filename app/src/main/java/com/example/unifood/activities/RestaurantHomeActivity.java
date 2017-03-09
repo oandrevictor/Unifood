@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.unifood.R;
 import com.example.unifood.adapters.RestaurantProductListAdapter;
 import com.example.unifood.adapters.RestaurantReviewListAdapter;
+import com.example.unifood.exceptions.ProductException;
 import com.example.unifood.fragments.RestaurantHomeProductFragment;
 import com.example.unifood.fragments.RestaurantHomeReviewFragment;
 import com.example.unifood.models.Campus;
@@ -64,6 +65,7 @@ public class RestaurantHomeActivity extends AppCompatActivity {
     private DatabaseReference userRef;
     private String userId;
     private String restID;
+    Product newProduct;
 
     private ArrayList<Review> reviewSet = new ArrayList<>();
     private RestaurantReviewListAdapter reviewAdapter;
@@ -247,8 +249,11 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         newProductButton.setEnabled(false);
 
         final ProgressDialog progressDialog = startDialog(getString(R.string.addProductDialog), newProductButton);
-
-        final Product newProduct = new Product(name, Float.parseFloat(price), description);
+        try {
+            newProduct = new Product(name, Float.parseFloat(price), description);
+        } catch (ProductException e) {
+            e.printStackTrace();
+        }
 
         restaurantRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

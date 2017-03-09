@@ -1,5 +1,7 @@
 package com.example.unifood.models;
 
+import com.example.unifood.exceptions.OwnerException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +15,11 @@ public class OwnerInfoTest {
 
     @Before
     public void setUp(){
-        owner = new OwnerInfo(RESTAURANTID);
+        try {
+            owner = new OwnerInfo(RESTAURANTID);
+        } catch (OwnerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

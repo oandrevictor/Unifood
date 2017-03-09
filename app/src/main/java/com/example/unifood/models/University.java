@@ -21,7 +21,6 @@ public class University {
     }
 
     public boolean addCampus(String campus){
-
         if (campus != null) {
             return allCampus.add(campus);
         }

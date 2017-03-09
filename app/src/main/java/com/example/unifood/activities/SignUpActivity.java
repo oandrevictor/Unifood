@@ -21,6 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.unifood.R;
+import com.example.unifood.exceptions.InvalidFirstNameException;
+import com.example.unifood.exceptions.StudentException;
+import com.example.unifood.exceptions.UserException;
 import com.example.unifood.models.StudentInfo;
 import com.example.unifood.models.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,8 +42,6 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-
-import static com.example.unifood.R.string.university;
 
 
 public class SignUpActivity extends AppCompatActivity {
@@ -123,20 +124,37 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
 
-    public void signup() {
+    public void signup(){
         Log.d(TAG, getString(R.string.register));
         String firstName = first_nameText.getText().toString();
         String lastName = last_nameText.getText().toString();
-        String university = campus;
+        String user_campus = campus;
         String email = emailText.getText().toString();
         String password = passwordText.getText().toString();
 
-        if (!validate(firstName,lastName,university,email,password)) {
+        if (!validate(firstName,lastName,user_campus,email,password)) {
+            onSignupFailed();
+            return;
+        }
+
+        try {
+            studentInfo = new StudentInfo(user_campus);
+        } catch (StudentException e) {
+            onSignupFailed();
+            return;
+        }
+
+
+        try {
+            userInfo = new UserInfo(firstName,lastName,STUDENT_TYPE);
+        } catch (UserException e) {
+            if (e instanceof InvalidFirstNameException){
+                first_nameText.setError(getText(R.string.four_characters));
+            }
             onSignupFailed();
             return;
         }
@@ -147,12 +165,6 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();
-
-
-        studentInfo = new StudentInfo(university);
-        userInfo = new UserInfo(firstName,lastName,STUDENT_TYPE);
-
-        // Conectar tudo com o banco de dados.
 
         mFirebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
@@ -194,19 +206,12 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void onSignupFailed() {
         Toast.makeText(getBaseContext(), R.string.register_fail, Toast.LENGTH_LONG).show();
-
         signupButton.setEnabled(true);
     }
 
     public boolean validate(String firstName, String lastName, String university, String email, String password) {
         boolean valid = true;
 
-        if (firstName.isEmpty() || firstName.length() < 3) {
-            first_nameText.setError(getText(R.string.four_characters));
-            valid = false;
-        } else {
-            first_nameText.setError(null);
-        }
 
         if (lastName.isEmpty() || lastName.length() < 3) {
             last_nameText.setError(getText(R.string.four_characters));

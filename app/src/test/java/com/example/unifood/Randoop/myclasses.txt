@@ -1,0 +1,3 @@
+com.example.unifood.models.OwnerInfo
+com.example.unifood.models.UserInfo
+com.example.unifood.models.StudentInfo

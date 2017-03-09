@@ -1,5 +1,8 @@
 package com.example.unifood.models;
 
+import com.example.unifood.exceptions.InvalidFirstNameException;
+import com.example.unifood.exceptions.UserException;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -22,7 +25,12 @@ public class UserInfoTest {
 
     @Test
     public void constructorTest() {
-        UserInfo user = new UserInfo(USER_NAME, USER_LAST_NAME, USER_TYPE);
+        UserInfo user = null;
+        try {
+            user = new UserInfo(USER_NAME, USER_LAST_NAME, USER_TYPE);
+        } catch (UserException e) {
+            Assert.fail();
+        }
 
         Assert.assertEquals(USER_NAME, user.getFirstName());
         Assert.assertEquals(USER_LAST_NAME, user.getLastName());
@@ -31,7 +39,12 @@ public class UserInfoTest {
 
     @Test
     public void editUserTest() {
-        UserInfo user = new UserInfo(USER_NAME, USER_LAST_NAME, USER_TYPE);
+        UserInfo user = null;
+        try {
+            user = new UserInfo(USER_NAME, USER_LAST_NAME, USER_TYPE);
+        } catch (UserException e) {
+            Assert.fail();
+        }
 
         user.setFirstName(NEW_USER_NAME);
         user.setLastName(NEW_USER_LAST_NAME);

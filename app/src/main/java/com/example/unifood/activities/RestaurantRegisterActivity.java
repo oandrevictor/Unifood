@@ -12,15 +12,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.unifood.R;
+import com.example.unifood.exceptions.InvalidFirstNameException;
+import com.example.unifood.exceptions.OwnerException;
+import com.example.unifood.exceptions.RestaurantException;
+import com.example.unifood.exceptions.UserException;
 import com.example.unifood.models.OwnerInfo;
 import com.example.unifood.models.Restaurant;
-import com.example.unifood.models.StudentInfo;
 import com.example.unifood.models.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -102,9 +103,21 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
         progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();
 
-        restaurant = new Restaurant(restaurant_name, restaurant_university, restaurant_location);
+        try {
+            restaurant = new Restaurant(restaurant_name, restaurant_university, restaurant_location);
+        } catch (RestaurantException e) {
+            e.printStackTrace();
+        }
         restaurant.setShortDescription(restaurant_description);
-        userInfo = new UserInfo(user_firstName,user_lastName, OWNER_TYPE);
+        try {
+            userInfo = new UserInfo(user_firstName,user_lastName, OWNER_TYPE);
+        } catch (UserException e) {
+            if (e instanceof InvalidFirstNameException) {
+                user_first_nameText.setError(getText(R.string.four_characters));
+            }
+            onSignupFailed();
+            return;
+        }
 
         // Conectar tudo com o banco de dados.
 
@@ -120,7 +133,11 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
                             restaurant.setUserId(mUserId);
                             mDatabase.child("restaurants").push();
                             mDatabase.child("restaurants").child(restaurant.getId()).setValue(restaurant);
-                            ownerInfo = new OwnerInfo(restaurant.getId());
+                            try {
+                                ownerInfo = new OwnerInfo(restaurant.getId());
+                            } catch (OwnerException e) {
+                                e.printStackTrace();
+                            }
                             mDatabase.child("users").child(mUserId).child("ownerInfo").setValue(ownerInfo);
 
                             Intent intent = new Intent(RestaurantRegisterActivity.this, MainActivity.class);
@@ -181,13 +198,6 @@ public class RestaurantRegisterActivity extends AppCompatActivity {
 
     private boolean validateUser(String user_firstName, String user_lastName, String user_email, String user_password) {
         boolean valid = true;
-
-        if (user_firstName.isEmpty() || user_firstName.length() < 3) {
-            user_first_nameText.setError(getText(R.string.four_characters));
-            valid = false;
-        } else {
-            user_first_nameText.setError(null);
-        }
 
         if (user_lastName.isEmpty() || user_lastName.length() < 3) {
             user_last_nameText.setError(getText(R.string.four_characters));

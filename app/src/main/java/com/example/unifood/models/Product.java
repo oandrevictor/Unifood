@@ -1,7 +1,14 @@
 package com.example.unifood.models;
 
 
+import com.example.unifood.exceptions.InvalidDescriptionException;
+import com.example.unifood.exceptions.InvalidProductCost;
+import com.example.unifood.exceptions.InvalidProductName;
+import com.example.unifood.exceptions.ProductException;
+
 import java.util.UUID;
+
+import static com.google.android.gms.common.api.Status.st;
 
 public class Product {
 
@@ -19,11 +26,40 @@ public class Product {
         this.availability = true;
     }
 
-    public Product(String name, float cost, String description) {
+    public Product(String name, float cost, String description) throws ProductException{
         this();
+        validate(name,cost,description);
         this.name = name;
         this.cost = cost;
         this.description = description;
+    }
+
+    private boolean validate(String name, float cost, String description) throws ProductException {
+        return validateProductName(name) &&
+        validateCost(cost) &&
+        validateDescription(description);
+    }
+
+    private boolean validateDescription(String description) throws InvalidDescriptionException {
+        if (description!=null &&  description.length() < 140 && description.length() < 140){
+            return true;
+        }
+        throw new InvalidDescriptionException();
+    }
+
+    private boolean validateCost(float cost) throws InvalidProductCost {
+        if (cost >= 0){
+            return true;
+
+        }
+        throw new InvalidProductCost();
+    }
+
+    private boolean validateProductName(String name) throws InvalidProductName {
+        if (name!= null && name.length() >2){
+            return true;
+        }
+        throw new InvalidProductName();
     }
 
 

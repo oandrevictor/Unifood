@@ -12,7 +12,7 @@ import static junit.framework.Assert.*;
 public class ReviewTest {
     private final String USERID = "a97bg-jh45u-hn87";
     private final String RESTAURANTID = "fh8r6-hhf9w-377y";
-    private final int RATE = 7;
+    private final float RATE = 7;
     private final String COMMENT = "fh8r6-hhf9w-377y";
     private final String DATE = "08/01/2017";
 

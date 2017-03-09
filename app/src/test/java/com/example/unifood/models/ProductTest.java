@@ -1,5 +1,7 @@
 package com.example.unifood.models;
 
+import com.example.unifood.exceptions.ProductException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +25,11 @@ public class ProductTest {
 
     @Before
     public void setUp(){
-        product = new Product(NAME, COST, DESCRIPTION);
+        try {
+            product = new Product(NAME, COST, DESCRIPTION);
+        } catch (ProductException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

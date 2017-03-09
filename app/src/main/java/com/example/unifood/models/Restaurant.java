@@ -1,6 +1,9 @@
 package com.example.unifood.models;
 
 
+import com.example.unifood.exceptions.InvalidRestaurantNameException;
+import com.example.unifood.exceptions.RestaurantException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +18,7 @@ public class Restaurant {
     private List<Product> productList;
     private String userId;
     private Float rate;
+    private boolean approved;
 
     private final String EMPTY = "";
 
@@ -26,15 +30,28 @@ public class Restaurant {
         this.reviewList = new ArrayList<Review>();
         this.productList = new ArrayList<Product>();
         this.rate = 0f;
+        this.approved = false;
     }
 
-    public Restaurant(String name,  String campusId, String localization) {
+    public Restaurant(String name,  String campusId, String localization) throws RestaurantException {
         this();
+        validate(name,campusId, localization);
         this.name = name;
         this.campusId = campusId;
         this.localization = localization;
+       ;
     }
 
+    private boolean validate(String name, String campusId, String localization) throws RestaurantException{
+        return validateName(name); /*&&
+        validateCampusId(localization) &&
+        validateLocalization(localization);*/
+    }
+
+    private boolean validateName(String name) throws InvalidRestaurantNameException {
+        if (name!=null && name.length() >3){return true;}
+        throw new InvalidRestaurantNameException();
+    }
 
     public void addReview(Review review) {
         if (review != null) {
@@ -186,4 +203,15 @@ public class Restaurant {
         this.rate = r.rate;
     }
 
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    public boolean getApproved(){
+        return approved;
+    }
 }
