@@ -203,10 +203,6 @@ public class Restaurant {
         this.rate = r.rate;
     }
 
-    public boolean isApproved() {
-        return approved;
-    }
-
     public void setApproved(boolean approved) {
         this.approved = approved;
     }
