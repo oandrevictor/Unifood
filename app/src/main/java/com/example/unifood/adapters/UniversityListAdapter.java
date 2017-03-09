@@ -16,10 +16,6 @@ import com.example.unifood.models.University;
 
 import java.util.ArrayList;
 
-/**
- * Created by André  on 20/01/17.
- */
-
 public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAdapter.UniversityViewHolder>{
     private Context mContext;
     private ArrayList<University> unis;
@@ -59,7 +55,6 @@ public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAd
     class UniversityViewHolder extends RecyclerView.ViewHolder {
 
         TextView nameTextView;
-        TextView partySizeTextView;
         Button openButton;
         University university;
 
@@ -91,4 +86,5 @@ public class UniversityListAdapter extends RecyclerView.Adapter<UniversityListAd
         }
 
     }
+
 }

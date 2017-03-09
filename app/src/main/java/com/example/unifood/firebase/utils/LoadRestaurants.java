@@ -38,7 +38,7 @@ public class LoadRestaurants extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         RestaurantListAdapter restAdapter = new RestaurantListAdapter(activity, restaurantSet);
-        Fragment fragment1 = activity.getFragmentManager().findFragmentById(fragmentId);
+        //Fragment fragment1 = activity.getFragmentManager().findFragmentById(fragmentId);
         RestaurantListFragment fragment = (RestaurantListFragment) activity.getFragmentManager().findFragmentById(fragmentId);
         fragment.updateRecycler(restAdapter);
     }
