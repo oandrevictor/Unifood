@@ -100,8 +100,19 @@ public class RestaurantActivity extends AppCompatActivity {
             fragment2.updateRecycler(reviewAdapter);
 
         }
+        paintTab();
 
         listenerRatingBar();
+    }
+
+    private void paintTab(){
+        for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
+            View v = tabHost.getTabWidget().getChildAt(i);
+            TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+            tv.setTextColor(getResources().getColor(R.color.white));
+            v.setBackgroundResource(R.drawable.tab_selector);
+
+        }
     }
 
     @Override

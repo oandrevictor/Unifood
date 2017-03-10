@@ -122,6 +122,8 @@ public class RestaurantHomeActivity extends AppCompatActivity {
             }
         });
 
+        paintTab();
+
     }
 
     @Override
@@ -232,6 +234,17 @@ public class RestaurantHomeActivity extends AppCompatActivity {
                 createNewProduct();
             }
         });
+    }
+
+
+    private void paintTab(){
+        for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
+            View v = tabHost.getTabWidget().getChildAt(i);
+            TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+            tv.setTextColor(getResources().getColor(R.color.white));
+            v.setBackgroundResource(R.drawable.tab_selector);
+
+        }
     }
 
     private void createNewProduct() {
