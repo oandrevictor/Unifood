@@ -55,9 +55,6 @@ public class StudentHomeActivity extends AppCompatActivity  {
     RestaurantListAdapter restAdapter;
     RestaurantListAdapter faveAdapter;
 
-
-    private Utilities util;
-
     private TabHost tabHost;
     private TabSpec spec1,spec2,spec3;
 
