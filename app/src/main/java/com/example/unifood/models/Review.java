@@ -12,18 +12,12 @@ public class Review {
     private float rate;
     private String comment;
     private String date;
-    private int likes;
-    private int dislikes;
 
     private final String EMPTY_COMMENT = "";
 
     public Review () {
         this.id = UUID.randomUUID().toString();
-        this.dislikes = 0;
-        this.likes = 0;
     }
-
-
 
     public Review(String userId, String restaurantId, float rate, String date) {
         this();
@@ -98,26 +92,6 @@ public class Review {
     public void setDate(String date) {
         if (date != null) {
             this.date = date;
-        }
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        if (likes >= 0) {
-            this.likes = likes;
-        }
-    }
-
-    public int getDislikes() {
-        return dislikes;
-    }
-
-    public void setDislikes(int dislikes) {
-        if (dislikes >= 0) {
-            this.dislikes = dislikes;
         }
     }
 

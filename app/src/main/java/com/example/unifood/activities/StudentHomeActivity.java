@@ -240,11 +240,6 @@ public class StudentHomeActivity extends AppCompatActivity  {
 
     }
 
-    private void paintRestaurants(){
-        RestaurantListFragment fragment = (RestaurantListFragment) getFragmentManager().findFragmentById(R.id.saved_restaurants);
-        fragment.updateRecycler(faveAdapter);
-    }
-
     private void setUpHostBar(){
 
         tabHost =(TabHost)findViewById(R.id.host_bar);
