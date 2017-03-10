@@ -37,7 +37,7 @@ public class ProductTest {
         assertEquals(NAME, product.getName());
         assertEquals(COST, product.getCost());
         assertEquals(DESCRIPTION, product.getDescription());
-        assertTrue(product.isAvailable());
+        assertTrue(product.getAvailability());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class ProductTest {
 
         assertEquals(NAME, product.getName());
         assertEquals(COST, product.getCost());
-        assertEquals(NEW_AVAILABILITY, product.isAvailable());
+        assertEquals(NEW_AVAILABILITY, product.getAvailability());
         assertEquals(DESCRIPTION, product.getDescription());
         assertFalse(product.getId().isEmpty());
 

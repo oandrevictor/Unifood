@@ -10,9 +10,12 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.unifood.R;
+import com.example.unifood.activities.ProductActivity;
 import com.example.unifood.activities.RestaurantHomeActivity;
+import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.Review;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -133,13 +136,13 @@ public class RestaurantReviewListAdapter extends RecyclerView.Adapter<Restaurant
             builder.setTitle("Deletar comentário");
             builder.setMessage("Você tem certeza?");
 
-            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     deleteComment();
                 }
             });
 
-            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -155,25 +158,13 @@ public class RestaurantReviewListAdapter extends RecyclerView.Adapter<Restaurant
         private void deleteComment() {
 
             mReviews.remove(index);
-            final float mRate = calculateRate();
 
             commentRef = mDatabase.child("restaurants").child(restaurantId).child("reviewList");
             commentRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     dataSnapshot.getRef().setValue(mReviews);
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-            rateRef = mDatabase.child("restaurants").child(restaurantId).child("rate");
-            rateRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    dataSnapshot.getRef().setValue(mRate);
+                    calculateRate();
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -182,6 +173,7 @@ public class RestaurantReviewListAdapter extends RecyclerView.Adapter<Restaurant
             });
 
             notifyChange();
+            Toast.makeText(mContext, "Avaliação deletada.", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -205,12 +197,23 @@ public class RestaurantReviewListAdapter extends RecyclerView.Adapter<Restaurant
             this.index = position;
         }
 
-        private float calculateRate() {
-            float rateSum = 0;
-            for (Review review: mReviews) rateSum = rateSum + review.getRate();
-            return rateSum / mReviews.size();
-        }
+        private void calculateRate() {
+            final DatabaseReference restaurantRef = mDatabase.child("restaurants").child(restaurantId);
+            restaurantRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Restaurant restaurant = dataSnapshot.getValue(Restaurant.class);
+                    restaurant.updateRating();
+                    Float rate = restaurant.getRate();
+                    restaurantRef.child("rate").setValue(rate);
+                }
 
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
 }

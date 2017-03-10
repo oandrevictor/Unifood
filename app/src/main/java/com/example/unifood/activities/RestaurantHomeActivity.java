@@ -402,13 +402,13 @@ public class RestaurantHomeActivity extends AppCompatActivity {
         builder.setTitle("Deletar conta");
         builder.setMessage("Você tem certeza?");
 
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 deleterFirebaseUser();
             }
         });
 
-        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
