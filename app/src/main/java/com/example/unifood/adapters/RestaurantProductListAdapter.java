@@ -150,13 +150,17 @@ public class RestaurantProductListAdapter extends RecyclerView.Adapter<Restauran
                 @Override
                 public void onClick(View v) {
                     if (isOwner) {
-                        Class productActivity = ProductActivity.class;
-                        Intent intent = new Intent(mContext, productActivity);
-                        intent.putExtra("ID_EXTRA", new String[] {mProduct.getId(), restaurantId});
-                        mContext.startActivity(intent);
+                        startsProductActivity();
                     }
                 }
             });
+        }
+
+        private void startsProductActivity() {
+            Class productActivity = ProductActivity.class;
+            Intent intent = new Intent(mContext, productActivity);
+            intent.putExtra("ID_EXTRA", new String[] {mProduct.getId(), restaurantId});
+            mContext.startActivity(intent);
         }
 
         private void setProduct(Product prod) {
@@ -171,7 +175,6 @@ public class RestaurantProductListAdapter extends RecyclerView.Adapter<Restauran
             this.restaurantId = restaurantId;
         }
     }
-
 
 
     // Callback Interface

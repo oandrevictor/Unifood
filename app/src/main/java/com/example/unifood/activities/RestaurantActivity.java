@@ -96,8 +96,9 @@ public class RestaurantActivity extends AppCompatActivity {
             fragment.updateRecycler(productAdapter);
 
             RestaurantReviewFragment fragment2 = (RestaurantReviewFragment) getFragmentManager().findFragmentById(R.id.restaurant_reviews);
-            reviewAdapter = new RestaurantReviewListAdapter(this, reviewSet);
+            reviewAdapter = new RestaurantReviewListAdapter(this, reviewSet, restaurantUId);
             fragment2.updateRecycler(reviewAdapter);
+
         }
 
         listenerRatingBar();
@@ -108,6 +109,7 @@ public class RestaurantActivity extends AppCompatActivity {
         super.onResume();
 
         listenerFavButton();
+
     }
 
     private void loadProfile() {

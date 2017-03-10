@@ -33,8 +33,6 @@ public class ReviewTest {
         assertEquals(RATE, review1.getRate());
         assertEquals(DATE, review1.getDate());
         assertTrue(review1.getComment().isEmpty());
-        assertTrue(review1.getDislikes() == 0);
-        assertTrue(review1.getLikes() == 0);
     }
 
     @Test
@@ -44,7 +42,5 @@ public class ReviewTest {
         assertEquals(RATE, review2.getRate());
         assertEquals(COMMENT, review2.getComment());
         assertEquals(DATE, review2.getDate());
-        assertTrue(review2.getDislikes() == 0);
-        assertTrue(review2.getLikes() == 0);
     }
 }

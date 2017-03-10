@@ -76,17 +76,23 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
             titleTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //* we are actually open the restaurant view, but thats a detail;
-                    Class restaurantActivity = RestaurantActivity.class;
-                    Intent intent = new Intent(mContext, restaurantActivity);
-                    intent.putExtra("REST_ID", restaurant.getId());
-                    mContext.startActivity(intent);
+                    startsRestaurantActivity();
                 }
             });
 
         }
+
         public void setRestaurant(Restaurant restaurant1){
             this.restaurant = restaurant1;
+        }
+
+        public void startsRestaurantActivity() {
+            //* we are actually open the restaurant view, but thats a detail;
+            Class restaurantActivity = RestaurantActivity.class;
+            Intent intent = new Intent(mContext, restaurantActivity);
+            intent.putExtra("REST_ID", restaurant.getId());
+            mContext.startActivity(intent);
+
         }
 
     }
