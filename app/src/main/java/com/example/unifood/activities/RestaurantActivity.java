@@ -344,7 +344,7 @@ public class RestaurantActivity extends AppCompatActivity {
         builder.setTitle("Remover favorito");
         builder.setMessage("O restaurante já está na sua lista de favoritos. Deseja remove-lo?");
 
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 mFavRest.remove(restaurantUId);
                 studentInfoRef.child("favRestaurants").setValue(mFavRest);
@@ -353,7 +353,7 @@ public class RestaurantActivity extends AppCompatActivity {
             }
         });
 
-        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {

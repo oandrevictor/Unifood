@@ -6,12 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TabHost;
 import android.widget.TextView;
 import com.example.unifood.R;
 import com.example.unifood.activities.ProductActivity;
 import com.example.unifood.models.Product;
-import com.example.unifood.models.Restaurant;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -58,8 +56,13 @@ public class RestaurantProductListAdapter extends RecyclerView.Adapter<Restauran
             product = mProducts.get(position);
             holder.setProduct(product);
             holder.mNameView.setText(product.getName());
-            holder.mCostView.setText(formatDecimal(String.valueOf(product.getCost())));
+            if (product.getAvailability()) {
+                holder.mCostView.setText(formatDecimal(String.valueOf(product.getCost())) + "  ");
+            } else {
+                holder.mCostView.setError("Produto indisponível.");
+            }
             holder.mDescriptionView.setText(product.getDescription());
+
             holder.setIsOwner(this.isOwner);
 
             getRestaurantId(new Callbackable() {

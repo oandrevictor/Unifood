@@ -93,7 +93,7 @@ public class ProductActivity extends AppCompatActivity {
                             nameField.setText(mProduct.getName());
                             costField.setText(Float.toString(mProduct.getCost()));
                             descriptionField.setText(mProduct.getDescription());
-                            productListRef.child(Integer.toString(mProductIndex)).child("available").addListenerForSingleValueEvent(new ValueEventListener() {
+                            productListRef.child(Integer.toString(mProductIndex)).child("availability").addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshotx) {
                                     Boolean availability = dataSnapshotx.getValue(Boolean.class);
@@ -163,7 +163,7 @@ public class ProductActivity extends AppCompatActivity {
 
         if (!description.equals(VAZIO)) mDatabase.child("restaurants").child(restId).child("productList").child(prodIndex).child("description").setValue(description);
         if (!name.equals(VAZIO))  mDatabase.child("restaurants").child(restId).child("productList").child(prodIndex).child("name").setValue(name);
-        mDatabase.child("restaurants").child(restId).child("productList").child(prodIndex).child("available").setValue(avaliability);
+        mDatabase.child("restaurants").child(restId).child("productList").child(prodIndex).child("availability").setValue(avaliability);
         mDatabase.child("restaurants").child(restId).child("productList").child(prodIndex).child("cost").setValue(Float.parseFloat(cost), new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {

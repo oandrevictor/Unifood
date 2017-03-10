@@ -103,7 +103,7 @@ public class Product {
         }
     }
 
-    public boolean isAvailable() {
+    public boolean getAvailability() {
         return this.availability;
     }
 
