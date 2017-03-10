@@ -17,7 +17,6 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import com.example.unifood.R;
 import com.example.unifood.adapters.RestaurantListAdapter;
-import com.example.unifood.firebase.utils.Utilities;
 import com.example.unifood.fragments.RestaurantListFragment;
 import com.example.unifood.models.Restaurant;
 import com.example.unifood.models.University;
