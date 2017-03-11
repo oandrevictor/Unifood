@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.unifood.R;
 import com.example.unifood.adapters.RestaurantProductListAdapter;
 import com.example.unifood.adapters.RestaurantReviewListAdapter;
+import com.example.unifood.exceptions.ReviewException;
 import com.example.unifood.fragments.RestaurantProductFragment;
 import com.example.unifood.fragments.RestaurantReviewFragment;
 import com.example.unifood.models.Campus;
@@ -57,6 +58,8 @@ public class RestaurantActivity extends AppCompatActivity {
     DatabaseReference productsRef;
     DatabaseReference studentInfoRef;
 
+    Review newReview;
+
     private String restaurantUId;
     private ArrayList<Review> reviewSet = new ArrayList<>();
     RestaurantReviewListAdapter reviewAdapter;
@@ -71,6 +74,8 @@ public class RestaurantActivity extends AppCompatActivity {
     @InjectView(R.id.new_review_rate) RatingBar newRateStar;
     @InjectView(R.id.new_review_button) Button newReviewButton;
     @InjectView(R.id.favButton) FloatingActionButton favButton;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -268,7 +273,12 @@ public class RestaurantActivity extends AppCompatActivity {
 
         final ProgressDialog progressDialog = startDialog(getString(R.string.reviewDialog), newReviewButton);
 
-        final Review newReview = new Review(mFirebaseUser.getUid(), restaurantUId, newRate, newComment, newData);
+
+        try {
+            newReview = new Review(mFirebaseUser.getUid(), restaurantUId, newRate, newComment, newData);
+        } catch (ReviewException e) {
+            e.printStackTrace();
+        }
 
         restaurantRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

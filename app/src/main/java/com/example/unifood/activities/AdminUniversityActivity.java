@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import com.example.unifood.R;
+import com.example.unifood.exceptions.CampusException;
 import com.example.unifood.firebase.utils.LoadRestaurants;
 import com.example.unifood.fragments.UniversitiesListFragment;
 import com.example.unifood.adapters.UniversityListAdapter;
@@ -80,7 +81,12 @@ public class AdminUniversityActivity extends AppCompatActivity {
                 universityName = name.getText().toString();
                 campusName = campusname.getText().toString();
 
-                Campus campus = new Campus(campusName);
+                Campus campus = null;
+                try {
+                    campus = new Campus(campusName);
+                } catch (CampusException e) {
+                    e.printStackTrace();
+                }
 
                 University university = new University(universityName);
                 university.addCampus(campus.getId());
