@@ -1,5 +1,8 @@
 package com.example.unifood.models;
 
+import com.example.unifood.exceptions.CampusException;
+import com.example.unifood.exceptions.InvalidCampusNameException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -18,9 +21,21 @@ public class Campus {
         this.restaurants = new ArrayList<String>();
     }
 
-    public Campus(String name){
+    public Campus(String name) throws CampusException{
         this();
+        validate(name);
         this.name = name;
+    }
+
+    private boolean validate(String name) throws CampusException {
+     validateName(name);
+        return true;
+    }
+    private boolean validateName(String name) throws InvalidCampusNameException {
+        if (name!= null && name.length() > 0 ) {
+            return true;
+        }
+        throw new InvalidCampusNameException();
     }
 
     public String getId(){ return id;}

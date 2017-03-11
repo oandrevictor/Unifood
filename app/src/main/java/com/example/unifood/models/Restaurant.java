@@ -1,6 +1,8 @@
 package com.example.unifood.models;
 
 
+import com.example.unifood.exceptions.InvalidCampusId;
+import com.example.unifood.exceptions.InvalidLocalizationException;
 import com.example.unifood.exceptions.InvalidRestaurantNameException;
 import com.example.unifood.exceptions.RestaurantException;
 
@@ -42,15 +44,28 @@ public class Restaurant {
        ;
     }
 
-    private boolean validate(String name, String campusId, String localization) throws RestaurantException{
-        return validateName(name); /*&&
-        validateCampusId(localization) &&
-        validateLocalization(localization);*/
+    private void validate(String name, String campusId, String localization) throws RestaurantException{
+        validateName(name);
+        validateCampusId(campusId);
+        validateLocalization(localization);
     }
 
-    private boolean validateName(String name) throws InvalidRestaurantNameException {
-        if (name!=null && name.length() >3){return true;}
+    private void validateLocalization(String localization) throws InvalidLocalizationException {
+        if (localization!=null && localization.length() >= 10){
+            return;
+        }
+        throw new InvalidLocalizationException();
+    }
+
+    private void validateName(String name) throws InvalidRestaurantNameException {
+        if (name!=null && name.length() >3){return;}
         throw new InvalidRestaurantNameException();
+    }
+    private void validateCampusId(String campusId) throws InvalidCampusId {
+        if (campusId!=null && campusId.length() >0) {
+            return;
+        }
+        throw new InvalidCampusId();
     }
 
     public void addReview(Review review) {
