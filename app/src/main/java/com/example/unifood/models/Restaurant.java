@@ -1,7 +1,7 @@
 package com.example.unifood.models;
 
 
-import com.example.unifood.exceptions.InvalidCampusId;
+import com.example.unifood.exceptions.InvalidCampusIdException;
 import com.example.unifood.exceptions.InvalidLocalizationException;
 import com.example.unifood.exceptions.InvalidRestaurantNameException;
 import com.example.unifood.exceptions.RestaurantException;
@@ -61,11 +61,11 @@ public class Restaurant {
         if (name!=null && name.length() >3){return;}
         throw new InvalidRestaurantNameException();
     }
-    private void validateCampusId(String campusId) throws InvalidCampusId {
+    private void validateCampusId(String campusId) throws InvalidCampusIdException {
         if (campusId!=null && campusId.length() >0) {
             return;
         }
-        throw new InvalidCampusId();
+        throw new InvalidCampusIdException();
     }
 
     public void addReview(Review review) {
