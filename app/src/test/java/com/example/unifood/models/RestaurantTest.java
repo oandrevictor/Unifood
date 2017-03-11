@@ -1,11 +1,17 @@
 package com.example.unifood.models;
 
+import com.example.unifood.exceptions.InvalidCampusIdException;
+import com.example.unifood.exceptions.InvalidLocalizationException;
+import com.example.unifood.exceptions.InvalidRestaurantNameException;
 import com.example.unifood.exceptions.RestaurantException;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static junit.framework.Assert.*;
+import static org.junit.Assert.assertNotEquals;
 
 public class RestaurantTest {
 
@@ -18,6 +24,8 @@ public class RestaurantTest {
     private final String DESCRIPTION = "Melhor x egg burg da UFCG";
     private final String USERID = "b159-151e772";
     private final String NEW_ID = "fh8r6-hhf9w-377y";
+    public final ArrayList<Review> REVIEW_LIST = new ArrayList<>();
+    public final ArrayList<Product> PRODUCT_LIST = new ArrayList<>();
     private final float INITIAL_RATE = 0;
     private final float FINAL_RATE = 3.4F;
     public final float DELTA = 0.0001f;
@@ -27,6 +35,8 @@ public class RestaurantTest {
     private Review review1;
     private Review review2;
     private Review review3;
+    private Restaurant restaurant2;
+    private Restaurant restaurant3;
 
     @Before
     public void setUp(){
@@ -56,6 +66,36 @@ public class RestaurantTest {
         assertTrue(restaurant.getShortDescription().isEmpty());
     }
 
+    @Test (expected = InvalidRestaurantNameException.class)
+    public void testNullName() throws RestaurantException {
+        restaurant = new Restaurant(null, CAMPUSID, LOCALIZATION);
+    }
+
+    @Test (expected = InvalidRestaurantNameException.class)
+    public void testInvalidName() throws RestaurantException {
+        restaurant = new Restaurant("abc", CAMPUSID, LOCALIZATION);
+    }
+
+    @Test (expected = InvalidCampusIdException.class)
+    public void testNullCampusId() throws RestaurantException {
+        restaurant = new Restaurant(NAME, null, LOCALIZATION);
+    }
+
+    @Test (expected = InvalidCampusIdException.class)
+    public void testInvalidCampusId() throws RestaurantException {
+        restaurant = new Restaurant(NAME, "", LOCALIZATION);
+    }
+
+    @Test (expected = InvalidLocalizationException.class)
+    public void testNullLocalization() throws RestaurantException {
+        restaurant = new Restaurant(NAME, CAMPUSID, null);
+    }
+
+    @Test (expected = InvalidLocalizationException.class)
+    public void testInvalidLocalization() throws RestaurantException {
+        restaurant = new Restaurant(NAME, CAMPUSID, "123456789");
+    }
+
     @Test
     public void testEditRestaurant(){
         restaurant.setName(NEW_NAME);
@@ -64,6 +104,10 @@ public class RestaurantTest {
         restaurant.setId(NEW_ID);
         restaurant.setShortDescription(DESCRIPTION);
         restaurant.setUserId(USERID);
+        restaurant.setReviewList(REVIEW_LIST);
+        restaurant.setProductList(PRODUCT_LIST);
+        restaurant.setRate(FINAL_RATE);
+        restaurant.setApproved(true);
 
         assertEquals(NEW_NAME, restaurant.getName());
         assertEquals(NEW_CAMPUSID, restaurant.getCampusId());
@@ -71,6 +115,10 @@ public class RestaurantTest {
         assertEquals(NEW_ID, restaurant.getId());
         assertEquals(DESCRIPTION, restaurant.getShortDescription());
         assertEquals(USERID, restaurant.getUserId());
+        assertEquals(REVIEW_LIST, restaurant.getReviewList());
+        assertEquals(PRODUCT_LIST, restaurant.getProductList());
+        assertEquals(FINAL_RATE, restaurant.getRate(), DELTA);
+        assertTrue(restaurant.getApproved());
     }
 
     @Test
@@ -124,5 +172,34 @@ public class RestaurantTest {
         restaurant.updateRating();
 
         assertEquals(FINAL_RATE, restaurant.getRate(), DELTA);
+    }
+
+    @Test
+    public void testEquals(){
+        assertFalse(restaurant.equals(null));
+
+        restaurant2 = new Restaurant();
+        restaurant2.setId(restaurant.getId());
+        assertTrue(restaurant.equals(restaurant2));
+
+        restaurant3 = new Restaurant();
+        assertFalse(restaurant.equals(restaurant3));
+    }
+
+    @Test
+    public void testUpdate(){
+        try{
+            restaurant2 = new Restaurant(NEW_NAME, NEW_CAMPUSID, NEW_LOCALIZATION);
+            restaurant2.setRate(FINAL_RATE);
+            restaurant2.setReviewList(REVIEW_LIST);
+        }catch(RestaurantException e){
+            e.printStackTrace();
+        }
+        restaurant.update(restaurant2);
+
+        assertEquals(NEW_NAME, restaurant.getName());
+        assertEquals(NEW_LOCALIZATION, restaurant.getLocalization());
+        assertEquals(FINAL_RATE, restaurant.getRate());
+        assertEquals(REVIEW_LIST, restaurant.getReviewList());
     }
 }

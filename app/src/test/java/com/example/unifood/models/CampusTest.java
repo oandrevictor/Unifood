@@ -1,5 +1,7 @@
 package com.example.unifood.models;
 
+import com.example.unifood.exceptions.CampusException;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -24,13 +26,13 @@ public class CampusTest {
             add("Restaurant C");}};
 
     @Test
-    public void constructorTest() {
+    public void constructorTest() throws CampusException {
         Campus campus = new Campus(CAMPUS_NAME);
         Assert.assertEquals(CAMPUS_NAME,campus.getName());
     }
 
     @Test
-    public void addGetRestaurantTest() {
+    public void addGetRestaurantTest() throws CampusException {
         Campus campus = new Campus(CAMPUS_NAME);
         campus.addRestaurant(null);
 
@@ -42,7 +44,7 @@ public class CampusTest {
     }
 
     @Test
-    public void removeRestaurantTest() {
+    public void removeRestaurantTest() throws CampusException {
         Campus campus = new Campus(CAMPUS_NAME);
         campus.addRestaurant(RESTAURANT_NAME);
 
@@ -57,7 +59,7 @@ public class CampusTest {
     }
 
     @Test
-    public void setRestaurantsTest() {
+    public void setRestaurantsTest() throws CampusException {
         Campus campus = new Campus(CAMPUS_NAME);
 
         Assert.assertEquals(0, campus.getRestaurants().size());

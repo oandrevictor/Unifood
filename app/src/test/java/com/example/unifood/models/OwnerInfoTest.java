@@ -1,5 +1,7 @@
 package com.example.unifood.models;
 
+import com.example.unifood.exceptions.InvalidRestaurantId;
+import com.example.unifood.exceptions.InvalidRestaurantIdException;
 import com.example.unifood.exceptions.OwnerException;
 
 import org.junit.Before;
@@ -27,11 +29,23 @@ public class OwnerInfoTest {
         assertEquals(RESTAURANTID, owner.getRestaurantId());
     }
 
+    @Test (expected = InvalidRestaurantIdException.class)
+    public void testNullRestaurantId() throws OwnerException {
+        owner = new OwnerInfo(null);
+    }
+
     @Test
     public void testEditOwnerInfo(){
         owner.setRestaurantId(null);
         assertEquals(RESTAURANTID, owner.getRestaurantId());
 
+        owner.setRestaurantId(NEW_RESTAURANTID);
+        assertEquals(NEW_RESTAURANTID, owner.getRestaurantId());
+    }
+
+    @Test
+    public void testEditEmptyOwnerInfo(){
+        owner = new OwnerInfo();
         owner.setRestaurantId(NEW_RESTAURANTID);
         assertEquals(NEW_RESTAURANTID, owner.getRestaurantId());
     }

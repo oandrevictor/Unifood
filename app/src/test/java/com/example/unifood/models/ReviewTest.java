@@ -1,5 +1,7 @@
 package com.example.unifood.models;
 
+import com.example.unifood.exceptions.ReviewException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,8 +24,12 @@ public class ReviewTest {
 
     @Before
     public void setUp(){
-        review1 = new Review(USERID, RESTAURANTID, RATE, DATE);
-        review2 = new Review(USERID, RESTAURANTID, RATE, COMMENT, DATE);
+        try {
+            review1 = new Review(USERID, RESTAURANTID, RATE, DATE);
+            review2 = new Review(USERID, RESTAURANTID, RATE, COMMENT, DATE);
+        } catch (ReviewException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
