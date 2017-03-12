@@ -2,13 +2,11 @@ package com.example.unifood.models;
 
 
 import com.example.unifood.exceptions.InvalidDescriptionException;
-import com.example.unifood.exceptions.InvalidProductCost;
-import com.example.unifood.exceptions.InvalidProductName;
+import com.example.unifood.exceptions.InvalidProductCostException;
+import com.example.unifood.exceptions.InvalidProductNameException;
 import com.example.unifood.exceptions.ProductException;
 
 import java.util.UUID;
-
-import static com.google.android.gms.common.api.Status.st;
 
 public class Product {
 
@@ -45,19 +43,19 @@ public class Product {
         throw new InvalidDescriptionException();
     }
 
-    private boolean validateCost(float cost) throws InvalidProductCost {
+    private boolean validateCost(float cost) throws InvalidProductCostException {
         if (cost >= 0){
             return true;
 
         }
-        throw new InvalidProductCost();
+        throw new InvalidProductCostException();
     }
 
-    private boolean validateProductName(String name) throws InvalidProductName {
+    private boolean validateProductName(String name) throws InvalidProductNameException {
         if (name!= null && name.length() >2){
             return true;
         }
-        throw new InvalidProductName();
+        throw new InvalidProductNameException();
     }
 
 

@@ -12,7 +12,6 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import com.example.unifood.R;
 import com.example.unifood.exceptions.CampusException;
-import com.example.unifood.firebase.utils.LoadRestaurants;
 import com.example.unifood.fragments.UniversitiesListFragment;
 import com.example.unifood.adapters.UniversityListAdapter;
 import com.example.unifood.models.Campus;
@@ -119,7 +118,7 @@ public class AdminUniversityActivity extends AppCompatActivity {
         restRef.addValueEventListener (new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                new LoadRestaurants(snapshot, restaurantSet, AdminUniversityActivity.this, R.id.fragment_place2).execute();
+                ///new LoadRestaurants(snapshot, restaurantSet, AdminUniversityActivity.this, R.id.fragment_place2).execute();
             }
             @Override
             public void onCancelled(DatabaseError firebaseError) {
