@@ -37,7 +37,7 @@ public class Product {
     }
 
     private boolean validateDescription(String description) throws InvalidDescriptionException {
-        if (description!=null &&  description.length() < 140 && description.length() < 140){
+        if (description!=null &&  description.length() < 140){
             return true;
         }
         throw new InvalidDescriptionException();
