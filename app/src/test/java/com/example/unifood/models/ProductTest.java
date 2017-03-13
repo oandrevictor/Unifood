@@ -1,5 +1,8 @@
 package com.example.unifood.models;
 
+import com.example.unifood.exceptions.InvalidDescriptionException;
+import com.example.unifood.exceptions.InvalidProductCostException;
+import com.example.unifood.exceptions.InvalidProductNameException;
 import com.example.unifood.exceptions.ProductException;
 
 import org.junit.Before;
@@ -21,6 +24,15 @@ public class ProductTest {
     private final String DESCRIPTION = "Pastel recheado de queijo";
     private final String NEW_DESCRIPTION = "Coxinha de frango";
     private final String NEW_ID = "2447-9-4b11";
+    public final String INVALID_NAME = "ab";
+    public final float INVALID_COST = -1F;
+    private final String INVALID_DESCRIPTION = "Imagine theres no heaven\n" +
+                                                      "Its easy if you try\n" +
+                                                      "No hell below us\n" +
+                                                      "Above us only sky\n" +
+                                                      "Imagine all the people\n" +
+                                                      "Living for today\n" +
+                                                      "You may say Im a dreamer";
     private Product product;
 
     @Before
@@ -38,6 +50,31 @@ public class ProductTest {
         assertEquals(COST, product.getCost());
         assertEquals(DESCRIPTION, product.getDescription());
         assertTrue(product.getAvailability());
+    }
+
+    @Test (expected = InvalidProductNameException.class)
+    public void testNullName() throws ProductException {
+        product = new Product(null, COST, DESCRIPTION);
+    }
+
+    @Test (expected = InvalidProductNameException.class)
+    public void testInvalidName() throws ProductException {
+        product = new Product(INVALID_NAME, COST, DESCRIPTION);
+    }
+
+    @Test (expected = InvalidProductCostException.class)
+    public void testInvalidCost() throws ProductException {
+        product = new Product(NAME, INVALID_COST, DESCRIPTION);
+    }
+
+    @Test (expected = InvalidDescriptionException.class)
+    public void testNullDescription() throws ProductException {
+        product = new Product(NAME, COST, null);
+    }
+
+    @Test (expected = InvalidDescriptionException.class)
+    public void testInvalidDescription() throws ProductException {
+        product = new Product(NAME, COST, INVALID_DESCRIPTION);
     }
 
     @Test

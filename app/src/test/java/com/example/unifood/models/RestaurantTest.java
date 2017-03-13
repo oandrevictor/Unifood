@@ -26,9 +26,15 @@ public class RestaurantTest {
     private final String NEW_ID = "fh8r6-hhf9w-377y";
     public final ArrayList<Review> REVIEW_LIST = new ArrayList<>();
     public final ArrayList<Product> PRODUCT_LIST = new ArrayList<>();
+    public final float RATE1 = 4.5f;
+    public final float RATE2 = 2.1f;
+    public final float RATE3 = 3.6f;
     private final float INITIAL_RATE = 0;
     private final float FINAL_RATE = 3.4F;
     public final float DELTA = 0.0001f;
+    public final String INVALID_NAME = "abc";
+    public final String INVALID_CAMPUS = "";
+    public final String INVALID_LOCALIZATION = "123456789";
     private Restaurant restaurant;
     private Product product1;
     private Product product2;
@@ -53,9 +59,9 @@ public class RestaurantTest {
         review2 = new Review();
         review3 = new Review();
 
-        review1.setRate(4.5f);
-        review2.setRate(2.1f);
-        review3.setRate(3.6f);
+        review1.setRate(RATE1);
+        review2.setRate(RATE2);
+        review3.setRate(RATE3);
     }
 
     @Test
@@ -73,7 +79,7 @@ public class RestaurantTest {
 
     @Test (expected = InvalidRestaurantNameException.class)
     public void testInvalidName() throws RestaurantException {
-        restaurant = new Restaurant("abc", CAMPUSID, LOCALIZATION);
+        restaurant = new Restaurant(INVALID_NAME, CAMPUSID, LOCALIZATION);
     }
 
     @Test (expected = InvalidCampusIdException.class)
@@ -83,7 +89,7 @@ public class RestaurantTest {
 
     @Test (expected = InvalidCampusIdException.class)
     public void testInvalidCampusId() throws RestaurantException {
-        restaurant = new Restaurant(NAME, "", LOCALIZATION);
+        restaurant = new Restaurant(NAME, INVALID_CAMPUS, LOCALIZATION);
     }
 
     @Test (expected = InvalidLocalizationException.class)
@@ -93,7 +99,7 @@ public class RestaurantTest {
 
     @Test (expected = InvalidLocalizationException.class)
     public void testInvalidLocalization() throws RestaurantException {
-        restaurant = new Restaurant(NAME, CAMPUSID, "123456789");
+        restaurant = new Restaurant(NAME, CAMPUSID, INVALID_LOCALIZATION);
     }
 
     @Test
