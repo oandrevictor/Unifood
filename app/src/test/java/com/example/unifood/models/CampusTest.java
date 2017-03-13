@@ -1,6 +1,7 @@
 package com.example.unifood.models;
 
 import com.example.unifood.exceptions.CampusException;
+import com.example.unifood.exceptions.InvalidCampusNameException;
 
 import junit.framework.Assert;
 
@@ -19,6 +20,8 @@ import static org.junit.Assert.*;
 public class CampusTest {
 
     private final String CAMPUS_NAME = "Campus A";
+    private final String CAMPUS_ID = "new id";
+    private final String NEW_CAMPUS_NAME = "Campus A Update";
     private final String RESTAURANT_NAME = "Restaurant";
     private final List<String> RESTAURANT_LIST = new ArrayList() {{
             add("Restaurant A");
@@ -29,6 +32,23 @@ public class CampusTest {
     public void constructorTest() throws CampusException {
         Campus campus = new Campus(CAMPUS_NAME);
         Assert.assertEquals(CAMPUS_NAME,campus.getName());
+    }
+
+    @Test
+    public void InvalidCampusNameTest() {
+        try {
+            Campus campus = new Campus(null);
+            Assert.fail("Expected exception to be thrown");
+        } catch (CampusException e) {
+            Assert.assertEquals(e.getClass(), InvalidCampusNameException.class);
+        }
+
+        try {
+            Campus campus = new Campus("");
+            Assert.fail("Expected exception to be thrown");
+        } catch (CampusException e) {
+            Assert.assertEquals(e.getClass(), InvalidCampusNameException.class);
+        }
     }
 
     @Test
@@ -71,5 +91,15 @@ public class CampusTest {
         campus.setRestaurants(RESTAURANT_LIST);
 
         Assert.assertEquals(3, campus.getRestaurants().size());
+    }
+
+    @Test
+    public void editCampus() throws CampusException {
+        Campus campus = new Campus(CAMPUS_NAME);
+        campus.setName(NEW_CAMPUS_NAME);
+        Assert.assertEquals(NEW_CAMPUS_NAME,campus.getName());
+
+        campus.setId(CAMPUS_ID);
+        Assert.assertEquals(CAMPUS_ID,campus.getId());
     }
 }

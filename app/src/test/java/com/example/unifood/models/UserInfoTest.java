@@ -16,11 +16,11 @@ public class UserInfoTest {
 
     private final String USER_NAME = "User A";
     private final String USER_LAST_NAME = "User A";
-    private final String USER_TYPE = "Student";
+    private final String USER_TYPE = "student";
 
     private final String NEW_USER_NAME = "User A";
     private final String NEW_USER_LAST_NAME = "User A";
-    private final String NEW_USER_TYPE = "Student";
+    private final String NEW_USER_TYPE = "owner";
 
 
     @Test
@@ -35,6 +35,16 @@ public class UserInfoTest {
         Assert.assertEquals(USER_NAME, user.getFirstName());
         Assert.assertEquals(USER_LAST_NAME, user.getLastName());
         Assert.assertEquals(USER_TYPE, user.getType());
+    }
+
+    @Test
+    public void invalidUserTest() {
+        UserInfo user = null;
+        try {
+            user = new UserInfo(null, USER_LAST_NAME, USER_TYPE);
+        } catch (UserException e) {
+            Assert.assertEquals(e.getClass(), InvalidFirstNameException.class);
+        }
     }
 
     @Test
