@@ -68,7 +68,7 @@ public class UserInfoTest {
     }
 
     @Test
-    public void editUserTest() {
+    public void editUserTest() throws UserException {
         user.setFirstName(NEW_USER_NAME);
         user.setLastName(NEW_USER_LAST_NAME);
         user.setType(NEW_USER_TYPE);

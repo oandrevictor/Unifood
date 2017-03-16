@@ -30,10 +30,9 @@ public class UserInfo {
         return type;
     }
 
-    public void setType(String type) {
-        if (type != null) {
-            this.type = type;
-        }
+    public void setType(String type) throws InvalidTypeException {
+        validateType(type);
+        this.type = type;
     }
 
     public String getFirstName() {
@@ -41,20 +40,18 @@ public class UserInfo {
     }
 
 
-    public void setFirstName(String firstName) {
-        if (firstName != null) {
-            this.firstName = firstName;
-        }
+    public void setFirstName(String firstName) throws InvalidFirstNameException {
+        validateFirstName(firstName);
+        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        if (lastName != null) {
-            this.lastName = lastName;
-        }
+    public void setLastName(String lastName) throws InvalidLastNameException {
+        validateLastName(lastName);
+        this.lastName = lastName;
     }
 /// VALIDATION METHODS
 
