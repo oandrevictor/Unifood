@@ -63,6 +63,7 @@ public class UserInfo {
         validateLastName(lastName) ||
         validateType(type);
     }
+
     private boolean validateFirstName(String firstName) throws InvalidFirstNameException {
         if (firstName != null && firstName.length() >=3 ){
             return true;
@@ -84,9 +85,5 @@ public class UserInfo {
             return true;
         }
         throw new InvalidLastNameException();
-
     }
-
-
-
 }

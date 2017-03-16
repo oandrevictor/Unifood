@@ -17,7 +17,6 @@ public class University {
     public University(String name) {
         this();
         this.name = name;
-
     }
 
     public boolean addCampus(String campus){

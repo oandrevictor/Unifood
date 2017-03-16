@@ -2,6 +2,7 @@ package com.example.unifood.models;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import java.util.List;
  */
 public class UniversityTest {
 
+    private final String UNIVERSITY_ID = "451";
+    private final String NEW_UNIVERSITY_NAME = "University B";
     private final String UNIVERSITY_NAME = "University A";
     private final String CAMPUS_NAME = "Restaurant";
     private final List<String> CAMPUS_LIST = new ArrayList() {{
@@ -21,23 +24,32 @@ public class UniversityTest {
         add("Campus B");
         add("Campus C");}};
 
+    private University university;
+
+    @Before
+    public void setUp() {
+        university = new University(UNIVERSITY_NAME);
+    }
+
     @Test
-    public void constructorTest() {
-        University university = new University(UNIVERSITY_NAME);
+    public void addRemoveGetCampusTest() {
+        Assert.assertEquals(false, university.addCampus(null));
+        Assert.assertEquals(true, university.addCampus(CAMPUS_NAME));
+
+        Assert.assertEquals(false, university.removeCampus(null));
+        Assert.assertEquals(true, university.removeCampus(CAMPUS_NAME));
+    }
+
+    @Test
+    public void getSetInfoTest() {
         Assert.assertEquals(UNIVERSITY_NAME, university.getName());
-    }
 
-    @Test
-    public void addGetCampusTest() {
-        University uni = new University(UNIVERSITY_NAME);
+        university.setName(NEW_UNIVERSITY_NAME);
+        Assert.assertEquals(NEW_UNIVERSITY_NAME, university.getName());
 
-        Assert.assertEquals(false, uni.addCampus(null));
-        Assert.assertEquals(true, uni.addCampus(CAMPUS_NAME));
-    }
-
-    @Test
-    public void removeCampusTest() {
-        //TO-DO
+        Assert.assertNotNull(university.getId());
+        university.setId(UNIVERSITY_ID);
+        Assert.assertEquals(UNIVERSITY_ID, university.getId());
     }
 
     @Test
