@@ -59,8 +59,8 @@ public class UserInfo {
 /// VALIDATION METHODS
 
     private boolean validate(String firstName, String lastName, String type) throws UserException{
-        return validateFirstName(firstName) ||
-        validateLastName(lastName) ||
+        return validateFirstName(firstName) &&
+        validateLastName(lastName) &&
         validateType(type);
     }
 
@@ -81,7 +81,7 @@ public class UserInfo {
     }
 
     private boolean validateLastName(String lastName) throws InvalidLastNameException {
-        if (lastName!= null && lastName.length() >3){
+        if (lastName != null && lastName.length() >3){
             return true;
         }
         throw new InvalidLastNameException();

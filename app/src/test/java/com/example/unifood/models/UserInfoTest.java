@@ -39,6 +39,17 @@ public class UserInfoTest {
     }
 
     @Test
+    public void invalidUser(){
+        UserInfo user;
+
+        try {
+            user = new UserInfo(null, USER_LAST_NAME, USER_TYPE);
+        } catch (UserException e) {
+            Assert.fail();
+        }
+    }
+
+    @Test
     public void getUserInfoTest() {
         Assert.assertEquals(USER_NAME, user.getFirstName());
         Assert.assertEquals(USER_LAST_NAME, user.getLastName());
@@ -68,7 +79,7 @@ public class UserInfoTest {
     }
 
     @Test
-    public void testEditEmptyFirstNameUserInfoTest(){
+    public void testEditInvalidFirstNameUserInfoTest(){
         try {
             user.setFirstName("");
         } catch (Exception e) {
@@ -76,24 +87,18 @@ public class UserInfoTest {
         }
 
         try {
-            user.setLastName("");
+            user.setFirstName(null);
         } catch (Exception e) {
-            Assert.assertEquals(e.getClass(), InvalidLastNameException.class);
-        }
-
-        try {
-            user.setType("");
-        } catch (Exception e) {
-            Assert.assertEquals(e.getClass(), InvalidTypeException.class);
+            Assert.assertEquals(e.getClass(), InvalidFirstNameException.class);
         }
     }
 
     @Test
-    public void testEditNullUserInfoTest(){
+    public void testEditInvalidLastNameUserInfoTest(){
         try {
-            user.setFirstName(null);
+            user.setLastName("");
         } catch (Exception e) {
-            Assert.assertEquals(e.getClass(), InvalidFirstNameException.class);
+            Assert.assertEquals(e.getClass(), InvalidLastNameException.class);
         }
 
         try {
@@ -101,7 +106,10 @@ public class UserInfoTest {
         } catch (Exception e) {
             Assert.assertEquals(e.getClass(), InvalidLastNameException.class);
         }
+    }
 
+    @Test
+    public void testEditInvalidTypeUserInfoTest(){
         try {
             user.setType(null);
         } catch (Exception e) {
