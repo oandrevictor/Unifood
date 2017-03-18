@@ -13,9 +13,9 @@
         <ImageView
             android:id="@+id/restaurant_pic"
             android:layout_width="match_parent"
-            android:layout_height="165dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/common_plus_signin_btn_text_light_normal" />
+            android:src="@color/colorPrimary" />
 
         <ImageButton
             android:id="@+id/rest_profile_pic"
