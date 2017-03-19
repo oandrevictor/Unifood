@@ -315,39 +315,26 @@ public class StudentHomeActivity extends AppCompatActivity  {
     private void deleterFirebaseUser() {
 
         if (mFirebaseUser != null) {
+            studentId  =  FirebaseAuth.getInstance().getCurrentUser().getUid();
+            studentRef = mDatabase.child("users").child(studentId);
 
-            AuthCredential credential;
-
-            credential = EmailAuthProvider
-                    .getCredential("qql@email.com", "password");
-
-            mFirebaseUser.reauthenticate(credential)
+            mFirebaseUser.delete()
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            startLogInActivity();
+                            studentRef.removeValue();
+                            mFirebaseAuth.signOut(); // SignOut of Firebase
 
-                            if (!task.isSuccessful())
-                                finish();
-
-                            deleteStudent();
-
-                            mFirebaseUser.delete()
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-
-                                        }
-                                    });
                         }
                     });
+
+
 
         }
     }
 
     private void deleteStudent() {
-        studentId  =  FirebaseAuth.getInstance().getCurrentUser().getUid();
-        studentRef = mDatabase.child("users").child(studentId);
-        studentRef.removeValue();
     }
 
     public void startEditActivity(){

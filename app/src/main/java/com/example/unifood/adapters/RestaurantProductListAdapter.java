@@ -97,9 +97,11 @@ public class RestaurantProductListAdapter extends RecyclerView.Adapter<Restauran
         mTypeRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String TYPE_OWNER = "owner";
-                type = dataSnapshot.getValue(String.class);
-                isOwner = (type.equals(TYPE_OWNER));
+                if (mFirebaseAuth.getCurrentUser() !=null) {
+                    String TYPE_OWNER = "owner";
+                    type = dataSnapshot.getValue(String.class);
+                    isOwner = (type.equals(TYPE_OWNER));
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.unifood.R;
@@ -20,6 +21,8 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static com.example.unifood.R.string.university;
 
 
@@ -63,6 +66,8 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
      */
     class RestaurantViewHolder extends RecyclerView.ViewHolder {
 
+        LinearLayout theitemLayout;
+
         TextView titleTextView;
         TextView rating;
         TextView localizationTextView;
@@ -74,6 +79,14 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
             rating = (TextView) itemView.findViewById(R.id.restaurant_rating_value);
             localizationTextView = (TextView) itemView.findViewById(R.id.restaurant_item_location);
             titleTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startsRestaurantActivity();
+                }
+            });
+            theitemLayout = (LinearLayout) itemView.findViewById(R.id.theitem);
+
+            theitemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startsRestaurantActivity();

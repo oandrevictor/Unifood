@@ -10,7 +10,7 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:layout_weight="1"
-        >
+        android:id="@+id/theitem">
 
         <LinearLayout
             android:orientation="vertical"
