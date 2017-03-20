@@ -12,13 +12,81 @@
         android:id="@+id/backg"
         android:scaleType="centerCrop" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/logo"
-        android:id="@+id/logo"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:padding="46dp"/>
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/logo"
+            android:id="@+id/logo"
+            android:layout_weight="1"
+            android:padding="32dp"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal">
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <Button
+                    android:text="Login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/loginButton"
+                    android:layout_weight="1"
+                    android:background="@color/HomeButtonBlack"
+                    android:textColor="@color/white"
+                    android:textStyle="normal|bold"
+                    tools:text="Login"
+                    android:layout_margin="8dp"
+                    />
+
+
+
+                <Button
+                    android:layout_margin="8dp"
+                    android:text="Registrar-se"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/registerButton"
+                    android:layout_weight="1"
+                    android:background="@color/HomeButtonBlack"
+                    android:textColor="@color/white"
+                    android:textStyle="normal|bold"
+                    tools:text="Registrar-se" />
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:padding="8dp"
+                android:text="ou clique aqui para cadastrar seu estabelecimento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/registerRestaurant"
+                android:gravity="right"
+                android:textStyle="normal|bold"
+                android:textSize="14sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </RelativeLayout>

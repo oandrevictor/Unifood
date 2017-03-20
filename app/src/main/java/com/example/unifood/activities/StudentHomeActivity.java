@@ -37,6 +37,8 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 
+import static com.google.android.gms.common.api.Status.st;
+
 public class StudentHomeActivity extends AppCompatActivity  {
 
     private FirebaseAuth mFirebaseAuth;
@@ -277,7 +279,7 @@ public class StudentHomeActivity extends AppCompatActivity  {
         else if(id == R.id.user_logout){
 
             mFirebaseAuth.signOut(); // SignOut of Firebase
-            startLogInActivity();
+            goToMain();
             return true;
         }
         else if(id == R.id.user_delete){
@@ -317,14 +319,14 @@ public class StudentHomeActivity extends AppCompatActivity  {
         if (mFirebaseUser != null) {
             studentId  =  FirebaseAuth.getInstance().getCurrentUser().getUid();
             studentRef = mDatabase.child("users").child(studentId);
-
             mFirebaseUser.delete()
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            startLogInActivity();
                             studentRef.removeValue();
-                            mFirebaseAuth.signOut(); // SignOut of Firebase
+                            mFirebaseAuth.signOut();
+                            goToMain();
+                             // SignOut of Firebas
 
                         }
                     });
@@ -342,6 +344,15 @@ public class StudentHomeActivity extends AppCompatActivity  {
         Intent goToEdit = new Intent(this, editActivity);
         startActivity(goToEdit);
     }
+
+    public void goToMain(){
+        Class mainActivity = MainActivity.class;
+        Intent goToEdit = new Intent(this, mainActivity);
+        goToEdit.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(goToEdit);
+
+    }
+
 
     private void startLogInActivity() {
         Class loginActivity = LoginActivity.class;

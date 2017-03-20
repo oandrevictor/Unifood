@@ -16,4 +16,5 @@
     <color name="iron">#cccccc</color>
     <color name="white">#ffffff</color>
     <color name="colorSeparator">#ef6c00</color>
+    <color name="HomeButtonBlack">#96000000</color>
 </resources>

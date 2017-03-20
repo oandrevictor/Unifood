@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.unifood.R;
 import com.example.unifood.adapters.UniversityListAdapter;
@@ -66,10 +67,37 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
+        Button loginButton = (Button) findViewById(R.id.loginButton);
+        Button registerButton = (Button) findViewById(R.id.registerButton);
+        TextView registerRegButton = (TextView) findViewById(R.id.registerRestaurant);
+
 
         if (mFirebaseUser == null) {
+            loginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            registerButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            registerRegButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, RestaurantRegisterActivity.class);
+                    startActivity(intent);
+                }
+            });
             // Not logged in, launch the Log In activity
-            startLogInActivity();
+            //startLogInActivity();
         }
         else{
             String uid = mFirebaseUser.getUid();
@@ -86,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                         startRestaurntHome();
                     } else {
                         mFirebaseAuth.signOut();
-                        startLogInActivity();
                     }
                 }
                 @Override
